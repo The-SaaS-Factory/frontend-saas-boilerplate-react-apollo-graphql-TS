@@ -168,6 +168,19 @@ const LoginPage = () => {
       </Helmet>
       {action === "login" ? (
         <>
+          {" "}
+          <div className="w-full absolute z-40 g-main pt-2 font-medium h-10 text-center">
+            <span>
+              {" "}
+              <a href="https://thesaasfactory.dev">
+                Buy this boilerplate in
+                <span className="text-sky-500 animate-pulse">
+                  {" "}
+                  thesaasfactory.dev{" "}
+                </span>
+              </a>
+            </span>
+          </div>
           <div className="sm:mx-auto sm:w-full sm:max-w-md  min-h-full    justify-center py-12   ">
             <div className="  ">
               <h2 className="mt-6 text-center mega-title">
