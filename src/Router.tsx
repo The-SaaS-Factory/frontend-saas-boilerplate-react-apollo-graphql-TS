@@ -18,7 +18,6 @@ import SuperAdminSubscriptionPage from "./pages/superAdmin/subscriptions/SuperAd
 import SuperAdminDashboard from "./pages/superAdmin/dashboard/SuperAdminDashboard";
 import SuperAdminFrontendSettingsPage from "./pages/superAdmin/settings/SuperAdminFrontendSettingsPage";
 import SuperAdminMarketingPage from "./pages/superAdmin/settings/SuperAdminMarketingPage";
-
 import SettingProfilePage from "./pages/platform/profile/SettingsProfilePage";
 import LoginPage from "./pages/platform/auth/LoginPage";
 import ForgotPassword from "./pages/platform/auth/ForgotPassword";
@@ -28,9 +27,7 @@ import SupportHomePage from "./pages/admin/SupportModule/SupportHomePage";
 import SupportViewTicketPage from "./pages/admin/SupportModule/SupportViewTicketPage";
 import SuperAdminSupportTicketViewPage from "./pages/superAdmin/modules/supports/tickets/SuperAdminSupportTicketViewPage";
 import SuperAdminSupportPage from "./pages/superAdmin/modules/supports/SuperAdminSupportPage";
-import SuperAdminDownloadPage from "./pages/superAdmin/modules/downloads/SuperAdminDownloadPage";
-import SuperAdminDownloadCreatePage from "./pages/superAdmin/modules/downloads/SuperAdminDownloadCreatePage";
-
+ 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -65,21 +62,6 @@ export const router = createBrowserRouter(
             key={"/admin/support"}
             path="/admin/support"
             element={<SuperAdminSupportPage />}
-          />
-          <Route
-            key={"/admin/downloads"}
-            path="/admin/downloads"
-            element={<SuperAdminDownloadPage />}
-          />
-          <Route
-            key={"/admin/downloads/add"}
-            path="/admin/downloads/add"
-            element={<SuperAdminDownloadCreatePage />}
-          />
-          <Route
-            key={"/admin/downloads/edit"}
-            path="/admin/downloads/edit/:resourceId"
-            element={<SuperAdminDownloadCreatePage />}
           />
           <Route
             key={"/admin/support/ticket"}

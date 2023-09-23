@@ -59,19 +59,6 @@ const NEW_NOTIFICATION = gql`
     }
   }
 `;
-
-const GET_USER_MOVEMENTS = gql`
-  query GetMovementsForUser {
-    getMovementsForUser {
-      amount
-      details
-      model
-      type
-      status
-    }
-  }
-`;
-
 const GET_SUPER_ADMIN_SETTINGS = gql`
   query GetSuperAdminSettings {
     getSuperAdminSettings {
@@ -104,7 +91,6 @@ const GET_PLATFORM_GENERAL_DATA = gql`
     }
   }
 `;
-
 const SAVE_SUPER_ADMIN_SETTINGS = gql`
   mutation SaveAdminSetting($settings: [SuperAdminSetting]) {
     saveAdminSetting(settings: $settings)
@@ -125,7 +111,6 @@ const GET_USER_SETTING = gql`
     }
   }
 `;
-
 const UPLOAD_AVATAR = gql`
   mutation UploadAvatar($avatar: String!) {
     uploadAvatar(avatar: $avatar)
@@ -150,79 +135,11 @@ const GET_USER = gql`
   }
   ${fragments.user.userPublic}
 `;
-const CREATE_POST = gql`
-  mutation CreatePublication(
-    $type: String
-    $contents: [PublicationContentInput]
-    $reaction: String
-    $communityId: Int
-  ) {
-    createPublication(
-      type: $type
-      contents: $contents
-      reaction: $reaction
-      communityId: $communityId
-    ) {
-      id
-    }
-  }
-`;
 const DELETE_LANGUAGE = gql`
   mutation DeleteLanguage($languageId: Int!) {
     deleteLanguage(languageId: $languageId)
   }
 `;
-const MAKE_MOVEMENT_AMOUNT = gql`
-  mutation MakeMovementAmount(
-    $amount: Float!
-    $currencyId: Int!
-    $type: String!
-    $model: String!
-    $modelId: Int!
-    $details: String!
-  ) {
-    makeMovementAmount(
-      amount: $amount
-      currencyId: $currencyId
-      type: $type
-      model: $model
-      modelId: $modelId
-      details: $details
-    )
-  }
-`;
-const GET_TOURNAMENTS = gql`
-  query GetAllTournaments {
-    getAllTournaments {
-      id
-      title
-      avatar
-      status
-      resume
-      startDate
-      endDate
-      languageId
-      reward
-      groupId
-      currency {
-        id
-        code
-        name
-      }
-      players {
-        points
-        user {
-          ...userPublicMinData_User
-        }
-      }
-      _count {
-        players
-      }
-    }
-  }
-  ${fragments.user.userPublicMinData}
-`;
-
 const GET_ALL_SUBSCRIPTIONS = gql`
   query GetAllSubscriptions {
     getAllSubscriptions {
@@ -251,69 +168,6 @@ const GET_ALL_SUBSCRIPTIONS = gql`
     }
   }
 `;
-const GET_TOURNAMENT_GROUPS = gql`
-  query GetAllTournamentsGroups {
-    getAllTournamentsGroups {
-      id
-      name
-      type
-      status
-      reward
-      createdAt
-      updatedAt
-      currencyId
-      description
-      endDate
-      startDate
-      languageId
-      Tournament {
-        avatar
-        id
-        languageId
-        resume
-        reward
-        startDate
-        status
-        title
-        endDate
-        description
-        players {
-          points
-          ranking
-          user {
-            ...UserPublicMinData_User
-          }
-        }
-      }
-      _count {
-        TournamentGroupRanking
-        Tournament
-      }
-    }
-  }
-  ${fragments.user.userPublicMinData}
-`;
-const GET_PUBLICATION = gql`
-  query GetPublication($getPublicationId: Int) {
-    getPublication(id: $getPublicationId) {
-      ...PublicationFull_Publication
-    }
-  }
-  ${fragments.publication.publication}
-`;
-const GET_COMMENTS_IN_POST = gql`
-  query GetCommentsInPost($postId: Int, $limit: Int, $offset: Int) {
-    getCommentsInPost(postId: $postId, limit: $limit, offset: $offset) {
-      ...PublicationFull_Publication
-    }
-  }
-  ${fragments.publication.publication}
-`;
-const GET_CHALLANGES_BY_USER_BY_TOURNAMENT = gql`
-  query Query($tournamentId: Int!) {
-    getChallangeByUser(tournamentId: $tournamentId)
-  }
-`;
 const REGISTER_USER = gql`
   mutation CreateUser(
     $username: String!
@@ -338,22 +192,6 @@ const REGISTER_USER = gql`
         avatar
       }
     }
-  }
-`;
-const LIKE_PUBLICATION = gql`
-  mutation LikePublication($publicationId: Int!) {
-    likePublication(publicationId: $publicationId) {
-      publication {
-        ...PublicationFull_Publication
-      }
-      result
-    }
-  }
-  ${fragments.publication.publication}
-`;
-const USE_CUPON = gql`
-  mutation UseCupon($code: String!) {
-    useCupon(code: $code)
   }
 `;
 const CONNECT_STRIPE_WITH_PLAN = gql`
@@ -526,62 +364,6 @@ const CREATE_PLAN = gql`
     }
   }
 `;
-const GET_PUBLICATIONS_BY_TYPE = gql`
-  query GetPublicationsByType(
-    $type: String!
-    $orderBy: String
-    $limit: Int
-    $offset: Int
-  ) {
-    getPublicationsByType(
-      type: $type
-      orderBy: $orderBy
-      limit: $limit
-      offset: $offset
-    ) {
-      id
-      views
-      contents {
-        type
-        id
-        content
-      }
-      _count {
-        comments
-        PublicationLikes
-      }
-      parent {
-        id
-        user {
-          Membership {
-            plan {
-              name
-            }
-            id
-          }
-          username
-          name
-          avatar_thumbnail
-          avatar
-        }
-      }
-      type
-      user {
-        avatar
-        avatar_thumbnail
-        id
-        name
-        username
-        Membership {
-          id
-          plan {
-            name
-          }
-        }
-      }
-    }
-  }
-`;
 const GET_KPIS = gql`
   query GetKpis($period: Int) {
     getKpis(period: $period) {
@@ -594,7 +376,6 @@ const GET_KPIS = gql`
     }
   }
 `;
-
 const CREATE_LANGUAGE = gql`
   mutation CreateLanguage($name: String, $lng: String) {
     createLanguage(name: $name, lng: $lng) {
@@ -784,27 +565,6 @@ const CREATE_SUPPORT_TICKET = gql`
     }
   }
 `;
-const GET_RESOURCES = gql`
-  query GetResources {
-    getResources {
-      description
-      id
-      image
-      slug
-      linkDemo
-      linkDownload
-      linkVideo
-      name
-      resume
-      type
-    }
-  }
-`;
-const DELETE_RESOURCE = gql`
-  mutation DeleteResource($resourceId: Int!) {
-    deleteResource(resourceId: $resourceId)
-  }
-`;
 const GET_CURRENCIES = gql`
   query GetCurrencies {
     getCurrencies {
@@ -815,42 +575,10 @@ const GET_CURRENCIES = gql`
     }
   }
 `;
-const CREATE_RESOURCE = gql`
-  mutation CreateResource(
-    $name: String!
-    $resourceId: Int
-    $slug: String!
-    $linkDownload: String!
-    $type: String
-    $description: String
-    $linkVideo: String
-    $linkDemo: String
-    $resume: String
-    $image: String
-  ) {
-    createResource(
-      resourceId: $resourceId
-      name: $name
-      slug: $slug
-      linkDownload: $linkDownload
-      type: $type
-      description: $description
-      linkVideo: $linkVideo
-      linkDemo: $linkDemo
-      resume: $resume
-      image: $image
-    ) {
-      id
-    }
-  }
-`;
-
+ 
 export {
   GET_CURRENCIES,
   DISCONECT_STRIPE_WITH_PLAN,
-  DELETE_RESOURCE,
-  CREATE_RESOURCE,
-  GET_RESOURCES,
   CLOSE_SUPPORT_TICKET,
   GET_SUPPORT_TICKETS,
   GET_SUPPORT_TICKET,
@@ -876,17 +604,9 @@ export {
   DELETE_PLAN,
   GET_SUPER_ADMIN_SETTINGS,
   SAVE_SUPER_ADMIN_SETTINGS,
-  GET_PUBLICATIONS_BY_TYPE,
-  GET_COMMENTS_IN_POST,
-  GET_PUBLICATION,
   FORGOT_PASSWORD,
   UPDATE_PASSWORD_BY_USERID,
   CHECK_RESET_PASSWORD_CODE,
-  GET_USER_MOVEMENTS,
-  LIKE_PUBLICATION,
-  GET_CHALLANGES_BY_USER_BY_TOURNAMENT,
-  GET_TOURNAMENTS,
-  CREATE_POST,
   GET_CURRENT_USER_FULL,
   GET_CURRENT_USER_SETTING,
   UPDATE_USER,
@@ -902,10 +622,7 @@ export {
   GET_USER_NOTIFICATIONS,
   NEW_NOTIFICATION,
   VIEWED_NOTIFICATIONS,
-  USE_CUPON,
   GET_PLANS,
   BUY_PLAN,
   BUY_PLAN_WITH_STRIPE,
-  MAKE_MOVEMENT_AMOUNT,
-  GET_TOURNAMENT_GROUPS,
 };
