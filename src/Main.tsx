@@ -1,72 +1,82 @@
-import React, { Suspense } from "react";
+import React, { PropsWithChildren, useMemo } from "react";
+import ReactDOM from "react-dom/client";
+import { ClerkProvider, useAuth } from "@clerk/clerk-react";
 import {
   ApolloClient,
-  createHttpLink,
-  ApolloProvider,
   InMemoryCache,
+  ApolloProvider,
+  createHttpLink,
+  from,
+  split,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
-import App from "./App";
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import { split } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
-import { serverURL, serverURLWS } from "./utils/serverUrl";
-import "./utils/i18n.js";
-import Loading from "./components/commons/Loading";
-const token = localStorage.getItem("token");
+import App from "./App";
+import "./index.css";
+
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+if (!PUBLISHABLE_KEY) {
+  throw new Error("Missing Publishable Key");
+}
+
+const serverURL = import.meta.env.VITE_APOLLO_SERVER_URL;
+const serverWSURL = import.meta.env.VITE_APOLLO_SERVER_WS_URL;
 
 const httpLink = createHttpLink({
-  uri: serverURL + "/graphql",
+  uri: serverURL,
 });
 
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("token");
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `${token}` : "",
-    },
-  };
-});
+export const ApolloProviderWrapper = ({ children }: PropsWithChildren) => {
+  const { getToken } = useAuth();
 
-const wsLink = new GraphQLWsLink(
-  createClient({
-    url: serverURLWS + "/graphql/ws",
-    connectionParams: {
-      authToken: token,
-    },
-  })
-);
- 
-const splitLink = split(
-  ({ query }) => {
-    const definition = getMainDefinition(query);
-    return (
-      definition.kind === "OperationDefinition" &&
-      definition.operation === "subscription"
+  const wsLink = new GraphQLWsLink(
+    createClient({
+      url: serverWSURL,
+    })
+  );
+
+  const client = useMemo(() => {
+    const authMiddleware = setContext(async (operation, { headers }) => {
+      const token = await getToken();
+
+      return {
+        headers: {
+          ...headers,
+          authorization: `Bearer ${token}`,
+        },
+      };
+    });
+
+    const splitLink = split(
+      ({ query }) => {
+        const definition = getMainDefinition(query);
+        return (
+          definition.kind === "OperationDefinition" &&
+          definition.operation === "subscription"
+        );
+      },
+      wsLink,
+      httpLink
     );
-  },
-  wsLink,
-  httpLink
-);
 
-const client = new ApolloClient({
-  link: authLink.concat(splitLink),
-  cache: new InMemoryCache(),
-});
+    return new ApolloClient({
+      link: from([authMiddleware, splitLink]),
+      cache: new InMemoryCache(),
+    });
+  }, [getToken]);
 
-const rootElement: HTMLElement  = document.getElementById("root") as HTMLElement;
-const root = createRoot(rootElement);
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
+};
 
-root.render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
-      <Suspense fallback={<Loading />}>
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <ApolloProviderWrapper>
         <App />
-      </Suspense>
-    </ApolloProvider>
+      </ApolloProviderWrapper>
+    </ClerkProvider>
   </React.StrictMode>
 );
