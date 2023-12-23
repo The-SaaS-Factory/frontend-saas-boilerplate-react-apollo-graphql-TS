@@ -5,14 +5,22 @@ import AdminRoot from "./routes/AdminRoot";
 import SuperAdminRoot from "./routes/SuperAdminRoot";
 import AdminDashboardPage from "./components/pages/adminPages/AdminDashboardPage";
 import AdminSettingPage from "./components/pages/adminPages/AdminSettingPage";
+import ForbiddenPage from "./components/layouts/errors/ForbiddenPage";
+import LandingRoot from "./routes/LandingRoot";
+import SuperAdminBillingPage from "./components/pages/superAdminPages/SuperAdminBillingPage";
+import SuperAdminSettingPage from "./components/pages/superAdminPages/SuperAdminSettingPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <AdminRoot />, //Landing Root if have frontend app in this project
+    element: <LandingRoot />, //Landing Root if have frontend app in this project
     errorElement: <ErrorPage />,
     loader: PageLoader,
     children: [
+      {
+        path: "/403",
+        element: <ForbiddenPage />,
+      },
       {
         path: "/about/:id",
         element: <div>about</div>,
@@ -44,6 +52,14 @@ export const router = createBrowserRouter([
       {
         path: "/admin/clients",
         element: <div>profile</div>,
+      },
+      {
+        path: "/admin/billing",
+        element: <SuperAdminBillingPage />,
+      },
+      {
+        path: "/admin/settings",
+        element: <SuperAdminSettingPage />,
       },
     ],
   },

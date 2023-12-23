@@ -25,6 +25,7 @@
     "react-dom": "^18.2.0",
     "react-helmet-async": "^2.0.4",
     "react-router-dom": "^6.21.1",
+    "sonner": "^1.2.4",
     "sort-by": "^1.2.0"
   },
   "devDependencies": {
