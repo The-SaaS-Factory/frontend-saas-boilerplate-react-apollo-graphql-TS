@@ -1,5 +1,5 @@
 import { useState } from "react";
-import PageName from "../../../components/commons/PageName";
+
 import {
   CpuChipIcon,
   PlusCircleIcon,
@@ -15,7 +15,7 @@ import {
 } from "@tremor/react";
 import SuperAdminPlansListPage from "./SuperAdminPlansListPage";
 import SuperAdminPlansCapabilities from "./SuperAdminPlansCapabilities";
-import { useTranslation } from "react-i18next";
+import PageName from "@/components/ui/commons/PageName";
 
 const SuperAdminPlansPage = () => {
   //States
@@ -25,17 +25,16 @@ const SuperAdminPlansPage = () => {
   const handleClickTab = (index: number) => {
     setTabSelected(index);
   };
-  const { t } = useTranslation("superadmin");
 
   return (
     <div>
       <PageName
-        name={t("Gerenciar planos")}
+        name="Manage Plans"
         breadcrumbs={[
-          { name: t("dashboard"), href: "/admin" },
-          { name: t("Gerenciar"), href: "#" },
+          { name: "Dashboard", href: "/admin" },
+          { name: "Manage", href: "#" },
         ]}
-        btn1={{ name: t("add"), icon: PlusCircleIcon, href: "add" }}
+        btn1={{ name: "Add", icon: PlusCircleIcon, href: "add" }}
       />
 
       <Card>
@@ -46,14 +45,14 @@ const SuperAdminPlansPage = () => {
               color="default"
               icon={ShoppingBagIcon}
             >
-             <span className="text">{t("plans")}</span> 
+              <span className="text">Plans</span>
             </Tab>
             <Tab
               className={`${tabSelected === 1 && "text-primary"}`}
               color="default"
               icon={CpuChipIcon}
             >
-              <span className="text">  {t("capabilities")}</span>
+              <span className="text">Capabilities</span>
             </Tab>
           </TabList>
           <TabPanels>

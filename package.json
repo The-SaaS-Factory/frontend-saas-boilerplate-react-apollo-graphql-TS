@@ -15,6 +15,7 @@
     "@clerk/themes": "^1.7.9",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.1.1",
+    "@react-google-maps/api": "^2.19.2",
     "@tremor/react": "^3.12.1",
     "graphql": "^16.8.1",
     "graphql-ws": "^5.14.3",
@@ -24,6 +25,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet-async": "^2.0.4",
+    "react-hook-form": "^7.49.2",
+    "react-images-uploading": "^3.1.7",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^6.21.1",
     "sonner": "^1.2.4",
     "sort-by": "^1.2.0"

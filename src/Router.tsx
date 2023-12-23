@@ -7,8 +7,9 @@ import AdminDashboardPage from "./components/pages/adminPages/AdminDashboardPage
 import AdminSettingPage from "./components/pages/adminPages/AdminSettingPage";
 import ForbiddenPage from "./components/layouts/errors/ForbiddenPage";
 import LandingRoot from "./routes/LandingRoot";
-import SuperAdminBillingPage from "./components/pages/superAdminPages/SuperAdminBillingPage";
 import SuperAdminSettingPage from "./components/pages/superAdminPages/SuperAdminSettingPage";
+import SuperAdminPlansPage from "./components/pages/superAdminPages/plansModule/SuperAdminPlansPage";
+import SuperAdminPlansCreate from "./components/pages/superAdminPages/plansModule/SuperAdminPlansCreate";
 
 export const router = createBrowserRouter([
   {
@@ -55,7 +56,16 @@ export const router = createBrowserRouter([
       },
       {
         path: "/admin/billing",
-        element: <SuperAdminBillingPage />,
+
+        element: <SuperAdminPlansPage />,
+      },
+      {
+        path: "/admin/billing/add",
+        element: <SuperAdminPlansCreate />,
+      },
+      {
+        path: "/admin/billing/edit/:planId",
+        element: <SuperAdminPlansCreate />,
       },
       {
         path: "/admin/settings",

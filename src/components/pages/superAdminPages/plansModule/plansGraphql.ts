@@ -1,15 +1,13 @@
 import { gql } from "@apollo/client";
 
 const GET_PLANS = gql`
-  query GetAllPlans($projectId: Int) {
-    getAllPlans(projectId: $projectId) {
+  query GetAllPlans {
+    getAllPlans {
       id
       name
       price
       oldPrice
       status
-      group
-      projectId
       description
       type
       settings {
@@ -38,7 +36,6 @@ const GET_CAPABILITIES = gql`
     getAllCapabilities {
       description
       id
-      group
       name
       type
     }
@@ -49,10 +46,8 @@ const CREATE_PLAN = gql`
   mutation CreatePlan(
     $description: String
     $planId: Int
-    $group: String
-    $projectId: Int
     $price: Float
-    $interval: String
+    $type: String
     $name: String
     $oldPrice: Float
     $status: String
@@ -61,14 +56,13 @@ const CREATE_PLAN = gql`
       planId: $planId
       description: $description
       price: $price
-      projectId: $projectId
-      interval: $interval
       name: $name
-      group: $group
+      type: $type
       oldPrice: $oldPrice
       status: $status
     ) {
       id
+      name
     }
   }
 `;
@@ -100,14 +94,8 @@ const CREATE_CAPABILITIE = gql`
     $name: String!
     $description: String
     $type: String
-    $group: String
   ) {
-    createCapabilitie(
-      name: $name
-      description: $description
-      type: $type
-      group: $group
-    ) {
+    createCapabilitie(name: $name, description: $description, type: $type) {
       description
       name
       type
@@ -121,6 +109,24 @@ const DELETE_CAPABILITIE = gql`
   }
 `;
 
+const CONNECT_STRIPE_WITH_PLAN = gql`
+  mutation ConnectStripePlanWithLocalPlan($planId: Int!) {
+    connectStripePlanWithLocalPlan(planId: $planId)
+  }
+`;
+
+const DELETE_PLAN = gql`
+  mutation DeletePlan($planId: Int) {
+    deletePlan(planId: $planId)
+  }
+`;
+
+const DISCONECT_STRIPE_WITH_PLAN = gql`
+  mutation DisconectStripePlanWithLocalPlan($planId: Int!) {
+    disconectStripePlanWithLocalPlan(planId: $planId)
+  }
+`;
+
 export {
   GET_PLANS,
   GET_CAPABILITIES,
@@ -128,4 +134,7 @@ export {
   CONNECT_CAPABILITIE_WITH_PLAN,
   CREATE_CAPABILITIE,
   DELETE_CAPABILITIE,
+  DELETE_PLAN,
+  CONNECT_STRIPE_WITH_PLAN,
+  DISCONECT_STRIPE_WITH_PLAN,
 };

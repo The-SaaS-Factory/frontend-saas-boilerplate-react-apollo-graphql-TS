@@ -1,7 +1,9 @@
-import { Fragment, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   Cog6ToothIcon,
+  CreditCardIcon,
   FolderIcon,
   HomeIcon,
   UsersIcon,
@@ -9,26 +11,13 @@ import {
 } from "@heroicons/react/24/outline";
 import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
 
-import { Link, Outlet } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useLocation,
+} from "react-router-dom";
+
 import { OrganizationSwitcher, UserButton } from "@clerk/clerk-react";
-export const adminNavigation = [
-  {
-    sectionName: "General",
-    items: [
-      { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-      { name: "Clients", href: "#", icon: UsersIcon, current: false },
-      { name: "Organizations", href: "#", icon: FolderIcon, current: false },
-    ],
-  },
-  {
-    sectionName: "Billing",
-    items: [
-      { name: "Plans", href: "#", icon: HomeIcon, current: true },
-      { name: "Subscriptions", href: "#", icon: UsersIcon, current: false },
-    ],
-  },
-];
- 
 
 export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -103,7 +92,7 @@ export default function SuperAdminLayout() {
                     </div>
                     <nav className="flex flex-1 flex-col">
                       <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                        <Navigation />
+                        <Navigation setSidebarOpen={setSidebarOpen} />
                         <li className="mt-auto">
                           <Link
                             onClick={() => setSidebarOpen(false)}
@@ -139,7 +128,7 @@ export default function SuperAdminLayout() {
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                <Navigation />
+                <Navigation setSidebarOpen={setSidebarOpen} />
 
                 <li className="mt-auto">
                   <Link
@@ -173,7 +162,53 @@ export default function SuperAdminLayout() {
   );
 }
 
-const Navigation = () => {
+const Navigation = ({
+  setSidebarOpen,
+}: {
+  setSidebarOpen: (state: boolean) => void;
+}) => {
+  const [adminNavigation, setAdminNavigation] = useState([
+    {
+      sectionName: "General",
+      items: [
+        { name: "Dashboard", href: "/admin", icon: HomeIcon, current: true },
+        { name: "Clients", href: "#", icon: UsersIcon, current: false },
+        { name: "Organizations", href: "#", icon: FolderIcon, current: false },
+      ],
+    },
+    {
+      sectionName: "Billing",
+      items: [
+        {
+          name: "Plans",
+          href: "/admin/billing",
+          icon: CreditCardIcon,
+          current: true,
+        },
+        { name: "Subscriptions", href: "#", icon: UsersIcon, current: false },
+      ],
+    },
+  ]);
+
+  //Change current by path
+  const location = useLocation();
+
+  useEffect(() => {
+    const newAdminNavigation = adminNavigation.map((section) => {
+      return {
+        ...section,
+        items: section.items.map((item) => {
+          return {
+            ...item,
+            current: item.href === location.pathname,
+          };
+        }),
+      };
+    });
+
+    setAdminNavigation(newAdminNavigation);
+  }, [location]);
+
   return (
     <li>
       <ul role="list" className="-mx-2 space-y-1">
@@ -187,6 +222,7 @@ const Navigation = () => {
                 <li key={item.name}>
                   <Link
                     to={item.href}
+                    onClick={() => setSidebarOpen(false)}
                     className={classNames(
                       item.current
                         ? "bg-gray-50 text-indigo-600"
