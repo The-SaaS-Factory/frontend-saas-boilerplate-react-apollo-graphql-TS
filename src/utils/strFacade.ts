@@ -39,3 +39,8 @@ export function getDayName(dayNumber: number) {
   ];
   return days[dayNumber];
 }
+
+
+export function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
+}

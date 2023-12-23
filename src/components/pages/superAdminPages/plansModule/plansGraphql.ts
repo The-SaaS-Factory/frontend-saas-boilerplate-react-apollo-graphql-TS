@@ -30,7 +30,11 @@ const GET_PLANS = gql`
     }
   }
 `;
-
+const BUY_PLAN_FREE = gql`
+  mutation BuyPlanFree($planId: Int!) {
+    buyPlanFree(planId: $planId)
+  }
+`;
 const GET_CAPABILITIES = gql`
   query GetCapabilities {
     getAllCapabilities {
@@ -127,6 +131,15 @@ const DISCONECT_STRIPE_WITH_PLAN = gql`
   }
 `;
 
+const GET_PAYMENTS_SETTINGS = gql`
+  query GetPaymentsSettings {
+    getPaymentsSettings {
+      settingName
+      settingValue
+    }
+  }
+`;
+
 export {
   GET_PLANS,
   GET_CAPABILITIES,
@@ -137,4 +150,6 @@ export {
   DELETE_PLAN,
   CONNECT_STRIPE_WITH_PLAN,
   DISCONECT_STRIPE_WITH_PLAN,
+  BUY_PLAN_FREE,
+  GET_PAYMENTS_SETTINGS,
 };
