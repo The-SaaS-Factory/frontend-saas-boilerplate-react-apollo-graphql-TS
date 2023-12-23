@@ -7,6 +7,10 @@
   @apply text-2xl font-bold leading-7 text-gray-700 dark:text-white sm:truncate sm:text-3xl sm:tracking-tight;
 }
 
+.text-subtitle {
+  @apply text-xl text-gray-600 dark:text-gray-400;
+}
+
 .text-primary {
   @apply text-sky-700 font-medium leading-6 dark:text-gray-400;
 }
@@ -16,7 +20,15 @@
 }
 
 .border-primary {
-  @apply   border-sky-500;
+  @apply border-sky-500;
+}
+
+.btn-main {
+  @apply px-4 py-3 font-medium text-sm text-gray-800 rounded-md border shadow-sm shadow-gray-300 border-gray-50 bg-gradient-to-bl from-slate-50 via-gray-100 to-gray-100 hover:via-gray-100 active:from-gray-400;
+}
+
+.btn-icon {
+  @apply flex  space-x-2 px-4 py-3 font-medium text-sm text-gray-800 rounded-md border shadow-sm shadow-gray-300 border-gray-50 bg-gradient-to-bl from-slate-50 via-gray-100 to-gray-100 hover:via-gray-100 active:from-gray-400;
 }
 
 @tailwind utilities;

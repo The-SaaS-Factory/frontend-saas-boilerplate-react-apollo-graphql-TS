@@ -22,6 +22,7 @@ type PageNameProps = {
 };
 
 const PageName = ({ name, btn1, breadcrumbs }: PageNameProps) => {
+  console.log(btn1);
   return (
     <>
       <Helmet prioritizeSeoTags>
@@ -44,12 +45,14 @@ const PageName = ({ name, btn1, breadcrumbs }: PageNameProps) => {
                   <span>{btn1.name}</span>
                 </button>
               ) : (
-                <Link to={btn1.href as string} className="btn-main ">
+                <Link to={btn1.href as string} className="btn-icon ">
+                  {" "}
                   {btn1.icon &&
                     React.createElement(btn1.icon, {
-                      className: "h-5 w-5 text-white",
+                      className: "h-5 w-5 text",
                       "aria-hidden": "true",
                     })}
+                  <span>{btn1.name}</span>
                 </Link>
               ))}
           </div>

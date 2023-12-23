@@ -5,14 +5,23 @@ import AdminRoot from "./routes/AdminRoot";
 import SuperAdminRoot from "./routes/SuperAdminRoot";
 import AdminDashboardPage from "./components/pages/adminPages/AdminDashboardPage";
 import AdminSettingPage from "./components/pages/adminPages/AdminSettingPage";
+import ForbiddenPage from "./components/layouts/errors/ForbiddenPage";
+import LandingRoot from "./routes/LandingRoot";
+import SuperAdminSettingPage from "./components/pages/superAdminPages/SuperAdminSettingPage";
+import SuperAdminPlansPage from "./components/pages/superAdminPages/plansModule/SuperAdminPlansPage";
+import SuperAdminPlansCreate from "./components/pages/superAdminPages/plansModule/SuperAdminPlansCreate";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <AdminRoot />, //Landing Root if have frontend app in this project
+    element: <LandingRoot />, //Landing Root if have frontend app in this project
     errorElement: <ErrorPage />,
     loader: PageLoader,
     children: [
+      {
+        path: "/403",
+        element: <ForbiddenPage />,
+      },
       {
         path: "/about/:id",
         element: <div>about</div>,
@@ -44,6 +53,23 @@ export const router = createBrowserRouter([
       {
         path: "/admin/clients",
         element: <div>profile</div>,
+      },
+      {
+        path: "/admin/billing",
+
+        element: <SuperAdminPlansPage />,
+      },
+      {
+        path: "/admin/billing/add",
+        element: <SuperAdminPlansCreate />,
+      },
+      {
+        path: "/admin/billing/edit/:planId",
+        element: <SuperAdminPlansCreate />,
+      },
+      {
+        path: "/admin/settings",
+        element: <SuperAdminSettingPage />,
       },
     ],
   },

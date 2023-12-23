@@ -57,12 +57,12 @@ const AdminSettingPage = () => {
           </Tab>
           <Tab
             className={
-              tabSelected === 1
+              tabSelected === 2
                 ? "text-primary border-b-2 border-primary"
                 : "text-gray-500"
             }
             icon={UserGroupIcon}
-            onClick={() => setTabSelected(1)}
+            onClick={() => setTabSelected(2)}
           >
             Plans and Billing
           </Tab>
