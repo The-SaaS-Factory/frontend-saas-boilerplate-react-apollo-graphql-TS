@@ -1,30 +1,21 @@
-# React + TypeScript + Vite
+# The SaaS Factory
+## _The Boilerplate for SaaS Products, Free and Open Source_
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The SaaS Factory is a boilerplate for avanded SaaS products. It's free and open source, and it's powered by Apollo GraphQL , React, Tailwind CSS, and TypeScript
+ ![enter image description here](https://ik.imagekit.io/cluzstudio/01-cluzstudio/Sem%20t%C3%ADtulo-2023-12-19-2206_cO2HqHxMM.png?updatedAt=1703035291143)
 
-Currently, two official plugins are available:
+- Frontend App - Vite - React - Tailwind CSS, Apollo Client, Graphql, TypeScript **(This repo)** 
+- [Backend App](https://github.com/The-SaaS-Factory/backend-saas-boilerplate-node-apollo-graphql-TS) - Node - [Apollo Server](https://www.apollographql.com/docs/apollo-server/) - [Graphql](https://graphql.org/) - [Prisma  ](https://www.prisma.io/)  
+- Integrations: Stripe, [Imagekit](https://imagekit.io/), [Loops So](https://loops.so/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+soon!!
 
-## Expanding the ESLint configuration
+## installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+ 1. Download or clone the repop.
+ 2. In root write: `npm install`
+ 3. Install and configure [the backend project](https://github.com/The-SaaS-Factory/backend-saas-boilerplate-node-apollo-graphql-TS)
+ 4. Raise the development server to serve the frontend with: `npm run dev`
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+    ***Start building your saas***
