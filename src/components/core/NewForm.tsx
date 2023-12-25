@@ -171,13 +171,13 @@ const NewForm = ({
                 </p>
               </div>
             )}
-            <div className="lg:col-span-2 text">
+            <div className="lg:col-span-2 flex flex-col text">
               {fields.map((field, index) => (
                 <div
-                  className={`  my-3 flex ${
+                  className={`  my-3 flex max-w-md  ${
                     field.type === "toggle"
-                      ? "flex-row justify-between"
-                      : "flex-col"
+                      ? "flex-row justify-between "
+                      : "flex-col "
                   } `}
                   key={index}
                 >
@@ -186,17 +186,7 @@ const NewForm = ({
                   </label>
                   {field.type === "text" && (
                     <div className="mt-2  ">
-                      <div className="flex flex-col rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                        {/* <input
-                          {...register(field.name, {
-                            required: field.required,
-                          })}
-                          type={field.type}
-                          name={field.name}
-                          step={field.numberStep ? "0.01" : "1"}
-                          id={field.name}
-                          className="input-text"
-                        /> */}
+                      <div className="flex flex-col rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
                         <TextInput
                           onValueChange={(value) => setValue(field.name, value)}
                           value={watch(field.name)}
@@ -212,7 +202,7 @@ const NewForm = ({
                   )}
                   {field.type === "number" && (
                     <div className="mt-2  ">
-                      <div className="flex flex-col rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                      <div className="flex flex-col rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
                         <NumberInput
                           onValueChange={(value) => setValue(field.name, value)}
                           value={watch(field.name)}
@@ -228,23 +218,7 @@ const NewForm = ({
                   )}
                   {field.type === "date" && (
                     <div className="mt-2  ">
-                      <div className="flex flex-col rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                        {/* <input
-                          {...register(field.name, {
-                            required: field.required,
-                          })}
-                          type={"date"}
-                          name={field.name}
-                          step="0.01"
-                          defaultValue={
-                            field.name != "endDate"
-                              ? currentDate
-                              : currentDatePlusOne
-                          }
-                          id={field.name}
-                          className="input-text"
-                        /> */}
-
+                      <div className="flex flex-col rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
                         <DatePicker
                           onValueChange={(value) => setValue(field.name, value)}
                           value={watch(field.name)}
@@ -260,18 +234,7 @@ const NewForm = ({
                   )}
                   {field.type === "slug" && (
                     <div className="mt-2">
-                      <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                        {/* <input
-                          value={slugify(watch(field.name ?? "name"))}
-                          onChange={(c) =>
-                            setValue(field.name, slugify(c.target.value))
-                          }
-                          type={field.type}
-                          name={field.name}
-                          id={field.name}
-                          className="input-text"
-                        /> */}
-
+                      <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
                         <TextInput
                           onValueChange={(value) =>
                             setValue(field.name, slugify(value))
@@ -284,7 +247,7 @@ const NewForm = ({
                   )}
                   {field.type === "textarea" && (
                     <div className="mt-2 mb-14">
-                      <div className=" sm:max-w-md">
+                      <div className=" sm:">
                         <ReactQuill
                           theme="snow"
                           value={watch(field.name)}
@@ -298,38 +261,36 @@ const NewForm = ({
                   )}
 
                   {field.type === "toggle" && (
-                    <div className="flex  mx-auto pl-20">
-                      <Switch.Group as="div" className="">
-                        <Switch
-                          checked={watch(field.name) === "true" ? true : false}
-                          onChange={(isChecked) => {
-                            console.log(isChecked.toString());
+                    <Switch.Group as="div" className="flex   ">
+                      <Switch
+                        checked={watch(field.name) === "true" ? true : false}
+                        onChange={(isChecked) => {
+                          console.log(isChecked.toString());
 
-                            setValue(field.name, isChecked.toString());
-                          }}
+                          setValue(field.name, isChecked.toString());
+                        }}
+                        className={classNames(
+                          (watch(field.name) === "true" ? true : false)
+                            ? "bg-indigo-600"
+                            : "bg-gray-200",
+                          "relative inline-flex h-6 w-11   flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                        )}
+                      >
+                        <span
+                          aria-hidden="true"
                           className={classNames(
                             (watch(field.name) === "true" ? true : false)
-                              ? "bg-indigo-600"
-                              : "bg-gray-200",
-                            "relative inline-flex h-6 w-11   flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+                              ? "translate-x-5"
+                              : "translate-x-0",
+                            "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out text"
                           )}
-                        >
-                          <span
-                            aria-hidden="true"
-                            className={classNames(
-                              (watch(field.name) === "true" ? true : false)
-                                ? "translate-x-5"
-                                : "translate-x-0",
-                              "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out text"
-                            )}
-                          />
-                        </Switch>
-                      </Switch.Group>
-                    </div>
+                        />
+                      </Switch>
+                    </Switch.Group>
                   )}
                   {field.type === "select" && (
                     <div className="mt-2">
-                      <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                      <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
                         {/* <select
                           {...register(field.name, {
                             required: field.required,
@@ -452,7 +413,7 @@ const NewForm = ({
                   )}
                   {field.type === "mapSelector" && (
                     <div className="mt-2  ">
-                      <div className="flex  rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                      <div className="flex  rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
                         <input
                           {...register(field.name, {
                             required: field.required,
@@ -535,7 +496,7 @@ const NewForm = ({
                           onImageRemove,
                           dragProps: dragPropsAvatar,
                         }) => (
-                          <div className="max-w-md">
+                          <div className="">
                             <div className="col-span-full">
                               <div className="mt-2   items-center gap-x-3">
                                 <div
@@ -641,7 +602,7 @@ const NewForm = ({
 
               {newFieldsFunction && (
                 <>
-                  <div className="mt-6 bg-gray-50 flex flex-col rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <div className="mt-6 bg-gray-50 flex flex-col rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
                     <h3 className="text-subtitle p-3">Add New Field</h3>
                     <div className="flex px-3 space-x-3 items-center">
                       <input

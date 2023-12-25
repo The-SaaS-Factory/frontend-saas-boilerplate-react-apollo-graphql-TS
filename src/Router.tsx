@@ -6,7 +6,7 @@ import SuperAdminRoot from "./routes/SuperAdminRoot";
 import AdminDashboardPage from "./components/pages/adminPages/AdminDashboardPage";
 import AdminSettingPage from "./components/pages/adminPages/AdminSettingPage";
 import ForbiddenPage from "./components/layouts/errors/ForbiddenPage";
-import SuperAdminSettingPage from "./components/pages/superAdminPages/SuperAdminSettingPage";
+import SuperAdminSettingPage from "./components/pages/superAdminPages/superAdminSettingsModule/SuperAdminSettingPage";
 import SuperAdminPlansPage from "./components/pages/superAdminPages/plansModule/SuperAdminPlansPage";
 import SuperAdminPlansCreate from "./components/pages/superAdminPages/plansModule/SuperAdminPlansCreate";
 

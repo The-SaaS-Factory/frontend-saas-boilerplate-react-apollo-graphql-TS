@@ -17,7 +17,7 @@ import {
 import NewForm, { parseDataOnSubmit } from "@/components/core/NewForm";
 import PageName from "@/components/ui/commons/PageName";
 import PageLoader from "@/components/ui/loaders/PageLoader";
-import { TextInput } from "@tremor/react";
+import { Select, SelectItem, TextInput } from "@tremor/react";
 
 const SuperAdminPlansCreate = () => {
   const { planId } = useParams();
@@ -248,18 +248,16 @@ const SuperAdminPlansCreate = () => {
                                 className="input-text"
                               />
                             ) : (
-                              <select
-                                onChange={(e) =>
-                                  setDataForCapabilitie(
-                                    parseInt(e.target.value)
-                                  )
+                              <Select
+                                onValueChange={(value) =>
+                                  setDataForCapabilitie(parseInt(value))
                                 }
                                 className="input-text"
                               >
-                                <option value="">-Change-</option>
-                                <option value="1">Yes </option>
-                                <option value="0">No</option>
-                              </select>
+                                <SelectItem value="">-Change-</SelectItem>
+                                <SelectItem value="1">Yes </SelectItem>
+                                <SelectItem value="0">No</SelectItem>
+                              </Select>
                             )}
                             <button
                               onClick={() =>

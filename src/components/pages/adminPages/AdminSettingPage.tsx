@@ -9,12 +9,11 @@ import {
   useOrganization,
 } from "@clerk/clerk-react";
 import AdminBillingPage from "./AdminBillingPage";
+const systemScope = import.meta.env.VITE_SAAS_SYSTEM_SCOPE;
 
 const AdminSettingPage = () => {
   const [tabSelected, setTabSelected] = useState(0);
-  const { organization, membership } = useOrganization();
-
-  console.log(membership);
+  const { organization } = useOrganization();
 
   return (
     <div>
@@ -36,38 +35,60 @@ const AdminSettingPage = () => {
           <Tab
             className={
               tabSelected === 0
-                ? "text-primary  border-b-2 border-primary"
-                : "text-secundary"
+                ? "text-primary border-b-2 border-primary"
+                : "text-gray-500"
             }
             icon={UserGroupIcon}
             onClick={() => setTabSelected(0)}
           >
-            Perfil
+            Plans and Billing
           </Tab>
           <Tab
             className={
               tabSelected === 1
-                ? "text-primary border-b-2 border-primary"
-                : "text-gray-500"
+                ? "text-primary  border-b-2 border-primary"
+                : "text-secundary"
             }
             icon={UserGroupIcon}
             onClick={() => setTabSelected(1)}
           >
-            Organization
+            Perfil
           </Tab>
-          <Tab
-            className={
-              tabSelected === 2
-                ? "text-primary border-b-2 border-primary"
-                : "text-gray-500"
-            }
-            icon={UserGroupIcon}
-            onClick={() => setTabSelected(2)}
-          >
-            Plans and Billing
-          </Tab>
+
+          <div>
+            {systemScope === "organization" && (
+              <Tab
+                className={
+                  tabSelected === 2
+                    ? "text-primary border-b-2 border-primary"
+                    : "text-gray-500"
+                }
+                icon={UserGroupIcon}
+                onClick={() => setTabSelected(2)}
+              >
+                Organization
+              </Tab>
+            )}
+          </div>
         </TabList>
         <TabPanels>
+          <TabPanel>
+            <div className="mt-1">
+              <div className="  w-full">
+                {!organization && systemScope === "organization" ? (
+                  <div className="flex flex-col items-center justify-center">
+                    <h1 className="text-title my-14">
+                      You need to select or create an organization first
+                    </h1>
+                    <OrganizationList />
+                  </div>
+                ) : (
+                  <AdminBillingPage />
+                )}
+              </div>
+            </div>
+          </TabPanel>
+
           <TabPanel>
             <div className="mt-1">
               <UserProfile
@@ -78,34 +99,28 @@ const AdminSettingPage = () => {
               />
             </div>
           </TabPanel>
-          <TabPanel>
-            <div className="mt-1">
-              <div className="  w-full">
-                {organization ? (
-                  <OrganizationProfile
-                    appearance={{
-                      baseTheme: undefined,
-                      elements: { card: "shadow-none" },
-                    }}
-                  />
-                ) : (
-                  <OrganizationList />
-                )}
+          {systemScope === "organization" && (
+            <TabPanel>
+              <div className="mt-1">
+                <div className="  w-full">
+                  {organization ? (
+                    <OrganizationProfile
+                      appearance={{
+                        baseTheme: undefined,
+                        elements: { card: "shadow-none" },
+                      }}
+                    />
+                  ) : (
+                    <OrganizationList />
+                  )}
+                </div>
               </div>
-            </div>
-          </TabPanel>
-          <TabPanel>
-            <div className="mt-1">
-              <div className="  w-full">
-                 <AdminBillingPage />
-              </div>
-            </div>
-          </TabPanel>
+            </TabPanel>
+          )}
         </TabPanels>
       </TabGroup>
     </div>
   );
 };
 
- 
 export default AdminSettingPage;

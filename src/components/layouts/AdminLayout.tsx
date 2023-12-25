@@ -13,7 +13,15 @@ import {
 import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
 
 import { Link, Outlet } from "react-router-dom";
-import { OrganizationSwitcher, UserButton } from "@clerk/clerk-react";
+import {
+  OrganizationSwitcher,
+  UserButton,
+  useOrganization,
+} from "@clerk/clerk-react";
+
+import { classNames } from "@/utils/strFacade";
+const systemScope = import.meta.env.VITE_SAAS_SYSTEM_SCOPE;
+
 export const AdminNavigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
   { name: "Team", href: "#", icon: UsersIcon, current: false },
@@ -27,10 +35,6 @@ const teams = [
   { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
   { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
 ];
-
-export function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -293,6 +297,8 @@ const AdminHeader = ({
 }: {
   setSidebarOpen: (state: boolean) => void;
 }) => {
+  const { organization } = useOrganization();
+
   return (
     <div>
       {" "}
@@ -312,9 +318,16 @@ const AdminHeader = ({
 
           <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
             <div className="relative p-4  flex flex-1">
-              <OrganizationSwitcher />
+              {systemScope === "organization" && <OrganizationSwitcher />}
             </div>
             <div className="flex items-center gap-x-4 lg:gap-x-6">
+              {organization &&
+                typeof organization.publicMetadata.isSuperAdmin === "boolean" &&
+                organization.publicMetadata.isSuperAdmin && (
+                  <Link to="/admin" className="btn-main">
+                    <span>Admin Panel</span>
+                  </Link>
+                )}
               <button
                 type="button"
                 className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"

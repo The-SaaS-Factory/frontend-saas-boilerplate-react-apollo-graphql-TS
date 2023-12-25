@@ -13,15 +13,18 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
+const systemScope = import.meta.env.VITE_SAAS_SYSTEM_SCOPE;
+
 import { toast } from "sonner";
 import {
   BUY_PLAN_FREE,
   GET_PAYMENTS_SETTINGS,
   GET_PLANS,
 } from "./plansGraphql";
-import { useUser } from "@clerk/clerk-react";
+import { useOrganization, useUser } from "@clerk/clerk-react";
 import { getSettingValue } from "@/utils/resorceFacade";
 import { classNames } from "@/utils/strFacade";
+import PageLoader from "@/components/ui/loaders/PageLoader";
 export type SettingType = {
   settingName: string;
   settingValue: string;
@@ -29,8 +32,9 @@ export type SettingType = {
 
 const PlansComponent = () => {
   //States
+  const { organization } = useOrganization();
   const [selectMethodModal, setSelectMethodModal] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [planSelected, setPlanSelected] = useState<any>(null);
   const [pricing, setPricing] = useState<any>({
     frequencies: [
@@ -54,20 +58,6 @@ const PlansComponent = () => {
   //Hooks
   const { user } = useUser();
   const navigate = useNavigate();
-
-  // const stripe =
-  //   payments?.find(
-  //     (setting: SettingType) =>
-  //       setting.settingName === "STRIPE_CLIENT_ENABLED" &&
-  //       setting.settingValue === "true"
-  //   )?.settingValue ?? null;
-
-  // const paypal =
-  //   payments?.find(
-  //     (setting: SettingType) =>
-  //       setting.settingName === "PAYPAL_CLIENT_ENABLED" &&
-  //       setting.settingValue === "true"
-  //   )?.settingValue ?? null;
 
   useEffect(() => {
     const types: string[] = Array.from(
@@ -105,8 +95,12 @@ const PlansComponent = () => {
   });
 
   const processPayment = (method: string) => {
+    setLoading(true);
+
     if (!planSelected) {
       toast.error("Select a plan");
+      setLoading(false);
+      return;
     }
 
     if (planSelected.price === 0) {
@@ -115,6 +109,7 @@ const PlansComponent = () => {
           planId: parseInt(planSelected.id),
         },
       });
+      setLoading(false);
       return;
     }
 
@@ -124,10 +119,17 @@ const PlansComponent = () => {
   };
 
   const createStripeCkeckoutSubscription = () => {
-    if (!user) {
+    if (systemScope && systemScope === "personal" && !user) {
       toast.error("User not found");
+      setLoading(false);
       return;
     }
+    if (systemScope && systemScope === "organization" && !organization) {
+      toast.error("Organization not found");
+      setLoading(false);
+      return;
+    }
+
     const payload = {
       priceId:
         planSelected.settings.length > 0
@@ -135,16 +137,18 @@ const PlansComponent = () => {
               (setting: SettingType) => setting.settingName === "STRIPE_PLAN_ID"
             ).settingValue
           : null,
-      client_reference_id: parseInt(user.id),
-      currency: "usd",
+      client_reference_id:  systemScope && systemScope === "organization" ? `O-${organization?.id}` : `U-${user?.id}`,
+      currency: "usd", //Fix: get from settings
     };
 
     if (!payload.priceId) {
+      setLoading(false);
       toast.error("Stripe plan id not found");
     }
+    const serverURL = import.meta.env.VITE_SERVER_BASE_URL;
 
-    const url =
-      process.env.VITE_SERVER_BASE_URL + "/v1/stripe/create-checkout-session";
+    const url = serverURL + "/api/v1/stripe/create-checkout-session";
+
     fetch(url, {
       method: "POST",
       headers: {
@@ -153,12 +157,28 @@ const PlansComponent = () => {
       body: JSON.stringify(payload),
     })
       .then((r) => {
+        console.log(r);
+
         r.json().then((session) => {
           window.location.href = session.url;
         });
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        console.log(e);
+        setLoading(false);
+        toast.error("Error");
+      });
   };
+
+  const parseFrequencyName = (name: string) => {
+    if (name === "Year") {
+      return "Annually";
+    }
+
+    return name;
+  };
+
+  if (loading) return <PageLoader />;
 
   return (
     <div>
@@ -169,130 +189,33 @@ const PlansComponent = () => {
         pay={processPayment}
       />
       <div className="bg-transparent">
-        <section id="ADS" className="g-main p-3 rounded-2xl ">
-          <div className="mx-auto mt-16 max-w-7xl px-6   lg:px-8">
-            <div className="mx-auto max-w-4xl text-center">
-              <p className="mt-2 mega-title"> Pacote de publicidade </p>
-            </div>
-
-            <div className="mt-16 max-w-lg mx-auto ">
-              {/* {pricing.frequencies.length > 1 && (
-                <div className="flex justify-between items-center">
-                  <div>
-                    <select
-                      onChange={(e) => {
-                        const currency = currencies.find(
-                          (currency) => currency.id === parseInt(e.target.value)
-                        );
-                        setCurrencSelected({
-                          name: currency.name,
-                          rate: currency.rate,
-                        });
-                      }}
-                      className="input-text w-7"
-                    >
-                      {currencies?.map((currency) => (
-                        <option key={currency.id} value={currency.id}>
-                          {currency.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-              )}
-                </div> */}
-            </div>
-            <div className="flex flex-col lg:flex-row justify-center space-y-14 lg:space-y-0   lg:space-x-14 my-7 mx-auto">
-              {plans?.getAllPlans
-                .map((tier: any) => (
-                  <div key={tier.id}>
-                    <h2
-                      id={tier.id}
-                      className="text-lg font-semibold leading-8 title"
-                    >
-                      {tier.name}
-                    </h2>
-                    <p
-                      className="mt-4 text-sm max-w-sm leading-6 subtitle"
-                      dangerouslySetInnerHTML={{ __html: tier.description }}
-                    ></p>
-                    <p className="mt-6 flex items-baseline gap-x-1">
-                      <span className="text-4xl font-bold tracking-tight mega-title">
-                        € {(tier.price * 1).toLocaleString()}
-                      </span>
-                    </p>
-                    <ul
-                      role="list"
-                      className="divide-y my-3 space-y-3 divide-gray-100"
-                    >
-                      {tier.PlanCapabilities?.map(
-                        (capa: any, index: number) => {
-                          return (
-                            <li
-                              key={`capa-${index}`}
-                              className="items-center flex space-x-3 p-1 text"
-                            >
-                              {capa.capabilitie?.type === "PERMISSION" ? (
-                                capa.count == 1 ? (
-                                  <button className="icon mr-2">
-                                    {" "}
-                                    <CheckBadgeIcon />{" "}
-                                  </button>
-                                ) : (
-                                  <button className="icon mr-2">
-                                    {" "}
-                                    <XMarkIcon />
-                                  </button>
-                                )
-                              ) : (
-                                capa.count
-                              )}{" "}
-                              {capa.name} {capa.type === "LIMIT" && "/ month"}
-                            </li>
-                          );
-                        }
-                      )}
-                    </ul>
-
-                    <button
-                      onClick={() => {
-                        setPlanSelected(tier);
-                        setSelectMethodModal(true);
-                      }}
-                      className={classNames(
-                        tier.mostPopular
-                          ? "bg-indigo-600 text-white shadow-sm hover:bg-indigo-500"
-                          : "text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300",
-                        "mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                      )}
-                    >
-                      Buy plan
-                    </button>
-                  </div>
-                ))}
-            </div>
-          </div>
-        </section>
         {plans?.getAllPlans?.filter(
           (plan: any) =>
-            plan.group === "MEMBERSHIP" &&
-            plan.type === frequency.value &&
-            plan.status === "ACTIVE" &&
-            plan.projectId === null
+            plan.type === frequency.value && plan.status === "ACTIVE"
         ).length > 0 && (
           <section id="Membership">
-            <div className="mx-auto mt-16 max-w-7xl px-6   lg:px-8">
-              <div className="mx-auto max-w-4xl text-center">
-                <p className="mt-2 mega-title">Pacotes de assinatura</p>
+            <div className="mx-auto flex flex-col mt-16 max-w-7xl px-6   lg:px-8">
+              <div className="mx-auto max-w-4xl sm:text-center">
+                <h2 className="text-base font-semibold leading-7 text-indigo-600">
+                  Pricing
+                </h2>
+                <p className="mt-2 mega-title">
+                  Choose the right plan for&nbsp;you
+                </p>
               </div>
-
-              <div className="mt-16 max-w-lg mx-auto ">
+              <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600 sm:text-center">
+                Distinctio et nulla eum soluta et neque labore quibusdam. Saepe
+                et quasi iusto modi velit ut non voluptas in. Explicabo id ut
+                laborum.
+              </p>
+              <div className="flex w-full mt-16 max-w-lg mx-auto ">
                 {pricing.frequencies.length > 1 && (
-                  <div className="flex justify-between items-center">
-                    <div className="w-1/2">
+                  <div className="  w-full mx-auto   items-center">
+                    <div className=" ">
                       <RadioGroup
                         value={frequency}
                         onChange={setFrequency}
-                        className="   grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200"
+                        className="   grid grid-cols-3 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200"
                       >
                         <RadioGroup.Label className="sr-only">
                           Payment frequency
@@ -310,7 +233,7 @@ const PlansComponent = () => {
                               )
                             }
                           >
-                            <span>{option.label}</span>
+                            <span>{parseFrequencyName(option.label)}</span>
                           </RadioGroup.Option>
                         ))}
                       </RadioGroup>
@@ -319,29 +242,30 @@ const PlansComponent = () => {
                   </div>
                 )}
               </div>
-              <div className="flex flex-col lg:flex-row justify-center space-y-14 lg:space-y-0   lg:space-x-14 my-7 mx-auto">
+              <div className="grid grid-cols-1 p-3 mt-7 md:gridcols-2 lg:grid-cols-3 gap-4">
                 {plans?.getAllPlans
                   ?.filter(
                     (plan: any) =>
-                      plan.type === frequency.value &&
-                      plan.status === "ACTIVE" &&
-                      plan.projectId === null
+                      plan.type === frequency.value && plan.status === "ACTIVE"
                   )
                   .map((tier: any) => (
-                    <div key={tier.id}>
+                    <div
+                      key={tier.id}
+                      className="border border-gray-200 rounded-2xl p-7"
+                    >
                       <h2
                         id={tier.id}
                         className="text-lg font-semibold leading-8 title"
                       >
                         {tier.name}
                       </h2>
-                      <p
-                        className="mt-4 text-sm max-w-sm leading-6 subtitle"
+                      <div
+                        className="mt-4 magic-link  text-sm max-w-sm leading-6 subtitle"
                         dangerouslySetInnerHTML={{ __html: tier.description }}
-                      ></p>
+                      ></div>
                       <p className="mt-6 flex items-baseline gap-x-1">
                         <span className="text-4xl font-bold tracking-tight mega-title">
-                          € {(tier.price * 1).toLocaleString()}
+                          $ {(tier.price * 1).toLocaleString()}
                         </span>
                         <span className="text-sm font-semibold leading-6 text-gray-600">
                           {frequency.priceSuffix}
@@ -384,13 +308,6 @@ const PlansComponent = () => {
                         onClick={() => {
                           setPlanSelected(tier);
                           setSelectMethodModal(true);
-                          // !token && navigate("/auth/login/login");
-                          // if (stripeCheckoutMode === "ELEMENTS") {
-                          //   setPlanSelected(tier);
-                          //   setOpen(true);
-                          // } else {
-                          //   createCkeckoutSubscription(tier);
-                          // }
                         }}
                         className={classNames(
                           tier.mostPopular
@@ -408,88 +325,6 @@ const PlansComponent = () => {
           </section>
         )}
       </div>
-      {/* 
-      <Transition.Root show={open} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-50"
-          initialFocus={cancelButtonRef}
-          onClose={setOpen}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-          </Transition.Child>
-
-          <div className="fixed inset-0 z-10 overflow-y-auto">
-            <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                enterTo="opacity-100 translate-y-0 sm:scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              >
-                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8     sm:p-6">
-                  <div>
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                      <CheckIcon
-                        className="h-6 w-6 text-green-600"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <div className="mt-3 text-center sm:mt-5">
-                      <Dialog.Title
-                        as="h3"
-                        className="text-base px-16 font-semibold leading-6 text"
-                      >
-                       Buy {planSelected?.name}, for €
-                        {planSelected?.price} <br /> {t("select_payment")}
-                      </Dialog.Title>
-                      <div className="  flex space-x-3 justify-center my-10">
-                        {stripe && (
-                          <button
-                            onClick={() => createSubscription("stripe")}
-                            className="btn-main"
-                          >
-                            {t("pay_with_stripe")}
-                          </button>
-                        )}
-                        {paypal && <button className="btn-main">PayPal</button>}
-
-                        {!stripe && !paypal && (
-                          <span className="text-red-500">
-                            {t("no_payment_gateway")}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-5 sm:mt-6 sm:grid    sm:gap-3">
-                    <button
-                      type="button"
-                      className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
-                      onClick={() => setOpen(false)}
-                      ref={cancelButtonRef}
-                    >
-                      {t("cancel")}
-                    </button>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-      </Transition.Root> */}
     </div>
   );
 };
@@ -559,7 +394,7 @@ export function SelectPaymentMethod({
                       as="h3"
                       className="text-base font-semibold leading-6 text"
                     >
-                      Selecione o método de pagamento
+                      Select payment method
                     </Dialog.Title>
                   </div>
                 </div>

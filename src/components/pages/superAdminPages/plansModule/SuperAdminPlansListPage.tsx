@@ -64,7 +64,6 @@ const SuperAdminPlansListPage = () => {
       cancel: {
         label: "Cancel",
         onClick: () => {
-          // Handle cancel logic here
         },
       },
     });
@@ -93,7 +92,6 @@ const SuperAdminPlansListPage = () => {
             resolve("Success");
           })
           .catch((e) => {
-            console.log(e);
             toast.error(e.message);
             reject(e.message);
           })
@@ -189,7 +187,7 @@ const SuperAdminPlansListPage = () => {
                   $ {Number(item.price).toFixed(2)}
                 </TableCell>
                 <TableCell className="text-center text">{item.type}</TableCell>
-                <TableCell className="text-center text">
+                <TableCell className="text-center text flex  ">
                   {!getStripePlanConectionSetting(item.settings) ? (
                     <button
                       onClick={() => handleStripeConectionWithPlan(item.id)}
@@ -198,7 +196,7 @@ const SuperAdminPlansListPage = () => {
                       Connect Stripe
                     </button>
                   ) : (
-                    <div className="flex space-x-3">
+                    <div className="flex space-x-3  items-center">
                       <Badge> Conected </Badge>{" "}
                       <button
                         onClick={() => handleStripeDisconectPlan(item.id)}

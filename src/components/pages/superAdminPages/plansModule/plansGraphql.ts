@@ -71,6 +71,31 @@ const CREATE_PLAN = gql`
   }
 `;
 
+const GET_PLAN_BY_NAME = gql`
+  query GetPlanByName($name: String!) {
+    getPlanByName(name: $name) {
+      id
+      name
+      PlanCapabilities {
+        id
+        name
+        count
+        capabilitieId
+        planId
+        capabilitie {
+          id
+          name
+          type
+        }
+      }
+      description
+      price
+      status
+      type
+    }
+  }
+`;
+
 const CONNECT_CAPABILITIE_WITH_PLAN = gql`
   mutation ConnectCapabilitieWithPlan(
     $planId: Int!
@@ -93,6 +118,24 @@ const CONNECT_CAPABILITIE_WITH_PLAN = gql`
   }
 `;
 
+const GET_USER_CAPABILITIES = gql`
+  query GetUserCapabilitie {
+    getUserCapabilitie {
+      count
+      userId
+      capabilitieId
+    }
+  }
+`;
+const GET_ORGANIZATION_CAPABILITIES = gql`
+query GetOrganizationCapabilies($organizationId: Int) {
+  getOrganizationCapabilies(organizationId: $organizationId) {
+    id
+    capabilitieId
+    count
+  }
+}
+`;
 const CREATE_CAPABILITIE = gql`
   mutation CreateCapabilitie(
     $name: String!
@@ -142,6 +185,7 @@ const GET_PAYMENTS_SETTINGS = gql`
 
 export {
   GET_PLANS,
+  GET_PLAN_BY_NAME,
   GET_CAPABILITIES,
   CREATE_PLAN,
   CONNECT_CAPABILITIE_WITH_PLAN,
@@ -152,4 +196,6 @@ export {
   DISCONECT_STRIPE_WITH_PLAN,
   BUY_PLAN_FREE,
   GET_PAYMENTS_SETTINGS,
+  GET_USER_CAPABILITIES,
+  GET_ORGANIZATION_CAPABILITIES,
 };
