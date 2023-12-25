@@ -2,7 +2,7 @@ const PageLoader = (props: { size?: number }) => {
   return (
     <div
       role="status  "
-      className="
+      className=" 
     flex items-center justify-center h-full w-full absolute top-0 left-0 bg-white dark:bg-gray-800 bg-opacity-50 dark:bg-opacity-50 z-50
     "
     >
