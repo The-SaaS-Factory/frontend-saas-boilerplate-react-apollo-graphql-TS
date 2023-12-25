@@ -25,6 +25,7 @@ import { useOrganization, useUser } from "@clerk/clerk-react";
 import { getSettingValue } from "@/utils/resorceFacade";
 import { classNames } from "@/utils/strFacade";
 import PageLoader from "@/components/ui/loaders/PageLoader";
+import { Link } from "react-router-dom";
 export type SettingType = {
   settingName: string;
   settingValue: string;
@@ -137,7 +138,10 @@ const PlansComponent = () => {
               (setting: SettingType) => setting.settingName === "STRIPE_PLAN_ID"
             ).settingValue
           : null,
-      client_reference_id:  systemScope && systemScope === "organization" ? `O-${organization?.id}` : `U-${user?.id}`,
+      client_reference_id:
+        systemScope && systemScope === "organization"
+          ? `O-${organization?.id}`
+          : `U-${user?.id}`,
       currency: "usd", //Fix: get from settings
     };
 
@@ -340,6 +344,7 @@ export function SelectPaymentMethod({
   payments: any;
   pay: any;
 }) {
+  const { user } = useUser();
   const stripeEnabled = getSettingValue(payments, "STRIPE_CLIENT_ENABLED");
   const cancelButtonRef = useRef(null);
   const [step, setStep] = useState(1);
@@ -379,53 +384,66 @@ export function SelectPaymentMethod({
                 className="relative transform   overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6"
                 style={{ width: "100%" }}
               >
-                <div>
-                  <div className="flex justify-evenly">
-                    <button
-                      onClick={() => setStep(1)}
-                      className={`mx-auto flex h-12 w-12 items-center justify-center rounded-full
+                {user ? (
+                  <>
+                    <div>
+                      <div className="flex justify-evenly">
+                        <button
+                          onClick={() => setStep(1)}
+                          className={`mx-auto flex h-12 w-12 items-center justify-center rounded-full
                      ${step === 1 ? "bg-green-100" : "bg-gray-100"}`}
-                    >
-                      <CreditCardIcon className="h-7 w-7 text-gray-500" />
-                    </button>
-                  </div>
-                  <div className="mt-3 text-center sm:mt-5">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-base font-semibold leading-6 text"
-                    >
-                      Select payment method
-                    </Dialog.Title>
-                  </div>
-                </div>
-                <div className="flex flex-col mt-14 space-y-3">
-                  {stripeEnabled && (
-                    <button
-                      type="button"
-                      className="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2"
-                      onClick={() => {
-                        pay("stripe");
-                      }}
-                    >
-                      Pay with Debit / Credit Card by{" "}
-                      <img
-                        src="/assets/img/stripe.png"
-                        className=" ml-3 h-5  w-auto"
-                        alt=""
-                      />
-                    </button>
-                  )}
+                        >
+                          <CreditCardIcon className="h-7 w-7 text-gray-500" />
+                        </button>
+                      </div>
+                      <div className="mt-3 text-center sm:mt-5">
+                        <Dialog.Title
+                          as="h3"
+                          className="text-base font-semibold leading-6 text"
+                        >
+                          Select payment method
+                        </Dialog.Title>
+                      </div>
+                    </div>
+                    <div className="flex flex-col mt-14 space-y-3">
+                      {stripeEnabled && (
+                        <button
+                          type="button"
+                          className="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2"
+                          onClick={() => {
+                            pay("stripe");
+                          }}
+                        >
+                          Pay with Debit / Credit Card by{" "}
+                          <img
+                            src="/assets/img/stripe.png"
+                            className=" ml-3 h-5  w-auto"
+                            alt=""
+                          />
+                        </button>
+                      )}
 
-                  <br />
-                  <button
-                    type="button"
-                    className="mt-7 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
-                    onClick={() => setOpen(false)}
-                    ref={cancelButtonRef}
-                  >
-                    Cancel
-                  </button>
-                </div>
+                      <br />
+                      <button
+                        type="button"
+                        className="mt-7 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
+                        onClick={() => setOpen(false)}
+                        ref={cancelButtonRef}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex flex-col  space-y-7">
+                    <h2 className="title text-center pt-7">
+                      You must be logged in to buy a plan
+                    </h2>
+                    <Link to={"/home"} className="btn-main mx-auto">
+                      Log in
+                    </Link>
+                  </div>
+                )}
               </Dialog.Panel>
             </Transition.Child>
           </div>

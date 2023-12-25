@@ -9,21 +9,33 @@ import ForbiddenPage from "./components/layouts/errors/ForbiddenPage";
 import SuperAdminSettingPage from "./components/pages/superAdminPages/superAdminSettingsModule/SuperAdminSettingPage";
 import SuperAdminPlansPage from "./components/pages/superAdminPages/plansModule/SuperAdminPlansPage";
 import SuperAdminPlansCreate from "./components/pages/superAdminPages/plansModule/SuperAdminPlansCreate";
+import LandingRoot from "./routes/LandingRoot";
+import LandingPage from "./components/pages/landingPages/LandingPage";
+import LandingPricingPage from "./components/pages/landingPages/LandingPricingPage";
+import LandingAboutPage from "./components/pages/landingPages/LandingAboutPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <AdminRoot />, //Landing Root if have frontend app in this project
+    element: <LandingRoot />, //Landing Root if have frontend app in this project
     errorElement: <ErrorPage />,
     loader: PageLoader,
     children: [
+      {
+        path: "/",
+        element: <LandingPage />,
+      },
+      {
+        path: "/pricing",
+        element: <LandingPricingPage />,
+      },
       {
         path: "/403",
         element: <ForbiddenPage />,
       },
       {
-        path: "/about/:id",
-        element: <div>about</div>,
+        path: "/about",
+        element: <LandingAboutPage />,
       },
     ],
   },
