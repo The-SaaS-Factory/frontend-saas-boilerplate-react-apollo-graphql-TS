@@ -4,9 +4,12 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@tremor/react";
 import { useState } from "react";
 import SuperAdminBillingSettingPage from "./SuperAdminBillingSettingPage";
 import SuperAdminSettingsGeneral from "./SuperAdminSettingsGeneral";
- 
+import { systemScope } from "@/utils/constants/globalContants";
+import { OrganizationList, OrganizationProfile, useOrganization } from "@clerk/clerk-react";
+
 const SuperAdminSettingPage = () => {
   const [tabSelected, setTabSelected] = useState(0);
+  const { organization } = useOrganization();
 
   return (
     <div>
@@ -58,6 +61,21 @@ const SuperAdminSettingPage = () => {
           >
             Billing
           </Tab>
+          <div>
+            {systemScope === "organization" && (
+              <Tab
+                className={
+                  tabSelected === 3
+                    ? "text-primary border-b-2 border-primary"
+                    : "text-gray-500"
+                }
+                icon={UserGroupIcon}
+                onClick={() => setTabSelected(3)}
+              >
+                Organization
+              </Tab>
+            )}
+          </div>
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -75,6 +93,24 @@ const SuperAdminSettingPage = () => {
               <SuperAdminBillingSettingPage />
             </div>
           </TabPanel>
+          {systemScope === "organization" && (
+            <TabPanel>
+              <div className="mt-1">
+                <div className="  w-full">
+                  {organization ? (
+                    <OrganizationProfile
+                      appearance={{
+                        baseTheme: undefined,
+                        elements: { card: "shadow-none" },
+                      }}
+                    />
+                  ) : (
+                    <OrganizationList />
+                  )}
+                </div>
+              </div>
+            </TabPanel>
+          )}
         </TabPanels>
       </TabGroup>
     </div>

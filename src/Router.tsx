@@ -18,6 +18,7 @@ import AdminSupportViewTicketPage from "./components/pages/adminPages/SupportMod
 import AdminNotificationsPage from "./components/pages/adminPages/AdminNotificationsPage";
 import SuperAdminSubscriptionPage from "./components/pages/superAdminPages/plansModule/SuperAdminSubscriptionPage";
 import SuperAdminDashboard from "./components/pages/superAdminPages/dashboardModule/SuperAdminDashboard";
+import SuperAdminUsersModulePage from "./components/pages/superAdminPages/usersModule/SuperAdminUsersModulePage";
 
 export const router = createBrowserRouter([
   {
@@ -83,8 +84,8 @@ export const router = createBrowserRouter([
         element: <SuperAdminDashboard />,
       },
       {
-        path: "/admin/clients",
-        element: <div>profile</div>,
+        path: "/admin/users",
+        element: <SuperAdminUsersModulePage />, 
       },
       {
         path: "/admin/billing",

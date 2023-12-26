@@ -37,11 +37,29 @@ const VIEWED_NOTIFICATIONS = gql`
   }
 `;
 
+const GET_ALL_USERS = gql`
+  query GetUsers($offset: Int, $limit: Int, $search: String) {
+    getUsers(offset: $offset, limit: $limit, search: $search) {
+      id
+      name
+      Membership {
+        id
+        plan {
+          name
+        }
+        startDate
+        endDate
+      }
+      avatar
+      email
+    }
+  }
+`;
 
 export {
   GET_CURRENT_USER,
   GET_USER_NOTIFICATIONS,
   NEW_NOTIFICATION,
   VIEWED_NOTIFICATIONS,
-  
+  GET_ALL_USERS,
 };

@@ -165,7 +165,7 @@ const Navigation = ({
       sectionName: "General",
       items: [
         { name: "Dashboard", href: "/admin", icon: HomeIcon, current: true },
-        { name: "Clients", href: "#", icon: UsersIcon, current: false },
+        { name: "Users", href: "/admin/users", icon: UsersIcon, current: false },
         { name: "Organizations", href: "#", icon: FolderIcon, current: false },
       ],
     },

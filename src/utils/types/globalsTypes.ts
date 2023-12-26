@@ -7,7 +7,7 @@ export type UserType = {
   country: string;
   city: string;
   state: string;
-  Membership: UserMembershipType;
+  Membership: UserMembershipType[];
 };
 
 export type UserMembershipType = {
