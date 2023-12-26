@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import NotFound from "@/components/ui/commons/NotFound";
 import { formatTimestampToDateString } from "@/utils/facades/strFacade";
 import {
   Table,
@@ -12,44 +13,47 @@ import { Link } from "react-router-dom";
 const SupportTicketsPage = ({ tickets }: { tickets: any }) => {
   return (
     <div>
-      <Table className="mt-6">
-        <TableHead>
-          <TableRow className="">
-            <TableHeaderCell className="text-left">Assunto</TableHeaderCell>
-            <TableHeaderCell className="text-left">
-              Departamento
-            </TableHeaderCell>
-            <TableHeaderCell className="text-center">Estado</TableHeaderCell>
-            <TableHeaderCell className="text-center">Data</TableHeaderCell>
-          </TableRow>
-        </TableHead>
-
-        <TableBody>
-          {tickets?.map((item: any, index: number) => (
-            <TableRow key={`userInvoice-${index}`}>
-              <TableCell className="text-left text">
-                {item.subject} - (ID-{item.id})
-              </TableCell>
-              <TableCell className="text-left space-x-3  ">
-                <span className="uppercase">{item.departament}</span>
-              </TableCell>
-              <TableCell className="text-center text">
-                {showTicketStatus(item.status)}
-              </TableCell>
-              <TableCell className="text-center text">
-                {formatTimestampToDateString(item.createdAt)}
-              </TableCell>
-              <TableCell className="text-center text">
-                <Link to={`ticket/${item.id}`} className="btn-main">
-                  Visualizar
-                </Link>
-              </TableCell>
+      {tickets?.length > 0 ? (
+        <Table className="mt-6">
+          <TableHead>
+            <TableRow className="">
+              <TableHeaderCell className="text-left">Subject</TableHeaderCell>
+              <TableHeaderCell className="text-left">
+                Departament
+              </TableHeaderCell>
+              <TableHeaderCell className="text-center">Status</TableHeaderCell>
+              <TableHeaderCell className="text-center">Date</TableHeaderCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      {tickets?.length === 0 && (
-        <span className="px-3 text">Sem histórico de tickets</span>
+          </TableHead>
+
+          <TableBody>
+            {tickets?.map((item: any, index: number) => (
+              <TableRow key={`userInvoice-${index}`}>
+                <TableCell className="text-left text">
+                  {item.subject} - (ID-{item.id})
+                </TableCell>
+                <TableCell className="text-left space-x-3  ">
+                  <span className="uppercase">{item.departament}</span>
+                </TableCell>
+                <TableCell className="text-center text">
+                  {showTicketStatus(item.status)}
+                </TableCell>
+                <TableCell className="text-center text">
+                  {formatTimestampToDateString(item.createdAt)}
+                </TableCell>
+                <TableCell className="text-center text">
+                  <Link to={`ticket/${item.id}`} className="btn-main">
+                    View
+                  </Link>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      ) : (
+        <div className="py-14">
+          <NotFound message="There are no tickets" />
+        </div>
       )}
     </div>
   );
