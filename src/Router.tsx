@@ -15,6 +15,9 @@ import LandingPricingPage from "./components/pages/landingPages/LandingPricingPa
 import LandingAboutPage from "./components/pages/landingPages/LandingAboutPage";
 import AdminSupportHomePage from "./components/pages/adminPages/SupportModule/AdminSupportHomePage";
 import AdminSupportViewTicketPage from "./components/pages/adminPages/SupportModule/AdminSupportViewTicketPage";
+import AdminNotificationsPage from "./components/pages/adminPages/AdminNotificationsPage";
+import SuperAdminSubscriptionPage from "./components/pages/superAdminPages/plansModule/SuperAdminSubscriptionPage";
+import SuperAdminDashboard from "./components/pages/superAdminPages/dashboardModule/SuperAdminDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -60,6 +63,10 @@ export const router = createBrowserRouter([
         element: <AdminSupportHomePage />,
       },
       {
+        path: "/home/notifications",
+        element: <AdminNotificationsPage />,
+      },
+      {
         path: "/home/support/ticket/:ticketId",
         element: <AdminSupportViewTicketPage />,
       },
@@ -71,6 +78,10 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     loader: PageLoader,
     children: [
+      {
+        path: "",
+        element: <SuperAdminDashboard />,
+      },
       {
         path: "/admin/clients",
         element: <div>profile</div>,
@@ -98,6 +109,14 @@ export const router = createBrowserRouter([
       {
         path: "/admin/support/tickets/ticket/:ticketId",
         element: <AdminSupportViewTicketPage />,
+      },
+      {
+        path: "/admin/notifications",
+        element: <AdminNotificationsPage />,
+      },
+      {
+        path: "/admin/suscriptions",
+        element: <SuperAdminSubscriptionPage />,
       },
     ],
   },

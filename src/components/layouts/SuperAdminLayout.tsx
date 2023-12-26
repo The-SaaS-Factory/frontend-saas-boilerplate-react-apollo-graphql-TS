@@ -2,6 +2,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
+  BuildingLibraryIcon,
   Cog6ToothIcon,
   CreditCardIcon,
   FolderIcon,
@@ -14,7 +15,6 @@ import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { OrganizationSwitcher, UserButton } from "@clerk/clerk-react";
 import { classNames } from "@/utils/facades/strFacade";
-
 
 export default function SuperAdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -78,8 +78,8 @@ export default function SuperAdminLayout() {
                   <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
                     <div className="flex h-16 shrink-0 items-center">
                       <img
-                        className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                        className="h-24 w-auto"
+                        src="/assets/img/logo.png"
                         alt="Your Company"
                       />
                     </div>
@@ -114,8 +114,8 @@ export default function SuperAdminLayout() {
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
               <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                className="h-24 w-auto"
+                src="/assets/img/logo.png"
                 alt="Your Company"
               />
             </div>
@@ -178,7 +178,12 @@ const Navigation = ({
           icon: CreditCardIcon,
           current: true,
         },
-        { name: "Subscriptions", href: "#", icon: UsersIcon, current: false },
+        {
+          name: "Subscriptions",
+          href: "/admin/suscriptions",
+          icon: BuildingLibraryIcon,
+          current: false,
+        },
       ],
     },
     {
@@ -283,13 +288,13 @@ const SuperAdminHeader = ({
               <OrganizationSwitcher />
             </div>
             <div className="flex items-center gap-x-4 lg:gap-x-6">
-              <button
-                type="button"
+              <Link
+                to={"/admin/notifications"}
                 className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
               >
                 <span className="sr-only">View notifications</span>
                 <BellIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
+              </Link>
 
               {/* Separator */}
               <div

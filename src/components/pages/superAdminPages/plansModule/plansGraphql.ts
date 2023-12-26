@@ -70,6 +70,35 @@ const CREATE_PLAN = gql`
     }
   }
 `;
+const GET_ALL_SUBSCRIPTIONS = gql`
+  query GetAllSubscriptions {
+    getAllSubscriptions {
+      endDate
+      id
+      plan {
+        name
+        id
+        type
+      }
+      startDate
+      invoice {
+        gateway
+        amount
+      }
+      organization {
+        id
+        name
+      }
+      user {
+        id
+        email
+        name
+        avatar
+      }
+      userId
+    }
+  }
+`;
 
 const GET_PLAN_BY_NAME = gql`
   query GetPlanByName($name: String!) {
@@ -128,13 +157,13 @@ const GET_USER_CAPABILITIES = gql`
   }
 `;
 const GET_ORGANIZATION_CAPABILITIES = gql`
-query GetOrganizationCapabilies($organizationId: Int) {
-  getOrganizationCapabilies(organizationId: $organizationId) {
-    id
-    capabilitieId
-    count
+  query GetOrganizationCapabilies($organizationId: Int) {
+    getOrganizationCapabilies(organizationId: $organizationId) {
+      id
+      capabilitieId
+      count
+    }
   }
-}
 `;
 const CREATE_CAPABILITIE = gql`
   mutation CreateCapabilitie(
@@ -198,4 +227,5 @@ export {
   GET_PAYMENTS_SETTINGS,
   GET_USER_CAPABILITIES,
   GET_ORGANIZATION_CAPABILITIES,
+  GET_ALL_SUBSCRIPTIONS,
 };

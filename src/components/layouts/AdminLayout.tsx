@@ -92,7 +92,7 @@ export default function AdminLayout() {
                   <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
                     <div className="flex h-16 shrink-0 items-center">
                       <img
-                        className="h-8 w-auto"
+                        className="h-24 w-auto"
                         src="/assets/img/logo.png"
                         alt="Your Company"
                       />
@@ -342,13 +342,13 @@ const AdminHeader = ({
                   <span>Admin Panel</span>
                 </Link>
               )}
-              <button
-                type="button"
+              <Link
+                to={"/home/notifications"}
                 className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
               >
                 <span className="sr-only">View notifications</span>
                 <BellIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
+              </Link>
 
               {/* Separator */}
               <div

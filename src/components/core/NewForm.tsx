@@ -1090,7 +1090,7 @@ export const parseDataOnSubmit = async (data: any, fields: any) => {
         } else {
           if (fieldValue && fieldValue.length > 0) {
             if (!serverURL) return console.log("Server URL not found");
-            const response = await fetch(serverURL + "/v1/saveImage", {
+            const response = await fetch(serverURL + "/api/v1/saveImage", {
               method: "POST",
               mode: "cors",
               body: JSON.stringify((fieldValue[0] as any)?.data_url),
@@ -1110,7 +1110,7 @@ export const parseDataOnSubmit = async (data: any, fields: any) => {
             .map((image: any) => image.data_url);
 
           if (images.length > 0) {
-            const response = await fetch(serverURL + "/v1/saveImage", {
+            const response = await fetch(serverURL + "/api/v1/saveImage", {
               method: "POST",
               mode: "cors",
               body: JSON.stringify(images),
@@ -1146,7 +1146,7 @@ export const parseDataOnSubmit = async (data: any, fields: any) => {
           //image with base64 structure
           const image = images[i];
 
-          const response = await fetch(serverURL + "/v1/saveImage", {
+          const response = await fetch(serverURL + "/api/v1/saveImage", {
             method: "POST",
             mode: "cors",
             body: JSON.stringify(image),

@@ -20,7 +20,7 @@ export const parseSettingDataOnSubmit = async (data: any, fields: any) => {
               fieldValue.length > 0 &&
               typeof fieldValue[0] === "object"
             ) {
-              const response = await fetch(serverURL + "/v1/saveImage", {
+              const response = await fetch(serverURL + "/api/v1/saveImage", {
                 method: "POST",
                 mode: "cors",
                 body: fieldValue[0].data_url,
@@ -44,7 +44,7 @@ export const parseSettingDataOnSubmit = async (data: any, fields: any) => {
               //image with base64 structure
               const image = images[i];
   
-              const response = await fetch(serverURL + "/v1/saveImage", {
+              const response = await fetch(serverURL + "/api/v1/saveImage", {
                 method: "POST",
                 mode: "cors",
                 body: JSON.stringify(image),

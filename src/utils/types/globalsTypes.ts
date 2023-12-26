@@ -1,5 +1,20 @@
-import { OrganizationType, UserType } from "@/utils/types/globalsTypes";
-import { InvoiceType } from "../../adminPages/billingModule/billingTypes";
+export type UserType = {
+  id: string;
+  username: string;
+  email: string;
+  avatar: string;
+  name: string;
+  country: string;
+  city: string;
+  state: string;
+  Membership: UserMembershipType;
+};
+
+export type UserMembershipType = {
+  id: string;
+  endDate: string;
+  plan: UserMembershipPlanType;
+};
 
 export type UserMembershipPlanType = {
   id: string;
@@ -21,19 +36,7 @@ export type UserMembershipPlanCapabilitieType = {
   count: string | number;
 };
 
-export type MembershipType = {
+export type OrganizationType = {
   id: string;
-  user: UserType;
-  endDate: string;
-  plan: PlanType;
-  invoice: InvoiceType;
-  startDate: string;
-  organization: OrganizationType;
-};
-
-
-
-
-export type PlanType = {
   name: string;
 };
