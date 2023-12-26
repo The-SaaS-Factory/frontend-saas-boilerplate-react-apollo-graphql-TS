@@ -44,5 +44,31 @@
   content: "✓";
 }
 
+.badge-sky {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-sky-100 text-sky-800 shadow-sky-800/50 shadow-sm;
+}
+
+.badge-green {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 shadow-green-800/50 shadow-sm;
+}
+
+.badge-red {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-red-100 text-red-800 shadow-red-800/50 shadow-sm;
+}
+
+.badge-orange {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-orange-200 text-orange-800 shadow-orange-800/50 shadow-sm;
+}
+
+.badge-yellow {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-yellow-100 text-yellow-700 shadow-yellow-700/50 shadow-sm;
+}
+
+.badge-paid {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 shadow-green-800/50 shadow-sm;
+}
+.badge-pending {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-orange-100 text-yellow-800 shadow-yellow-800/50 shadow-sm;
+}
 
 @tailwind utilities;

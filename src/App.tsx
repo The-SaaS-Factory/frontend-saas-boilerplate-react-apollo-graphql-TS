@@ -7,7 +7,7 @@ function App() {
     <>
       <HelmetProvider>
         <RouterProvider router={router} />
-        <Toaster position="top-center" expand={true} />
+        <Toaster position="top-center" richColors={true} expand={true} />
       </HelmetProvider>
     </>
   );

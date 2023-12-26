@@ -6,22 +6,15 @@ import {
   CreditCardIcon,
   FolderIcon,
   HomeIcon,
+  LifebuoyIcon,
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
-
-import {
-  Link,
-  Outlet,
-  useLocation,
-} from "react-router-dom";
-
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { OrganizationSwitcher, UserButton } from "@clerk/clerk-react";
+import { classNames } from "@/utils/facades/strFacade";
 
-export function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function SuperAdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -188,10 +181,22 @@ const Navigation = ({
         { name: "Subscriptions", href: "#", icon: UsersIcon, current: false },
       ],
     },
+    {
+      sectionName: "Support",
+      items: [
+        {
+          name: "Tickets",
+          href: "/admin/support/tickets",
+          icon: LifebuoyIcon,
+          current: true,
+        },
+      ],
+    },
   ]);
 
   //Change current by path
   const location = useLocation();
+  const pathName = useLocation().pathname;
 
   useEffect(() => {
     const newAdminNavigation = adminNavigation.map((section) => {
@@ -224,7 +229,7 @@ const Navigation = ({
                     to={item.href}
                     onClick={() => setSidebarOpen(false)}
                     className={classNames(
-                      item.current
+                      item.href === pathName
                         ? "bg-gray-50 text-indigo-600"
                         : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
                       "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
@@ -232,7 +237,7 @@ const Navigation = ({
                   >
                     <item.icon
                       className={classNames(
-                        item.current
+                        item.href === pathName
                           ? "text-indigo-600"
                           : "text-gray-400 group-hover:text-indigo-600",
                         "h-6 w-6 shrink-0"

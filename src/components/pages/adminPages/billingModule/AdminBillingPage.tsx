@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useOrganization, useUser } from "@clerk/clerk-react";
-import PlansComponent from "../superAdminPages/plansModule/PlansComponent";
+import PlansComponent from "../../superAdminPages/plansModule/PlansComponent";
 import { useState } from "react";
-import AdminPlanActive from "./billingModule/AdminPlanActive";
+import AdminPlanActive from "./AdminPlanActive";
 
 export default function AdminBillingPage() {
-  const [viewBuyPlan, setViewBuyPlan] = useState(false);
+  const [viewBuyPlan, setViewBuyPlan] = useState(true);
   const { organization } = useOrganization();
   const { user } = useUser();
-
+  
   return (
     <div>
       <div className="bg-white -mt-3 ">
@@ -34,7 +34,11 @@ export default function AdminBillingPage() {
         <>
           <PlansComponent />
         </>
-      ) :  <AdminPlanActive />}
+      ) : (
+        <div>
+          <AdminPlanActive />
+        </div>
+      )}
     </div>
   );
 }

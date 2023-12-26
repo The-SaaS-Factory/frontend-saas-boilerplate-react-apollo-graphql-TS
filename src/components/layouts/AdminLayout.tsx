@@ -1,43 +1,37 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
-  CalendarIcon,
-  ChartPieIcon,
   Cog6ToothIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
   HomeIcon,
-  UsersIcon,
+  LifebuoyIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
 
-import { Link, Outlet } from "react-router-dom";
-import {
-  OrganizationSwitcher,
-  UserButton,
-  useOrganization,
-} from "@clerk/clerk-react";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { OrganizationSwitcher, UserButton } from "@clerk/clerk-react";
 
-import { classNames } from "@/utils/strFacade";
+import { classNames } from "@/utils/facades/strFacade";
+import useSuperAdmin from "@/utils/hooks/useSuperAdmin";
 const systemScope = import.meta.env.VITE_SAAS_SYSTEM_SCOPE;
 
 export const AdminNavigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
+  { name: "Dashboard", href: "/home", icon: HomeIcon, current: true },
+  //{ name: "Team", href: "#", icon: UsersIcon, current: false },
+  // { name: "Projects", href: "#", icon: FolderIcon, current: false },
+  // { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
+  //{ name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
+  //{ name: "Reports", href: "#", icon: ChartPieIcon, current: false },
 ];
-const teams = [
-  { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-  { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
-];
+// const teams = [
+//   { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
+//   { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
+//   { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
+// ];
 
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const pathName = useLocation().pathname;
 
   return (
     <>
@@ -99,7 +93,7 @@ export default function AdminLayout() {
                     <div className="flex h-16 shrink-0 items-center">
                       <img
                         className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                        src="/assets/img/logo.png"
                         alt="Your Company"
                       />
                     </div>
@@ -109,10 +103,10 @@ export default function AdminLayout() {
                           <ul role="list" className="-mx-2 space-y-1">
                             {AdminNavigation.map((item) => (
                               <li key={item.name}>
-                                <a
-                                  href={item.href}
+                                <Link
+                                  to={item.href}
                                   className={classNames(
-                                    item.current
+                                    item.href === pathName
                                       ? "bg-gray-50 text-indigo-600"
                                       : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
                                     "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
@@ -120,7 +114,7 @@ export default function AdminLayout() {
                                 >
                                   <item.icon
                                     className={classNames(
-                                      item.current
+                                      item.href === pathName
                                         ? "text-indigo-600"
                                         : "text-gray-400 group-hover:text-indigo-600",
                                       "h-6 w-6 shrink-0"
@@ -128,12 +122,12 @@ export default function AdminLayout() {
                                     aria-hidden="true"
                                   />
                                   {item.name}
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
                         </li>
-                        <li>
+                        {/* <li>
                           <div className="text-xs font-semibold leading-6 text-gray-400">
                             Your teams
                           </div>
@@ -164,8 +158,19 @@ export default function AdminLayout() {
                               </li>
                             ))}
                           </ul>
-                        </li>
+                        </li> */}
                         <li className="mt-auto">
+                          <Link
+                            onClick={() => setSidebarOpen(false)}
+                            to="/home/support"
+                            className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+                          >
+                            <LifebuoyIcon
+                              className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
+                              aria-hidden="true"
+                            />
+                            Support
+                          </Link>
                           <Link
                             onClick={() => setSidebarOpen(false)}
                             to="/home/settings"
@@ -193,8 +198,8 @@ export default function AdminLayout() {
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
               <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                className="h-24 pt-1 w-auto"
+                src="/assets/img/logo.png"
                 alt="Your Company"
               />
             </div>
@@ -204,10 +209,10 @@ export default function AdminLayout() {
                   <ul role="list" className="-mx-2 space-y-1">
                     {AdminNavigation.map((item) => (
                       <li key={item.name}>
-                        <a
-                          href={item.href}
+                        <Link
+                          to={item.href}
                           className={classNames(
-                            item.current
+                            item.href === pathName
                               ? "bg-gray-50 text-indigo-600"
                               : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
                             "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
@@ -215,7 +220,7 @@ export default function AdminLayout() {
                         >
                           <item.icon
                             className={classNames(
-                              item.current
+                              item.href === pathName
                                 ? "text-indigo-600"
                                 : "text-gray-400 group-hover:text-indigo-600",
                               "h-6 w-6 shrink-0"
@@ -223,12 +228,12 @@ export default function AdminLayout() {
                             aria-hidden="true"
                           />
                           {item.name}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
                 </li>
-                <li>
+                {/* <li>
                   <div className="text-xs font-semibold leading-6 text-gray-400">
                     Your teams
                   </div>
@@ -259,8 +264,19 @@ export default function AdminLayout() {
                       </li>
                     ))}
                   </ul>
-                </li>
+                </li> */}
                 <li className="mt-auto">
+                  <Link
+                    onClick={() => setSidebarOpen(false)}
+                    to="/home/support"
+                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+                  >
+                    <LifebuoyIcon
+                      className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
+                      aria-hidden="true"
+                    />
+                    Support
+                  </Link>
                   <Link
                     onClick={() => setSidebarOpen(false)}
                     to="/home/settings"
@@ -297,7 +313,7 @@ const AdminHeader = ({
 }: {
   setSidebarOpen: (state: boolean) => void;
 }) => {
-  const { organization } = useOrganization();
+  const { isSuperAdmin } = useSuperAdmin();
 
   return (
     <div>
@@ -321,13 +337,11 @@ const AdminHeader = ({
               {systemScope === "organization" && <OrganizationSwitcher />}
             </div>
             <div className="flex items-center gap-x-4 lg:gap-x-6">
-              {organization &&
-                typeof organization.publicMetadata.isSuperAdmin === "boolean" &&
-                organization.publicMetadata.isSuperAdmin && (
-                  <Link to="/admin" className="btn-main">
-                    <span>Admin Panel</span>
-                  </Link>
-                )}
+              {isSuperAdmin && (
+                <Link to="/admin" className="btn-main">
+                  <span>Admin Panel</span>
+                </Link>
+              )}
               <button
                 type="button"
                 className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"

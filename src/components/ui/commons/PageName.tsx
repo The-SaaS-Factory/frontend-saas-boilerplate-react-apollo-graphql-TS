@@ -18,11 +18,10 @@ type BreadcrumbItem = {
 type PageNameProps = {
   name: string;
   btn1?: Btn;
-  breadcrumbs: BreadcrumbItem[];
+  breadcrumbs?: BreadcrumbItem[];
 };
 
 const PageName = ({ name, btn1, breadcrumbs }: PageNameProps) => {
-  console.log(btn1);
   return (
     <>
       <Helmet prioritizeSeoTags>
@@ -35,7 +34,7 @@ const PageName = ({ name, btn1, breadcrumbs }: PageNameProps) => {
           <div className="flex space-x-3 items-center">
             {btn1 &&
               (btn1.fn ? (
-                <button onClick={btn1.fn} className="btn-main ">
+                <button onClick={btn1.fn} className="btn-icon ">
                   {" "}
                   {btn1.icon &&
                     React.createElement(btn1.icon, {
