@@ -13,8 +13,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
-const systemScope = import.meta.env.VITE_SAAS_SYSTEM_SCOPE;
-
+ 
 import { toast } from "sonner";
 import {
   BUY_PLAN_FREE,
@@ -22,10 +21,11 @@ import {
   GET_PLANS,
 } from "./plansGraphql";
 import { useOrganization, useUser } from "@clerk/clerk-react";
-import { getSettingValue } from "@/utils/resorceFacade";
-import { classNames } from "@/utils/strFacade";
+import { getSettingValue } from "@/utils/facades/resorceFacade";
+import { classNames } from "@/utils/facades/strFacade";
 import PageLoader from "@/components/ui/loaders/PageLoader";
 import { Link } from "react-router-dom";
+import { systemScope } from "@/utils/constants/globalContants";
 export type SettingType = {
   settingName: string;
   settingValue: string;

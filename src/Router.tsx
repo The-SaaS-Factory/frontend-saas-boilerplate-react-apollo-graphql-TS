@@ -13,6 +13,8 @@ import LandingRoot from "./routes/LandingRoot";
 import LandingPage from "./components/pages/landingPages/LandingPage";
 import LandingPricingPage from "./components/pages/landingPages/LandingPricingPage";
 import LandingAboutPage from "./components/pages/landingPages/LandingAboutPage";
+import AdminSupportHomePage from "./components/pages/adminPages/SupportModule/AdminSupportHomePage";
+import AdminSupportViewTicketPage from "./components/pages/adminPages/SupportModule/AdminSupportViewTicketPage";
 
 export const router = createBrowserRouter([
   {
@@ -46,12 +48,20 @@ export const router = createBrowserRouter([
     loader: PageLoader,
     children: [
       {
-        path: "/home/dashboard",
+        path: "/home",
         element: <AdminDashboardPage />,
       },
       {
         path: "/home/settings",
         element: <AdminSettingPage />,
+      },
+      {
+        path: "/home/support",
+        element: <AdminSupportHomePage />,
+      },
+      {
+        path: "/home/support/ticket/:ticketId",
+        element: <AdminSupportViewTicketPage />,
       },
     ],
   },
@@ -67,7 +77,6 @@ export const router = createBrowserRouter([
       },
       {
         path: "/admin/billing",
-
         element: <SuperAdminPlansPage />,
       },
       {
@@ -81,6 +90,14 @@ export const router = createBrowserRouter([
       {
         path: "/admin/settings",
         element: <SuperAdminSettingPage />,
+      },
+      {
+        path: "/admin/support/tickets",
+        element: <AdminSupportHomePage />,
+      },
+      {
+        path: "/admin/support/tickets/ticket/:ticketId",
+        element: <AdminSupportViewTicketPage />,
       },
     ],
   },

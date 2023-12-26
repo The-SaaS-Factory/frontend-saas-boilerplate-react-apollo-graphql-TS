@@ -6,7 +6,7 @@ import {
   GET_SUPER_ADMIN_SETTINGS,
   SAVE_SUPER_ADMIN_SETTINGS,
 } from "./superAdminSettingGraphql";
-import { parseSettingDataOnSubmit } from "@/utils/formFacade";
+import { parseSettingDataOnSubmit } from "@/utils/facades/formFacade";
 import NewForm from "@/components/core/NewForm";
 
 const SuperAdminSettingsGeneral = () => {

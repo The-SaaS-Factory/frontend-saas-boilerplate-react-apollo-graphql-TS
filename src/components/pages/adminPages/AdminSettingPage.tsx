@@ -8,8 +8,8 @@ import {
   UserProfile,
   useOrganization,
 } from "@clerk/clerk-react";
-import AdminBillingPage from "./AdminBillingPage";
-const systemScope = import.meta.env.VITE_SAAS_SYSTEM_SCOPE;
+import AdminBillingPage from "./billingModule/AdminBillingPage";
+import { systemScope } from "@/utils/constants/globalContants";
 
 const AdminSettingPage = () => {
   const [tabSelected, setTabSelected] = useState(0);
@@ -22,7 +22,7 @@ const AdminSettingPage = () => {
         breadcrumbs={[
           {
             name: "Home",
-            href: "/home/dashboard",
+            href: "/home",
           },
           {
             name: "Settings",

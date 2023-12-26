@@ -826,7 +826,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { LoadScript, GoogleMap, MarkerF } from "@react-google-maps/api";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 
-import { slugify } from "@/utils/strFacade";
+import { slugify } from "@/utils/facades/strFacade";
 import {
   DatePicker,
   NumberInput,

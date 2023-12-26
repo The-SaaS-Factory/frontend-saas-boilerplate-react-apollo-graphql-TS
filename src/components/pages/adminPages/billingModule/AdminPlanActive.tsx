@@ -30,7 +30,7 @@ const AdminPlanActive = () => {
     if (organization) {
       getPlan({
         variables: {
-          name: organization.publicMetadata.membershipPlan,
+          name: organization.publicMetadata.membershipPlan ?? '',
         },
       }).then(({ data }) => {
         if (data && data.getPlanByName) {
