@@ -1,5 +1,4 @@
 import { UserGroupIcon } from "@heroicons/react/16/solid";
-import PageName from "../../ui/commons/PageName";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@tremor/react";
 import { useState } from "react";
 import {
@@ -10,6 +9,7 @@ import {
 } from "@clerk/clerk-react";
 import AdminBillingPage from "./billingModule/AdminBillingPage";
 import { systemScope } from "@/utils/constants/globalContants";
+import PageName from "@/components/ui/commons/PageName";
 
 const AdminSettingPage = () => {
   const [tabSelected, setTabSelected] = useState(0);

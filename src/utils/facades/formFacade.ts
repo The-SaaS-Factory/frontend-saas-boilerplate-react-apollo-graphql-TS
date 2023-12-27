@@ -1,5 +1,5 @@
 import { Field } from "@/components/core/NewForm";
-import { SuperAdminSetting } from "@/components/pages/superAdminPages/superAdminSettingsModule/superAdminSettingTypes";
+import { SuperAdminSetting } from "@/pages/superAdminPages/superAdminSettingsModule/superAdminSettingTypes";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const parseSettingDataOnSubmit = async (data: any, fields: any) => {

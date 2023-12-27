@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { SettingType } from "@/components/pages/superAdminPages/plansModule/PlansComponent";
+import { SettingType } from "@/pages/superAdminPages/plansModule/PlansComponent";
 
 export const getSettingValue = (values: any, key: string) => {
   if (values === undefined) return null;

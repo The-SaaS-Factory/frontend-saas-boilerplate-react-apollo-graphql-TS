@@ -3,23 +3,23 @@ import ErrorPage from "./components/layouts/errors/ErrorPage";
 import PageLoader from "./components/ui/loaders/PageLoader";
 import AdminRoot from "./routes/AdminRoot";
 import SuperAdminRoot from "./routes/SuperAdminRoot";
-import AdminDashboardPage from "./components/pages/adminPages/AdminDashboardPage";
-import AdminSettingPage from "./components/pages/adminPages/AdminSettingPage";
+import AdminDashboardPage from "./pages/adminPages/AdminDashboardPage";
+import AdminSettingPage from "./pages/adminPages/AdminSettingPage";
 import ForbiddenPage from "./components/layouts/errors/ForbiddenPage";
-import SuperAdminSettingPage from "./components/pages/superAdminPages/superAdminSettingsModule/SuperAdminSettingPage";
-import SuperAdminPlansPage from "./components/pages/superAdminPages/plansModule/SuperAdminPlansPage";
-import SuperAdminPlansCreate from "./components/pages/superAdminPages/plansModule/SuperAdminPlansCreate";
+import SuperAdminSettingPage from "./pages/superAdminPages/superAdminSettingsModule/SuperAdminSettingPage";
+import SuperAdminPlansPage from "./pages/superAdminPages/plansModule/SuperAdminPlansPage";
+import SuperAdminPlansCreate from "./pages/superAdminPages/plansModule/SuperAdminPlansCreate";
 import LandingRoot from "./routes/LandingRoot";
-import LandingPage from "./components/pages/landingPages/LandingPage";
-import LandingPricingPage from "./components/pages/landingPages/LandingPricingPage";
-import LandingAboutPage from "./components/pages/landingPages/LandingAboutPage";
-import AdminSupportHomePage from "./components/pages/adminPages/SupportModule/AdminSupportHomePage";
-import AdminSupportViewTicketPage from "./components/pages/adminPages/SupportModule/AdminSupportViewTicketPage";
-import AdminNotificationsPage from "./components/pages/adminPages/AdminNotificationsPage";
-import SuperAdminSubscriptionPage from "./components/pages/superAdminPages/plansModule/SuperAdminSubscriptionPage";
-import SuperAdminDashboard from "./components/pages/superAdminPages/dashboardModule/SuperAdminDashboard";
-import SuperAdminUsersModulePage from "./components/pages/superAdminPages/usersModule/SuperAdminUsersModulePage";
-import SuperAdminOrganizationModulePage from "./components/pages/superAdminPages/organizationModule/SuperAdminOrganizationModulePage";
+import LandingPage from "./pages/landingPages/LandingPage";
+import LandingPricingPage from "./pages/landingPages/LandingPricingPage";
+import LandingAboutPage from "./pages/landingPages/LandingAboutPage";
+import AdminSupportHomePage from "./pages/adminPages/SupportModule/AdminSupportHomePage";
+import AdminSupportViewTicketPage from "./pages/adminPages/SupportModule/AdminSupportViewTicketPage";
+import AdminNotificationsPage from "./pages/adminPages/AdminNotificationsPage";
+import SuperAdminSubscriptionPage from "./pages/superAdminPages/plansModule/SuperAdminSubscriptionPage";
+import SuperAdminDashboard from "./pages/superAdminPages/dashboardModule/SuperAdminDashboard";
+import SuperAdminUsersModulePage from "./pages/superAdminPages/usersModule/SuperAdminUsersModulePage";
+import SuperAdminOrganizationModulePage from "./pages/superAdminPages/organizationModule/SuperAdminOrganizationModulePage";
 
 export const router = createBrowserRouter([
   {

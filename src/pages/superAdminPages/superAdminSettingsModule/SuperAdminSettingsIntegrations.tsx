@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQuery } from "@apollo/client";
-
 import { toast } from "sonner";
-import { parseSettingDataOnSubmit } from "../../../../utils/facades/formFacade";
 import {
   GET_SUPER_ADMIN_SETTINGS,
   SAVE_SUPER_ADMIN_SETTINGS,
 } from "./superAdminSettingGraphql";
 import NewForm from "@/components/core/NewForm";
+import { parseSettingDataOnSubmit } from "@/utils/facades/formFacade";
 
 const SuperAdminSettingsIntegrations = () => {
   const [saveSettings] = useMutation(SAVE_SUPER_ADMIN_SETTINGS);

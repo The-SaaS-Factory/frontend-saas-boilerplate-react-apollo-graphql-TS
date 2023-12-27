@@ -1,5 +1,4 @@
 import { UserGroupIcon } from "@heroicons/react/16/solid";
-import PageName from "../../../ui/commons/PageName";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@tremor/react";
 import { useState } from "react";
 import SuperAdminBillingSettingPage from "./SuperAdminBillingSettingPage";
@@ -20,6 +19,7 @@ import {
   CreditCardIcon,
   FaceSmileIcon,
 } from "@heroicons/react/24/outline";
+import PageName from "@/components/ui/commons/PageName";
 
 const SuperAdminSettingPage = () => {
   const { isDarkTheme } = useDarkTheme();
