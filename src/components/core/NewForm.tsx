@@ -166,12 +166,12 @@ const NewForm = ({
             {info && (
               <div className="lg:col-span-1 p-7">
                 <h2 className="text-subtitle">{info.name}</h2>
-                <p className="mt-3 text-sm leading-6 text">
+                <p className="mt-3 text-sm leading-6 text-primary">
                   {info.description}
                 </p>
               </div>
             )}
-            <div className="lg:col-span-2 flex flex-col text">
+            <div className="lg:col-span-2 flex flex-col text-primary">
               {fields.map((field, index) => (
                 <div
                   className={`  my-3 flex max-w-md  ${
@@ -181,12 +181,12 @@ const NewForm = ({
                   } `}
                   key={index}
                 >
-                  <label htmlFor={field.name} className="text font-medium">
+                  <label htmlFor={field.name} className="text-primary font-medium">
                     {field.label}
                   </label>
                   {field.type === "text" && (
                     <div className="mt-2  ">
-                      <div className="flex flex-col rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
+                      <div className="flex flex-col rounded-md shadow-sm ring-1    focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
                         <TextInput
                           onValueChange={(value) => setValue(field.name, value)}
                           value={watch(field.name)}

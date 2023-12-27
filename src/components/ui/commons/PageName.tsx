@@ -38,7 +38,7 @@ const PageName = ({ name, btn1, breadcrumbs }: PageNameProps) => {
                   {" "}
                   {btn1.icon &&
                     React.createElement(btn1.icon, {
-                      className: "h-5 w-5 text",
+                      className: "h-5 w-5 text-primary",
                       "aria-hidden": "true",
                     })}
                   <span>{btn1.name}</span>
@@ -48,7 +48,7 @@ const PageName = ({ name, btn1, breadcrumbs }: PageNameProps) => {
                   {" "}
                   {btn1.icon &&
                     React.createElement(btn1.icon, {
-                      className: "h-5 w-5 text",
+                      className: "h-5 w-5 text-primary",
                       "aria-hidden": "true",
                     })}
                   <span>{btn1.name}</span>
@@ -63,13 +63,13 @@ const PageName = ({ name, btn1, breadcrumbs }: PageNameProps) => {
                 <div className="flex items-center">
                   {index > 0 && (
                     <ChevronRightIcon
-                      className="h-5 w-5 flex-shrink-0 text"
+                      className="h-5 w-5 flex-shrink-0 text-primary"
                       aria-hidden="true"
                     />
                   )}
                   <Link
                     to={item.href}
-                    className="ml-4 text-sm font-medium text"
+                    className="ml-4 text-primary"
                   >
                     {item.name}
                   </Link>

@@ -10,7 +10,7 @@ const UserCard = ({
 }) => {
   return (
     <div>
-      <div className="flex flex-col">
+      <div className="flex flex-col bg-main">
         <div className="flex items-center space-x-2">
           <img
             className="avatar"

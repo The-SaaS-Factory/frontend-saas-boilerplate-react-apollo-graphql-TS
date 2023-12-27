@@ -1,18 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect } from "react";
-import { EnvelopeIcon } from "@heroicons/react/20/solid";
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { PhoneIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useQuery } from "@apollo/client";
-import { UserType } from "@/utils/types/globalsTypes";
-import { GET_ALL_USERS } from "@/utils/graphql/graphqlGlobalQueries";
-import SkeletonTable from "@/components/ui/loaders/SkeltonTable";
 import PageName from "@/components/ui/commons/PageName";
+import { useQuery } from "@apollo/client";
+import { Fragment, useEffect, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { GET_ALL_ORGANIZATIONS } from "./organizationGraphql";
+import { OrganizationType } from "./organizationTypes";
+import SkeletonTable from "@/components/ui/loaders/SkeltonTable";
 import Search from "@/components/core/Search";
 import { formatTimestampToDateString } from "@/utils/facades/strFacade";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
-const SuperAdminUsersModulePage = () => {
+const SuperAdminOrganizationModulePage = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const search = params.get("search");
@@ -23,10 +21,10 @@ const SuperAdminUsersModulePage = () => {
         offset: 0,
         limit: 10,
       })
-        .then((res) => {
+        .then((res: any) => {
           //Find client? by id
           const client = res.data.getClients.find(
-            (client: UserType) => client.id === search
+            (client: OrganizationType) => client.id === search
           );
 
           //Open client? details modal
@@ -39,18 +37,22 @@ const SuperAdminUsersModulePage = () => {
     }
   }, []);
 
-  const { data: usersDB, loading, refetch } = useQuery(GET_ALL_USERS);
+  const {
+    data: organizationDB,
+    loading,
+    refetch,
+  } = useQuery(GET_ALL_ORGANIZATIONS);
   const [clients, setClients] = useState([]);
 
   const [openClient, setOpenClient] = useState(false);
-  const [clientSelected, setClientSelected] = useState<UserType>();
+  const [clientSelected, setClientSelected] = useState<OrganizationType>();
 
   const handleSearch = (searchData: any) => {
     refetch({
       search: searchData.search,
     })
       .then((res) => {
-        setClients(res.data.getUsers);
+        setClients(res.data.getAllOrganizations);
       })
       .catch((e) => {
         console.log(e);
@@ -58,8 +60,8 @@ const SuperAdminUsersModulePage = () => {
   };
 
   useEffect(() => {
-    setClients(usersDB?.getUsers);
-  }, [usersDB]);
+    setClients(organizationDB?.getAllOrganizations);
+  }, [organizationDB]);
 
   if (loading) {
     return <SkeletonTable count={12} />;
@@ -69,15 +71,15 @@ const SuperAdminUsersModulePage = () => {
     <div>
       <div className="lg:flex lg:h-full lg:flex-col">
         <PageName
-          name={"Users"}
+          name={"Organizations"}
           breadcrumbs={[
             { name: "Dashboard", href: "/admin" },
-            { name: "Users", href: "#" },
+            { name: "Organizations", href: "#" },
           ]}
         />
         <Search refresh={handleSearch} />{" "}
         <ViewClientDetails
-          client={clientSelected as UserType}
+          client={clientSelected as OrganizationType}
           openClient={openClient}
           setOpenClient={setOpenClient}
         />
@@ -86,7 +88,7 @@ const SuperAdminUsersModulePage = () => {
             role="list"
             className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
           >
-            {clients?.map((client: UserType) => (
+            {clients?.map((client: OrganizationType) => (
               <li
                 key={client?.email}
                 className="col-span-1 divide-y divide-gray-200 rounded-lg bg-main text-primary shadow"
@@ -97,9 +99,10 @@ const SuperAdminUsersModulePage = () => {
                       <h3 className="truncate text-sm font-medium  ">
                         {client?.name}
                       </h3>
-                      {client.Membership?.length > 0 && (
+
+                      {client.Membership && (
                         <span className="badge-sky">
-                          {client.Membership[0]?.plan?.name}
+                          {client.Membership?.plan?.name}
                         </span>
                       )}
 
@@ -126,43 +129,14 @@ const SuperAdminUsersModulePage = () => {
                       </button>
                     </div>
                     {/* <p className="mt-1 truncate text-sm text-gray-500">
-                      {client?.title}
-                    </p> */}
+                    {client?.title}
+                  </p> */}
                   </div>
                   <img
                     className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300"
                     src={client?.avatar}
                     alt=""
                   />
-                </div>
-                <div>
-                  <div className="-mt-px flex divide-x divide-gray-200">
-                    <div className="flex w-0 flex-1">
-                      <a
-                        href={`mailto:${client?.email}`}
-                        className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold  "
-                      >
-                        <EnvelopeIcon
-                          className="h-5 w-5 text-primary "
-                          aria-hidden="true"
-                        />
-                        <span className=" text-primary">Email</span>
-                      </a>
-                    </div>
-                    <div
-                      className={`-ml-px flex w-0 flex-1 ${
-                        !client.phone && "opacity-25"
-                      }`}
-                    >
-                      <a
-                        href={`tel:${client?.phone ?? ""}`}
-                        className="relative inline-flex  text-primary w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold  "
-                      >
-                        <PhoneIcon className="h-5 w-5  " aria-hidden="true" />
-                        Call
-                      </a>
-                    </div>
-                  </div>
                 </div>
               </li>
             ))}
@@ -178,7 +152,7 @@ export function ViewClientDetails({
   openClient,
   setOpenClient,
 }: {
-  client: UserType;
+  client: OrganizationType;
   openClient: boolean;
   setOpenClient: (open: boolean) => void;
 }) {
@@ -231,84 +205,84 @@ export function ViewClientDetails({
                                     {client?.name}
                                   </h3>
                                 </div>
-                                <p className="text-sm  "></p>
+                                <p className="text-sm text-gray-500"></p>
                               </div>
                               <div className="mt-5 flex flex-wrap space-y-3 sm:space-x-3 sm:space-y-0">
                                 <a
                                   href={`mailto:${client?.email}`}
                                   type="button"
-                                  className="btn-main w-full text-center"
+                                  className="  w-full btn-main text-center"
                                 >
                                   Email
                                 </a>
                                 {/* <a
-                                  href={`tel:${client?.phone}`}
-                                  type="button"
-                                  className="inline-flex w-full flex-1 items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                >
-                                  Call
-                                </a> */}
-                                {/* <div className="ml-3 inline-flex sm:ml-0">
-                                  <Menu
-                                    as="div"
-                                    className="relative inline-block text-left"
+                                    href={`tel:${client?.phone}`}
+                                    type="button"
+                                    className="inline-flex w-full flex-1 items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                                   >
-                                    <Menu.Button className="relative inline-flex items-center rounded-md bg-white p-2 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                                      <span className="absolute -inset-1" />
-                                      <span className="sr-only">
-                                        Open options menu
-                                      </span>
-                                      <EllipsisVerticalIcon
-                                        className="h-5 w-5"
-                                        aria-hidden="true"
-                                      />
-                                    </Menu.Button>
-                                    <Transition
-                                      as={Fragment}
-                                      enter="transition ease-out duration-100"
-                                      enterFrom="transform opacity-0 scale-95"
-                                      enterTo="transform opacity-100 scale-100"
-                                      leave="transition ease-in duration-75"
-                                      leaveFrom="transform opacity-100 scale-100"
-                                      leaveTo="transform opacity-0 scale-95"
+                                    Call
+                                  </a> */}
+                                {/* <div className="ml-3 inline-flex sm:ml-0">
+                                    <Menu
+                                      as="div"
+                                      className="relative inline-block text-left"
                                     >
-                                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <div className="py-1">
-                                          <Menu.Item>
-                                            {({ active }) => (
-                                              <a
-                                                href="#"
-                                                className={classNames(
-                                                  active
-                                                    ? "bg-gray-100 text-gray-900"
-                                                    : "text-gray-700",
-                                                  "block px-4 py-2 text-sm"
-                                                )}
-                                              >
-                                                View profile
-                                              </a>
-                                            )}
-                                          </Menu.Item>
-                                          <Menu.Item>
-                                            {({ active }) => (
-                                              <a
-                                                href="#"
-                                                className={classNames(
-                                                  active
-                                                    ? "bg-gray-100 text-gray-900"
-                                                    : "text-gray-700",
-                                                  "block px-4 py-2 text-sm"
-                                                )}
-                                              >
-                                                Copy profile link
-                                              </a>
-                                            )}
-                                          </Menu.Item>
-                                        </div>
-                                      </Menu.Items>
-                                    </Transition>
-                                  </Menu>
-                                </div> */}
+                                      <Menu.Button className="relative inline-flex items-center rounded-md bg-white p-2 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                                        <span className="absolute -inset-1" />
+                                        <span className="sr-only">
+                                          Open options menu
+                                        </span>
+                                        <EllipsisVerticalIcon
+                                          className="h-5 w-5"
+                                          aria-hidden="true"
+                                        />
+                                      </Menu.Button>
+                                      <Transition
+                                        as={Fragment}
+                                        enter="transition ease-out duration-100"
+                                        enterFrom="transform opacity-0 scale-95"
+                                        enterTo="transform opacity-100 scale-100"
+                                        leave="transition ease-in duration-75"
+                                        leaveFrom="transform opacity-100 scale-100"
+                                        leaveTo="transform opacity-0 scale-95"
+                                      >
+                                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                          <div className="py-1">
+                                            <Menu.Item>
+                                              {({ active }) => (
+                                                <a
+                                                  href="#"
+                                                  className={classNames(
+                                                    active
+                                                      ? "bg-gray-100 text-gray-900"
+                                                      : "text-gray-700",
+                                                    "block px-4 py-2 text-sm"
+                                                  )}
+                                                >
+                                                  View profile
+                                                </a>
+                                              )}
+                                            </Menu.Item>
+                                            <Menu.Item>
+                                              {({ active }) => (
+                                                <a
+                                                  href="#"
+                                                  className={classNames(
+                                                    active
+                                                      ? "bg-gray-100 text-gray-900"
+                                                      : "text-gray-700",
+                                                    "block px-4 py-2 text-sm"
+                                                  )}
+                                                >
+                                                  Copy profile link
+                                                </a>
+                                              )}
+                                            </Menu.Item>
+                                          </div>
+                                        </Menu.Items>
+                                      </Transition>
+                                    </Menu>
+                                  </div> */}
                               </div>
                             </div>
                           </div>
@@ -317,19 +291,19 @@ export function ViewClientDetails({
                       <div className="px-4 pb-5 pt-5 sm:px-0 sm:pt-0">
                         <dl className="space-y-8 px-4 sm:space-y-6 sm:px-6">
                           <div>
-                            <dt className="text-sm font-medium   sm:w-40 sm:flex-shrink-0">
+                            <dt className="text-sm font-medium  m:w-40 sm:flex-shrink-0">
                               Membership
                             </dt>
-                            <dd className="mt-1 text-sm   sm:col-span-2">
-                              {client?.Membership?.length > 0 && (
+                            <dd className="mt-1 text-sm  sm:col-span-2">
+                              {client?.Membership && (
                                 <div className="flex justify-between">
                                   <span className="badge-sky">
-                                    {client.Membership[0]?.plan?.name}
+                                    {client.Membership?.plan?.name}
                                   </span>
-                                  <span className="text-primary"> 
+                                  <span>
                                     Until:{" "}
                                     {formatTimestampToDateString(
-                                      client.Membership[0]?.endDate
+                                      client.Membership?.endDate
                                     )}
                                   </span>
                                 </div>
@@ -350,4 +324,4 @@ export function ViewClientDetails({
   );
 }
 
-export default SuperAdminUsersModulePage;
+export default SuperAdminOrganizationModulePage;

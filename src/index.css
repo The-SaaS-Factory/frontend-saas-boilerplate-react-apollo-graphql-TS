@@ -15,10 +15,6 @@
   @apply text-xl text-gray-600 dark:text-gray-400;
 }
 
-.text-primary {
-  @apply text-sky-700 font-medium leading-6 dark:text-gray-400;
-}
-
 .text-secundary {
   @apply text-base  text-gray-500 dark:text-gray-400;
 }
@@ -28,11 +24,11 @@
 }
 
 .btn-main {
-  @apply px-4 py-3 font-medium text-sm text-gray-800 rounded-md border shadow-sm shadow-gray-300 border-gray-50 bg-gradient-to-bl from-slate-50 via-gray-100 to-gray-100 hover:via-gray-100 active:from-gray-400;
+  @apply px-4 py-3 font-medium text-sm text-gray-800 rounded-md border shadow-sm shadow-gray-300 border-gray-50 bg-gradient-to-bl from-slate-50 via-gray-100 to-gray-100 hover:via-gray-100 active:from-gray-400   dark:bg-gradient-to-bl dark:from-gray-900 dark:via-gray-900 dark:to-black dark:text-gray-200 hover:dark:from-gray-700 hover:dark:via-gray-800 hover:dark:to-gray-700;
 }
 
 .btn-icon {
-  @apply flex  space-x-2 px-4 py-3 font-medium text-sm text-gray-800 rounded-md border shadow-sm shadow-gray-300 border-gray-50 bg-gradient-to-bl from-slate-50 via-gray-100 to-gray-100 hover:via-gray-100 active:from-gray-400;
+  @apply flex  space-x-2 btn-main;
 }
 
 .magic-link li {
@@ -69,6 +65,30 @@
 }
 .badge-pending {
   @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-orange-100 text-yellow-800 shadow-yellow-800/50 shadow-sm;
+}
+
+/* Main Theme light - dark mode */
+/* dark:from-gray-900 dark:via-slate-950 dark:to-gray-950 */
+.bg-main {
+  @apply bg-gradient-to-bl from-slate-50/10 via-gray-50/10 to-gray-50/20 dark:bg-gradient-to-bl dark:from-[#161616] dark:via-[#1b1b1b] dark:to-[#161616];
+}
+
+.bg-main-hover {
+  @apply hover:bg-gradient-to-bl hover:from-slate-100 hover:via-gray-200 hover:to-gray-300 hover:dark:from-gray-700 hover:dark:via-gray-800 hover:dark:to-gray-700;
+}
+
+.bg-main-selected {
+  @apply bg-gradient-to-bl from-slate-100 via-gray-200 to-gray-200 dark:bg-gradient-to-bl dark:from-gray-600 dark:via-gray-700 dark:to-gray-700;
+}
+
+.text-primary {
+  @apply text-gray-700 text-sm  font-medium leading-6 dark:text-gray-200;
+}
+.text-primary-hover {
+  @apply hover:text-gray-700 font-medium leading-6 dark:text-gray-200;
+}
+.text-primary-selected {
+  @apply text-gray-700 text-sm font-bold leading-6 dark:text-gray-200;
 }
 
 @tailwind utilities;

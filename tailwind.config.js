@@ -2,7 +2,11 @@ import colors from "tailwindcss/colors";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     transparent: "transparent",
     current: "currentColor",
@@ -41,7 +45,7 @@ export default {
         // dark mode
         "dark-tremor": {
           brand: {
-            faint: "#0B1229",
+            faint: "#1b1b1b",
             muted: colors.blue[950],
             subtle: colors.blue[800],
             DEFAULT: colors.blue[500],
@@ -49,9 +53,9 @@ export default {
             inverted: colors.blue[950],
           },
           background: {
-            muted: "#131A2B",
+            muted: "#1b1b1b",
             subtle: colors.gray[800],
-            DEFAULT: colors.gray[900],
+            DEFAULT: "#1b1b1b",
             emphasis: colors.gray[300],
           },
           border: {
@@ -126,4 +130,5 @@ export default {
     },
   ],
   plugins: [],
+  darkMode: "class",
 };

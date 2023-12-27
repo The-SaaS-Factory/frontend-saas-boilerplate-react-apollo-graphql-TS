@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   BuildingLibraryIcon,
@@ -12,12 +12,61 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { OrganizationSwitcher, UserButton } from "@clerk/clerk-react";
-import { classNames } from "@/utils/facades/strFacade";
+
+import Navigation from "../core/Navigation";
 
 export default function SuperAdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const adminNavigation = [
+    {
+      sectionName: "General",
+      items: [
+        { name: "Dashboard", href: "/admin", icon: HomeIcon, current: true },
+        {
+          name: "Users",
+          href: "/admin/users",
+          icon: UsersIcon,
+          current: false,
+        },
+        {
+          name: "Organizations",
+          href: "/admin/organizations",
+          icon: FolderIcon,
+          current: false,
+        },
+      ],
+    },
+    {
+      sectionName: "Billing",
+      items: [
+        {
+          name: "Plans",
+          href: "/admin/billing",
+          icon: CreditCardIcon,
+          current: true,
+        },
+        {
+          name: "Subscriptions",
+          href: "/admin/suscriptions",
+          icon: BuildingLibraryIcon,
+          current: false,
+        },
+      ],
+    },
+    {
+      sectionName: "Support",
+      items: [
+        {
+          name: "Tickets",
+          href: "/admin/support/tickets",
+          icon: LifebuoyIcon,
+          current: true,
+        },
+      ],
+    },
+  ];
 
   return (
     <>
@@ -75,7 +124,7 @@ export default function SuperAdminLayout() {
                     </div>
                   </Transition.Child>
                   {/* Sidebar component, swap this element with another sidebar if you like */}
-                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
+                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-main px-6 pb-4">
                     <div className="flex h-16 shrink-0 items-center">
                       <img
                         className="h-24 w-auto"
@@ -85,12 +134,15 @@ export default function SuperAdminLayout() {
                     </div>
                     <nav className="flex flex-1 flex-col">
                       <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                        <Navigation setSidebarOpen={setSidebarOpen} />
+                        <Navigation
+                          setSidebarOpen={setSidebarOpen}
+                          navigation={adminNavigation}
+                        />
                         <li className="mt-auto">
                           <Link
                             onClick={() => setSidebarOpen(false)}
                             to="/admin/settings"
-                            className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+                            className="bg-main group flex gap-x-3 rounded-md p-2  text-primary"
                           >
                             <Cog6ToothIcon
                               className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
@@ -109,9 +161,9 @@ export default function SuperAdminLayout() {
         </Transition.Root>
 
         {/* Static sidebar for desktop */}
-        <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col ">
+        <div className="hidden bg-main lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col ">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200   px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
               <img
                 className="h-24 w-auto"
@@ -121,16 +173,19 @@ export default function SuperAdminLayout() {
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                <Navigation setSidebarOpen={setSidebarOpen} />
+                <Navigation
+                  setSidebarOpen={setSidebarOpen}
+                  navigation={adminNavigation}
+                />
 
                 <li className="mt-auto">
                   <Link
                     onClick={() => setSidebarOpen(false)}
                     to="/admin/settings"
-                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
+                    className="group -mx-2 flex gap-x-3 bg-main rounded-md p-2 text-sm font-semibold leading-6 text-primary text-primary-hover"
                   >
                     <Cog6ToothIcon
-                      className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
+                      className="h-6 w-6 shrink-0 "
                       aria-hidden="true"
                     />
                     Settings
@@ -141,10 +196,10 @@ export default function SuperAdminLayout() {
           </div>
         </div>
 
-        <div className="lg:pl-72  ">
+        <div className="lg:pl-72 h-screen overflow-y-auto relative bg-main">
           <SuperAdminHeader setSidebarOpen={setSidebarOpen} />
 
-          <main className="py-3">
+          <main className="py-3  ">
             <div className="mx-auto   px-4  ">
               <Outlet />
             </div>
@@ -155,157 +210,63 @@ export default function SuperAdminLayout() {
   );
 }
 
-const Navigation = ({
-  setSidebarOpen,
-}: {
-  setSidebarOpen: (state: boolean) => void;
-}) => {
-  const [adminNavigation, setAdminNavigation] = useState([
-    {
-      sectionName: "General",
-      items: [
-        { name: "Dashboard", href: "/admin", icon: HomeIcon, current: true },
-        { name: "Users", href: "/admin/users", icon: UsersIcon, current: false },
-        { name: "Organizations", href: "#", icon: FolderIcon, current: false },
-      ],
-    },
-    {
-      sectionName: "Billing",
-      items: [
-        {
-          name: "Plans",
-          href: "/admin/billing",
-          icon: CreditCardIcon,
-          current: true,
-        },
-        {
-          name: "Subscriptions",
-          href: "/admin/suscriptions",
-          icon: BuildingLibraryIcon,
-          current: false,
-        },
-      ],
-    },
-    {
-      sectionName: "Support",
-      items: [
-        {
-          name: "Tickets",
-          href: "/admin/support/tickets",
-          icon: LifebuoyIcon,
-          current: true,
-        },
-      ],
-    },
-  ]);
-
-  //Change current by path
-  const location = useLocation();
-  const pathName = useLocation().pathname;
-
-  useEffect(() => {
-    const newAdminNavigation = adminNavigation.map((section) => {
-      return {
-        ...section,
-        items: section.items.map((item) => {
-          return {
-            ...item,
-            current: item.href === location.pathname,
-          };
-        }),
-      };
-    });
-
-    setAdminNavigation(newAdminNavigation);
-  }, [location]);
-
-  return (
-    <li>
-      <ul role="list" className="-mx-2 space-y-1">
-        {adminNavigation.map((section) => (
-          <div key={section.sectionName}>
-            <span className="text-xs font-semibold leading-6 text-gray-400">
-              {section.sectionName}
-            </span>
-            <ul role="list" className="-mx-2 mt-2 space-y-1">
-              {section.items.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    to={item.href}
-                    onClick={() => setSidebarOpen(false)}
-                    className={classNames(
-                      item.href === pathName
-                        ? "bg-gray-50 text-indigo-600"
-                        : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
-                      "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                    )}
-                  >
-                    <item.icon
-                      className={classNames(
-                        item.href === pathName
-                          ? "text-indigo-600"
-                          : "text-gray-400 group-hover:text-indigo-600",
-                        "h-6 w-6 shrink-0"
-                      )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </ul>
-    </li>
-  );
-};
-
+import { dark } from "@clerk/themes";
+import useDarkTheme from "../../utils/hooks/useDarkTheme";
 const SuperAdminHeader = ({
   setSidebarOpen,
 }: {
   setSidebarOpen: (state: boolean) => void;
 }) => {
+  const { daktThemeSelector, isDarkTheme } = useDarkTheme();
   return (
-    <div>
-      {" "}
-      <div className="sticky top-0 z-40 lg:mx-auto ">
-        <div className="flex h-16 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-0 lg:shadow-none">
-          <button
-            type="button"
-            className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
-            onClick={() => setSidebarOpen(true)}
-          >
-            <span className="sr-only">Open sidebar</span>
-            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-          </button>
+    <div className="sticky   top-0 z-40 lg:mx-auto ">
+      <div className="flex h-16 items-center gap-x-4 border-b border-gray-200 bg-main text-primary px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-0 lg:shadow-none">
+        <button
+          type="button"
+          className="-m-2.5 p-2.5  lg:hidden"
+          onClick={() => setSidebarOpen(true)}
+        >
+          <span className="sr-only">Open sidebar</span>
+          <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+        </button>
 
-          {/* Separator */}
-          <div className="h-6 w-px bg-gray-200 lg:hidden" aria-hidden="true" />
+        {/* Separator */}
+        <div className="h-6 w-px bg-gray-200 lg:hidden" aria-hidden="true" />
 
-          <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-            <div className="relative p-4  flex flex-1">
-              <OrganizationSwitcher />
-            </div>
-            <div className="flex items-center gap-x-4 lg:gap-x-6">
-              <Link
-                to={"/admin/notifications"}
-                className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
-              >
-                <span className="sr-only">View notifications</span>
-                <BellIcon className="h-6 w-6" aria-hidden="true" />
-              </Link>
+        <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+          <div className="relative p-4  flex flex-1">
+            <OrganizationSwitcher
+              appearance={{
+                baseTheme: isDarkTheme ? dark : undefined,
+              }}
+              afterSelectPersonalUrl={"/home"}
+              afterLeaveOrganizationUrl={"/home"}
+            />
+          </div>
+          <div className="flex items-center gap-x-2  ">
+            {daktThemeSelector}
 
-              {/* Separator */}
-              <div
-                className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200"
-                aria-hidden="true"
+            <Link
+              to={"/admin/notifications"}
+              className="-m-2.5 mr-1 p-2.5 text-primary"
+            >
+              <span className="sr-only">View notifications</span>
+              <BellIcon className="h-6 w-6" aria-hidden="true" />
+            </Link>
+
+            {/* Separator */}
+            <div
+              className="hidden mr-3 lg:block lg:h-6 lg:w-px lg:bg-gray-200"
+              aria-hidden="true"
+            />
+
+            {/* Profile dropdown */}
+            <div className="pr-7">
+              <UserButton
+                appearance={{
+                  baseTheme: isDarkTheme ? dark : undefined,
+                }}
               />
-
-              {/* Profile dropdown */}
-              <div className="pr-7">
-                <UserButton />
-              </div>
             </div>
           </div>
         </div>

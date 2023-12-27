@@ -5,9 +5,16 @@ import { useState } from "react";
 import SuperAdminBillingSettingPage from "./SuperAdminBillingSettingPage";
 import SuperAdminSettingsGeneral from "./SuperAdminSettingsGeneral";
 import { systemScope } from "@/utils/constants/globalContants";
-import { OrganizationList, OrganizationProfile, useOrganization } from "@clerk/clerk-react";
+import {
+  OrganizationList,
+  OrganizationProfile,
+  useOrganization,
+} from "@clerk/clerk-react";
+import useDarkTheme from "@/utils/hooks/useDarkTheme";
+import { dark } from "@clerk/themes";
 
 const SuperAdminSettingPage = () => {
+  const { isDarkTheme } = useDarkTheme();
   const [tabSelected, setTabSelected] = useState(0);
   const { organization } = useOrganization();
 
@@ -27,7 +34,7 @@ const SuperAdminSettingPage = () => {
         ]}
       />
       <TabGroup>
-        <TabList className="mt-1">
+        <TabList className="mt-1 flex flex-wrap">
           <Tab
             className={
               tabSelected === 0
@@ -100,12 +107,17 @@ const SuperAdminSettingPage = () => {
                   {organization ? (
                     <OrganizationProfile
                       appearance={{
-                        baseTheme: undefined,
+                        baseTheme: isDarkTheme ? dark : undefined,
                         elements: { card: "shadow-none" },
                       }}
                     />
                   ) : (
-                    <OrganizationList />
+                    <OrganizationList
+                      appearance={{
+                        baseTheme: isDarkTheme ? dark : undefined,
+                        elements: { card: "shadow-none" },
+                      }}
+                    />
                   )}
                 </div>
               </div>

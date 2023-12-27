@@ -49,40 +49,40 @@ const AdminNotificationsPage = () => {
                   <div className="flex-shrink-0">
                     {notification.type === "ACCOUNT" && (
                       <InboxIcon
-                        className="h-6 w-6 text-gray-400"
+                        className="h-6 w-6 text-primary"
                         aria-hidden="true"
                       />
                     )}
                     {notification.type === "ALERT" && (
                       <BellAlertIcon
-                        className="h-6 w-6 text-gray-400"
+                        className="h-6 w-6 text-primary"
                         aria-hidden="true"
                       />
                     )}
                     {notification.type === "MENTION" && (
                       <AtSymbolIcon
-                        className="h-6 w-6 text-gray-400"
+                        className="h-6 w-6 text-primary"
                         aria-hidden="true"
                       />
                     )}
                     {notification.type === "FOLLOW" && (
                       <UserGroupIcon
-                        className="h-6 w-6 text-gray-400"
+                        className="h-6 w-6 text-primary"
                         aria-hidden="true"
                       />
                     )}
                     {notification.type === "MESSAGE" && (
                       <ChatBubbleLeftEllipsisIcon
-                        className="h-6 w-6 text-gray-400"
+                        className="h-6 w-6 text-primary"
                         aria-hidden="true"
                       />
                     )}
                   </div>
                   <div className="ml-3 w-0 flex-1 pt-0.5">
-                    <p className="text-sm font-medium text">
+                    <p className="text-sm font-medium text-primary">
                       {notification.content}
                     </p>
-                    <p className="mt-1 text-sm text-gray-500"></p>
+                    <p className="mt-1 text-sm text-primary"></p>
                     <div className="mt-3 flex space-x-7"></div>
                   </div>
                   <div className="ml-4 flex flex-shrink-0"></div>

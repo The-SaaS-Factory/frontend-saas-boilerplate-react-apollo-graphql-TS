@@ -4,6 +4,7 @@ export type UserType = {
   email: string;
   avatar: string;
   name: string;
+  phone: string;
   country: string;
   city: string;
   state: string;
@@ -36,7 +37,3 @@ export type UserMembershipPlanCapabilitieType = {
   count: string | number;
 };
 
-export type OrganizationType = {
-  id: string;
-  name: string;
-};

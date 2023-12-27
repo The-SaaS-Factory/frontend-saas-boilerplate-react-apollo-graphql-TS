@@ -132,15 +132,13 @@ const SuperAdminDashboard = () => {
               timeSelected.name === time.name ? "btn-main" : "btn-outline-main"
             }`}
           >
-            <span>{time.name}</span>
+            <span className="text-primary">{time.name}</span>
           </button>
         ))}
       </div>
       <div className="max-w-8xl  p-3  mb-56">
         <div>
-          <h3 className="text-lg font-medium leading-6 text-gray-900">
-            Variations
-          </h3>
+          <h3 className="text-title text-primary">Variations</h3>
           <div></div>
           <dl className="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-5 lg:grid-cols-4">
             {statsCount.map((stat: KpiStatType) => (
@@ -152,7 +150,7 @@ const SuperAdminDashboard = () => {
           </dl>
         </div>
 
-        <h3 className="text-lg my-3 font-medium leading-6 text mt-3">Growth</h3>
+        <h3 className="text-title text-primary mt-3">Growth</h3>
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           {statsCount.map((statGrowth: KpiStatType, index: number) => {
@@ -165,7 +163,9 @@ const SuperAdminDashboard = () => {
 
             return (
               <Card key={`stat2-${statGrowth.name}`}>
-                <Title>Total: {statGrowth.oldestValue}</Title>
+                <Title className="text-title text-primary">
+                  Total: {statGrowth.oldestValue}
+                </Title>
                 <LineChart
                   key={index}
                   className="mt-6"
@@ -174,7 +174,10 @@ const SuperAdminDashboard = () => {
                   categories={Object.keys(data[0]).slice(1)}
                 />
                 <div className="flex my-3 capitalize text bg-main p-3">
-                  <span> {parseStatName(statGrowth.name)}</span>
+                  <span className="text-title text-primary">
+                    {" "}
+                    {parseStatName(statGrowth.name)}
+                  </span>
                 </div>
               </Card>
             );

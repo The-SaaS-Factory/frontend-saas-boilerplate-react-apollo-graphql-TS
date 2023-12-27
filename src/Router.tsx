@@ -19,6 +19,7 @@ import AdminNotificationsPage from "./components/pages/adminPages/AdminNotificat
 import SuperAdminSubscriptionPage from "./components/pages/superAdminPages/plansModule/SuperAdminSubscriptionPage";
 import SuperAdminDashboard from "./components/pages/superAdminPages/dashboardModule/SuperAdminDashboard";
 import SuperAdminUsersModulePage from "./components/pages/superAdminPages/usersModule/SuperAdminUsersModulePage";
+import SuperAdminOrganizationModulePage from "./components/pages/superAdminPages/organizationModule/SuperAdminOrganizationModulePage";
 
 export const router = createBrowserRouter([
   {
@@ -118,6 +119,10 @@ export const router = createBrowserRouter([
       {
         path: "/admin/suscriptions",
         element: <SuperAdminSubscriptionPage />,
+      },
+      {
+        path: "/admin/organizations",
+        element: <SuperAdminOrganizationModulePage />,
       },
     ],
   },
