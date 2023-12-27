@@ -6,12 +6,10 @@ const useDarkTheme = () => {
 
   const handleDarkTheme = () => {
     if (document.documentElement.classList.contains("dark")) {
-      window.location.reload();
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
       setIsDarkTheme(false);
     } else {
-      window.location.reload();
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
       setIsDarkTheme(true);

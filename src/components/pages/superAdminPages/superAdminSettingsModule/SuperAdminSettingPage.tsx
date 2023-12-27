@@ -12,6 +12,14 @@ import {
 } from "@clerk/clerk-react";
 import useDarkTheme from "@/utils/hooks/useDarkTheme";
 import { dark } from "@clerk/themes";
+import SuperAdminSettingsIntegrations from "./SuperAdminSettingsIntegrations";
+import SuperAdminMarketingSettingGeneral from "./SuperAdminMarketingSettingGeneral";
+import {
+  AdjustmentsHorizontalIcon,
+  CodeBracketIcon,
+  CreditCardIcon,
+  FaceSmileIcon,
+} from "@heroicons/react/24/outline";
 
 const SuperAdminSettingPage = () => {
   const { isDarkTheme } = useDarkTheme();
@@ -34,17 +42,17 @@ const SuperAdminSettingPage = () => {
         ]}
       />
       <TabGroup>
-        <TabList className="mt-1 flex flex-wrap">
+        <TabList className="mt-1 flex flex-wrap ">
           <Tab
             className={
               tabSelected === 0
                 ? "text-primary  border-b-2 border-primary"
                 : "text-secundary"
             }
-            icon={UserGroupIcon}
+            icon={AdjustmentsHorizontalIcon}
             onClick={() => setTabSelected(0)}
           >
-            General
+            <span className="text-primary">General</span>
           </Tab>
           <Tab
             className={
@@ -52,10 +60,10 @@ const SuperAdminSettingPage = () => {
                 ? "text-primary border-b-2 border-primary"
                 : "text-gray-500"
             }
-            icon={UserGroupIcon}
+            icon={CodeBracketIcon}
             onClick={() => setTabSelected(1)}
           >
-            Itengrations
+             <span className="text-primary">Itengrations</span>
           </Tab>
           <Tab
             className={
@@ -63,23 +71,34 @@ const SuperAdminSettingPage = () => {
                 ? "text-primary border-b-2 border-primary"
                 : "text-gray-500"
             }
-            icon={UserGroupIcon}
+            icon={FaceSmileIcon}
             onClick={() => setTabSelected(2)}
           >
-            Billing
+            <span className="text-primary"> Marketing</span>
+          </Tab>
+          <Tab
+            className={
+              tabSelected === 3
+                ? "text-primary border-b-2 border-primary"
+                : "text-gray-500"
+            }
+            icon={CreditCardIcon}
+            onClick={() => setTabSelected(3)}
+          >
+            <span className="text-primary"> Billing</span>
           </Tab>
           <div>
             {systemScope === "organization" && (
               <Tab
                 className={
-                  tabSelected === 3
+                  tabSelected === 4
                     ? "text-primary border-b-2 border-primary"
                     : "text-gray-500"
                 }
                 icon={UserGroupIcon}
-                onClick={() => setTabSelected(3)}
+                onClick={() => setTabSelected(4)}
               >
-                Organization
+               <span className="text-primary"> Organization</span> 
               </Tab>
             )}
           </div>
@@ -92,7 +111,16 @@ const SuperAdminSettingPage = () => {
           </TabPanel>
           <TabPanel>
             <div className="mt-1">
-              <div className="  w-full"></div>
+              <div className="  w-full">
+                <SuperAdminSettingsIntegrations />
+              </div>
+            </div>
+          </TabPanel>
+          <TabPanel>
+            <div className="mt-1">
+              <div className="  w-full">
+                <SuperAdminMarketingSettingGeneral />
+              </div>
             </div>
           </TabPanel>
           <TabPanel>

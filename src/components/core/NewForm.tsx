@@ -181,12 +181,15 @@ const NewForm = ({
                   } `}
                   key={index}
                 >
-                  <label htmlFor={field.name} className="text-primary font-medium">
+                  <label
+                    htmlFor={field.name}
+                    className="text-primary font-medium"
+                  >
                     {field.label}
                   </label>
                   {field.type === "text" && (
                     <div className="mt-2  ">
-                      <div className="flex flex-col rounded-md shadow-sm ring-1    focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
+                      <div className="flex flex-col rounded-md shadow-sm ">
                         <TextInput
                           onValueChange={(value) => setValue(field.name, value)}
                           value={watch(field.name)}
@@ -202,7 +205,7 @@ const NewForm = ({
                   )}
                   {field.type === "number" && (
                     <div className="mt-2  ">
-                      <div className="flex flex-col rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
+                      <div className="flex flex-col rounded-md shadow-sm  ">
                         <NumberInput
                           onValueChange={(value) => setValue(field.name, value)}
                           value={watch(field.name)}
@@ -218,7 +221,7 @@ const NewForm = ({
                   )}
                   {field.type === "date" && (
                     <div className="mt-2  ">
-                      <div className="flex flex-col rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
+                      <div className="flex flex-col rounded-md shadow-sm">
                         <DatePicker
                           onValueChange={(value) => setValue(field.name, value)}
                           value={watch(field.name)}
@@ -234,7 +237,7 @@ const NewForm = ({
                   )}
                   {field.type === "slug" && (
                     <div className="mt-2">
-                      <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
+                      <div className="flex rounded-md shadow-sm">
                         <TextInput
                           onValueChange={(value) =>
                             setValue(field.name, slugify(value))
@@ -290,7 +293,7 @@ const NewForm = ({
                   )}
                   {field.type === "select" && (
                     <div className="mt-2">
-                      <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
+                      <div className="flex rounded-md shadow-sm">
                         {/* <select
                           {...register(field.name, {
                             required: field.required,
@@ -413,7 +416,7 @@ const NewForm = ({
                   )}
                   {field.type === "mapSelector" && (
                     <div className="mt-2  ">
-                      <div className="flex  rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
+                      <div className="flex  rounded-md shadow-sm">
                         <input
                           {...register(field.name, {
                             required: field.required,
@@ -602,7 +605,7 @@ const NewForm = ({
 
               {newFieldsFunction && (
                 <>
-                  <div className="mt-6 bg-gray-50 flex flex-col rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:">
+                  <div className="mt-6 bg-gray-50 flex flex-col rounded-md shadow-sm">
                     <h3 className="text-subtitle p-3">Add New Field</h3>
                     <div className="flex px-3 space-x-3 items-center">
                       <input

@@ -80,7 +80,7 @@ const AdminSettingPage = () => {
                     <h1 className="text-title my-14">
                       You need to select or create an organization first
                     </h1>
-                    <OrganizationList />
+                    <OrganizationList afterSelectPersonalUrl={"/home"} />
                   </div>
                 ) : (
                   <AdminBillingPage />
@@ -111,7 +111,7 @@ const AdminSettingPage = () => {
                       }}
                     />
                   ) : (
-                    <OrganizationList />
+                    <OrganizationList afterSelectPersonalUrl={"/home"} />
                   )}
                 </div>
               </div>
