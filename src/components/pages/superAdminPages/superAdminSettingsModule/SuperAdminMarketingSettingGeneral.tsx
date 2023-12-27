@@ -77,9 +77,23 @@ const SuperAdminMarketingSettingGeneral = () => {
       required: true,
     },
     {
+      name: "MARKETING_WELCOME_EMAIL_USER_TRANSACTIONALID",
+      label: "Welcome Email for users Transactional ID",
+      type: "text",
+      required: true,
+      note: `You can use the variable "name" in the transactional body (In Loop.so) to show the user's  name.`,
+    },
+    {
       name: "MARKETING_WELCOME_EMAIL_FOR_ORGANIZATIONS_ENABLED",
       label: "Welcome Email for organizations",
       type: "toggle",
+      required: true,
+    },
+    {
+      name: "MARKETING_WELCOME_EMAIL_ORGANIZATION_TRANSACTIONALID",
+      label: "Welcome Email for organizations Transactional ID",
+      type: "text",
+      note: `You can use the variable "name" in the transactional body (In Loop.so) to show the  organization's name.`,
       required: true,
     },
   ];

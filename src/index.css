@@ -70,7 +70,7 @@
 /* Main Theme light - dark mode */
 /* dark:from-gray-900 dark:via-slate-950 dark:to-gray-950 */
 .bg-main {
-  @apply bg-gradient-to-bl from-slate-50/10 via-gray-50/10 to-gray-50/20 dark:bg-gradient-to-bl dark:from-[#161616] dark:via-[#1b1b1b] dark:to-[#161616];
+  @apply bg-gradient-to-bl from-white via-white to-white dark:bg-gradient-to-bl dark:from-[#161616] dark:via-[#1b1b1b] dark:to-[#161616];
 }
 
 .bg-main-hover {
