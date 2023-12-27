@@ -1,4 +1,3 @@
-import React from "react";
 import PlansComponent from "../superAdminPages/plansModule/PlansComponent";
 
 const LandingPricingPage = () => {
