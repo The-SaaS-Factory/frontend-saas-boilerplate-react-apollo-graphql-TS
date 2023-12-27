@@ -71,6 +71,12 @@ const SuperAdminMarketingSettingGeneral = () => {
       required: true,
     },
     {
+      name: "LOOPS_STORE_CONTACTS_ENABLED",
+      label: "Save contacts in Loops to register user",
+      type: "toggle",
+      required: true,
+    },
+    {
       name: "MARKETING_WELCOME_EMAIL_FOR_USERS_ENABLED",
       label: "Welcome Email for users",
       type: "toggle",
