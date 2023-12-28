@@ -2,14 +2,27 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useOrganization, useUser } from "@clerk/clerk-react";
 import PlansComponent from "../../superAdminPages/plansModule/PlansComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AdminPlanActive from "./AdminPlanActive";
 import { systemScope } from "@/utils/constants/globalContants";
 
 export default function AdminBillingPage() {
-  const [viewBuyPlan, setViewBuyPlan] = useState(false);
+  const [viewBuyPlan, setViewBuyPlan] = useState(true);
   const { organization } = useOrganization();
   const { user } = useUser();
+
+  useEffect(() => {
+    if (organization) {
+      if (organization.publicMetadata?.membershipActive) {
+        setViewBuyPlan(false);
+      }
+    }
+    if (user) {
+      if (user.publicMetadata?.membershipActive) {
+        setViewBuyPlan(false);
+      }
+    }
+  }, [organization, user]);
 
   return (
     <div>
