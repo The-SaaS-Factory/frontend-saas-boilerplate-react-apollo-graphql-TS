@@ -1,5 +1,6 @@
-import { OrganizationType, UserType } from "@/utils/types/globalsTypes";
+import {  UserType } from "@/utils/types/globalsTypes";
 import { InvoiceType } from "../../adminPages/billingModule/billingTypes";
+import { OrganizationType } from "../organizationModule/organizationTypes";
 
 export type UserMembershipPlanType = {
   id: string;

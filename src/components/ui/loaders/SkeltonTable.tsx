@@ -1,5 +1,3 @@
-import React from "react";
-
 const SkeletonTable = ({ count }: { count: number }) => {
   const skeletons = Array.from({ length: count }, (_, index) => (
     <div key={index} className="animate-pulse">

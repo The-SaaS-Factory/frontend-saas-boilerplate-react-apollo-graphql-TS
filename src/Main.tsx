@@ -39,7 +39,7 @@ export const ApolloProviderWrapper = ({ children }: PropsWithChildren) => {
   );
 
   const client = useMemo(() => {
-    const authMiddleware = setContext(async (operation, { headers }) => {
+    const authMiddleware = setContext(async (_operation, { headers }) => {
       const token = await getToken();
 
       return {
