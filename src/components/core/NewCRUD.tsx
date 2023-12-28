@@ -13,6 +13,7 @@ import NewForm, { parseDataOnSubmit } from "./NewForm";
 import { toast } from "sonner";
 import PageName from "../ui/commons/PageName";
 import { formatTimestampToDateString } from "@/utils/facades/strFacade";
+import SkeletonTable from "../ui/commons/SkeltonTable";
 
 export const getBadgeClass = (status: string) => {
   switch (status) {
@@ -136,7 +137,7 @@ const NewCRUD = ({ settings }: CRUDSettingInterface) => {
   const cancelButtonRef = useRef(null);
 
   //Queries and Mutations
-  const { data: dataDb } = useQuery(settings.list.queryList);
+  const { data: dataDb, loading } = useQuery(settings.list.queryList);
   const data = dataDb ? dataDb[settings.list.queryListName] : [];
   const [deleteItem] = useMutation(
     settings.delete?.mutationDelete ?? defaultMutation
@@ -257,8 +258,6 @@ const NewCRUD = ({ settings }: CRUDSettingInterface) => {
     }
   };
 
-  console.log(data);
-
   const parseFinalValue = (column: FieldType, value: any) => {
     if (column.type === FieldTypeType.text) {
       return <TextItem column={column} value={value} />;
@@ -306,164 +305,168 @@ const NewCRUD = ({ settings }: CRUDSettingInterface) => {
       />
 
       <section id="list" className="px-4 sm:px-6 lg:px-8">
-        <div className="  flow-root">
-          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-              {!data || data?.length === 0 ? (
-                <div className="flex items-center justify-center">
-                  <div className="flex flex-col items-center justify-center pt-7">
-                    <ArrowPathIcon
-                      className="h-10 w-10 text-primary"
-                      aria-hidden="true"
-                    />
-                    <h3 className="text-lg leading-6 font-medium text-primary">
-                      There are not {settings.model} created
-                    </h3>
-                    {settings.create && (
-                      <>
-                        <p className="mt-4 max-w-2xl text-sm text-primary">
-                          Start creating a new
-                          {settings.model}
-                        </p>
-                        <button
-                          onClick={() => {
-                            settings.create && setOpenCreate(true);
-                          }}
-                          type="button"
-                          className="mt-4 btn-main"
-                        >
-                          Add {settings.model}
-                        </button>
-                      </>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <table className="min-w-full divide-y divide-gray-300">
-                  <thead>
-                    <tr>
-                      <th
-                        scope="col"
-                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                      >
-                        No
-                      </th>
-                      {settings.fields
-                        .filter((f) => !f.list?.disabled)
-                        .map((column: any, index: number) => (
-                          <th
-                            key={`column-${index}`}
-                            scope="col"
-                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+        {loading ? (
+          <SkeletonTable count={10} />
+        ) : (
+          <div className="  flow-root">
+            <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                {!data || data?.length === 0 ? (
+                  <div className="flex items-center justify-center">
+                    <div className="flex flex-col items-center justify-center pt-7">
+                      <ArrowPathIcon
+                        className="h-10 w-10 text-primary"
+                        aria-hidden="true"
+                      />
+                      <h3 className="text-lg leading-6 font-medium text-primary">
+                        There are not {settings.model} created
+                      </h3>
+                      {settings.create && (
+                        <>
+                          <p className="mt-4 max-w-2xl text-sm text-primary">
+                            Start creating a new
+                            {settings.model}
+                          </p>
+                          <button
+                            onClick={() => {
+                              settings.create && setOpenCreate(true);
+                            }}
+                            type="button"
+                            className="mt-4 btn-main"
                           >
-                            {column.label}
-                          </th>
-                        ))}
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 bg-main text-primary">
-                    {data?.map((item: any) => (
-                      <tr key={`contract-${item.id}`}>
-                        <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
-                          <div className="flex items-center space-x-3">
-                            <div className="bg-main w-8 h-8 text-base justify-center p-1 items-center rounded-lg">
-                              # <span>{item.id as string}</span>
-                            </div>
-                          </div>
-                        </td>
-
+                            Add {settings.model}
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <table className="min-w-full divide-y divide-gray-300">
+                    <thead>
+                      <tr>
+                        <th
+                          scope="col"
+                          className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                        >
+                          No
+                        </th>
                         {settings.fields
                           .filter((f) => !f.list?.disabled)
-                          .map((column: FieldType, index: number) => {
-                            const columnKey = column.nameForList
-                              ? column.nameForList
-                              : column.name;
-
-                            if (columnKey.includes(".")) {
-                              const nestedValue = getNestedValue(
-                                item,
-                                columnKey
-                              );
-
-                              return (
-                                <td
-                                  key={`column-${index}`}
-                                  scope="col"
-                                  className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold   sm:pl-0"
-                                >
-                                  {parseFinalValue(column, nestedValue)}
-                                </td>
-                              );
-                            } else {
-                              return (
-                                <td
-                                  key={`column-${index}`}
-                                  scope="col"
-                                  className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold   sm:pl-0"
-                                >
-                                  {columnKey === "status" ? (
-                                    <span
-                                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getBadgeClass(
-                                        item[`${columnKey}`]
-                                      )}`}
-                                    >
-                                      {getStatusName(item[`${columnKey}`])}
-                                    </span>
-                                  ) : (
-                                    <div>
-                                      <div>
-                                        {parseFinalValue(
-                                          column,
-                                          item[`${column.name}`]
-                                        )}{" "}
-                                      </div>
-                                    </div>
-                                  )}
-                                </td>
-                              );
-                            }
-                          })}
-
-                        <td className=" px-3 flex space-x-2 py-5 text-sm text-gray-500">
-                          {settings.edit && (
-                            <button
-                              onClick={() => {
-                                setValuesToEdit(item);
-                                setOpenCreate(true);
-                              }}
-                              className="btn-main"
+                          .map((column: any, index: number) => (
+                            <th
+                              key={`column-${index}`}
+                              scope="col"
+                              className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                             >
-                              <PencilIcon className="h-5 w-5 text-primary" />
-                            </button>
-                          )}
-                          {!settings.view?.disabled && (
-                            <button
-                              onClick={() => {
-                                setValuesToView(item);
-                                setOpenView(true);
-                              }}
-                              className="btn-main"
-                            >
-                              <EyeIcon className="h-5 w-5 text-primary" />
-                            </button>
-                          )}
-                          {settings.delete && (
-                            <button
-                              className="btn-main"
-                              onClick={() => handleDeleteItem(item.id)}
-                            >
-                              <TrashIcon className="h-5 w-5 text-primary" />
-                            </button>
-                          )}
-                        </td>
+                              {column.label}
+                            </th>
+                          ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 bg-main text-primary">
+                      {data?.map((item: any) => (
+                        <tr key={`contract-${item.id}`}>
+                          <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
+                            <div className="flex items-center space-x-3">
+                              <div className="bg-main w-8 h-8 text-base justify-center p-1 items-center rounded-lg">
+                                # <span>{item.id as string}</span>
+                              </div>
+                            </div>
+                          </td>
+
+                          {settings.fields
+                            .filter((f) => !f.list?.disabled)
+                            .map((column: FieldType, index: number) => {
+                              const columnKey = column.nameForList
+                                ? column.nameForList
+                                : column.name;
+
+                              if (columnKey.includes(".")) {
+                                const nestedValue = getNestedValue(
+                                  item,
+                                  columnKey
+                                );
+
+                                return (
+                                  <td
+                                    key={`column-${index}`}
+                                    scope="col"
+                                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold   sm:pl-0"
+                                  >
+                                    {parseFinalValue(column, nestedValue)}
+                                  </td>
+                                );
+                              } else {
+                                return (
+                                  <td
+                                    key={`column-${index}`}
+                                    scope="col"
+                                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold   sm:pl-0"
+                                  >
+                                    {columnKey === "status" ? (
+                                      <span
+                                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getBadgeClass(
+                                          item[`${columnKey}`]
+                                        )}`}
+                                      >
+                                        {getStatusName(item[`${columnKey}`])}
+                                      </span>
+                                    ) : (
+                                      <div>
+                                        <div>
+                                          {parseFinalValue(
+                                            column,
+                                            item[`${column.name}`]
+                                          )}{" "}
+                                        </div>
+                                      </div>
+                                    )}
+                                  </td>
+                                );
+                              }
+                            })}
+
+                          <td className=" px-3 flex space-x-2 py-5 text-sm text-gray-500">
+                            {settings.edit && (
+                              <button
+                                onClick={() => {
+                                  setValuesToEdit(item);
+                                  setOpenCreate(true);
+                                }}
+                                className="btn-main"
+                              >
+                                <PencilIcon className="h-5 w-5 text-primary" />
+                              </button>
+                            )}
+                            {!settings.view?.disabled && (
+                              <button
+                                onClick={() => {
+                                  setValuesToView(item);
+                                  setOpenView(true);
+                                }}
+                                className="btn-main"
+                              >
+                                <EyeIcon className="h-5 w-5 text-primary" />
+                              </button>
+                            )}
+                            {settings.delete && (
+                              <button
+                                className="btn-main"
+                                onClick={() => handleDeleteItem(item.id)}
+                              >
+                                <TrashIcon className="h-5 w-5 text-primary" />
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </section>
 
       <Transition.Root show={openCreate} as={Fragment}>

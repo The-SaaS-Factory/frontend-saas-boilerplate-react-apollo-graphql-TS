@@ -5,12 +5,12 @@ import PlansComponent from "../../superAdminPages/plansModule/PlansComponent";
 import { useState } from "react";
 import AdminPlanActive from "./AdminPlanActive";
 import { systemScope } from "@/utils/constants/globalContants";
- 
+
 export default function AdminBillingPage() {
-  const [viewBuyPlan, setViewBuyPlan] = useState(true);
+  const [viewBuyPlan, setViewBuyPlan] = useState(false);
   const { organization } = useOrganization();
   const { user } = useUser();
-  
+
   return (
     <div>
       <div className="bg-white -mt-3 ">
@@ -23,7 +23,9 @@ export default function AdminBillingPage() {
           ) : null}
         </div>
         <div>
-          {(user && systemScope === 'personal' && user.publicMetadata?.membershipActive ) ? (
+          {user &&
+          systemScope === "personal" &&
+          user.publicMetadata?.membershipActive ? (
             <MembershipActivateBanner
               membershipData={user.publicMetadata}
               setViewBuyPlan={() => setViewBuyPlan(!viewBuyPlan)}

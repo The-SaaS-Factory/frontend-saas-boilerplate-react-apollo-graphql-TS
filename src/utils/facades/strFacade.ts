@@ -1,12 +1,24 @@
-export function formatTimestampToDateString(timestep: string) {
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export function formatTimestampToDateString(
+  timestep: string,
+  includeMinutes?: boolean
+) {
   try {
     const date = new Date(Number(timestep));
     if (!isNaN(date.getTime())) {
-      return date.toLocaleDateString("pt-BR", {
+      let payload: any = {
         day: "2-digit",
         month: "2-digit",
         year: "numeric",
-      });
+      };
+
+      if (includeMinutes) {
+        payload["hour"] = "2-digit";
+        payload["minute"] = "2-digit";
+      }
+
+      return date.toLocaleDateString("pt-BR", payload);
     } else {
       return timestep;
     }
@@ -39,7 +51,6 @@ export function getDayName(dayNumber: number) {
   ];
   return days[dayNumber];
 }
-
 
 export function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");

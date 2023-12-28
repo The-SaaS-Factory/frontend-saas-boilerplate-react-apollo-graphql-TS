@@ -12,23 +12,28 @@ import AdminBillingPage from "./billingModule/AdminBillingPage";
 import { systemScope } from "@/utils/constants/globalContants";
 import PageName from "@/components/ui/commons/PageName";
 import { toast } from "sonner";
+import useDarkTheme from "@/utils/hooks/useDarkTheme";
+import { dark } from "@clerk/themes";
 
 const AdminSettingPage = () => {
+  const { isDarkTheme } = useDarkTheme();
   const [tabSelected, setTabSelected] = useState(0);
   const { organization } = useOrganization();
- 
+
   //Get status payment
   const urlParams = new URLSearchParams(window.location.search);
 
   useEffect(() => {
+    if (!urlParams.get("paymentStatus")) return;
     if (urlParams.get("paymentStatus") === "success") {
       toast.success("Payment Success");
       setTabSelected(0);
     } else {
       toast.error("Payment Error");
     }
+    window.history.replaceState({}, document.title, "/home/settings");
   }, [urlParams]);
-
+ 
   return (
     <div>
       <PageName
@@ -94,7 +99,13 @@ const AdminSettingPage = () => {
                     <h1 className="text-title my-14">
                       You need to select or create an organization first
                     </h1>
-                    <OrganizationList afterSelectPersonalUrl={"/home"} />
+                    <OrganizationList
+                      appearance={{
+                        baseTheme: isDarkTheme ? dark : undefined,
+                        elements: { card: "shadow-none" },
+                      }}
+                      afterSelectPersonalUrl={"/home"}
+                    />
                   </div>
                 ) : (
                   <AdminBillingPage />
@@ -107,7 +118,7 @@ const AdminSettingPage = () => {
             <div className="mt-1">
               <UserProfile
                 appearance={{
-                  baseTheme: undefined,
+                  baseTheme: isDarkTheme ? dark : undefined,
                   elements: { card: "shadow-none" },
                 }}
               />
@@ -120,12 +131,18 @@ const AdminSettingPage = () => {
                   {organization ? (
                     <OrganizationProfile
                       appearance={{
-                        baseTheme: undefined,
+                        baseTheme: isDarkTheme ? dark : undefined,
                         elements: { card: "shadow-none" },
                       }}
                     />
                   ) : (
-                    <OrganizationList afterSelectPersonalUrl={"/home"} />
+                    <OrganizationList
+                      appearance={{
+                        baseTheme: isDarkTheme ? dark : undefined,
+                        elements: { card: "shadow-none" },
+                      }}
+                      afterSelectPersonalUrl={"/home"}
+                    />
                   )}
                 </div>
               </div>

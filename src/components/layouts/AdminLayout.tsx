@@ -114,7 +114,7 @@ export default function AdminLayout() {
                             to="/home/support"
                             className="bg-main group flex gap-x-3 rounded-md p-2  text-primary"
                           >
-                            <Cog6ToothIcon
+                            <LifebuoyIcon
                               className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
                               aria-hidden="true"
                             />

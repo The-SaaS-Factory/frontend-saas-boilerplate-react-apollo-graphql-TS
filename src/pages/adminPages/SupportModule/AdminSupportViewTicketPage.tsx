@@ -24,12 +24,13 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 const AdminSupportViewTicketPage = () => {
   const { ticketId } = useParams();
   const { handleSubmit, setValue, watch, reset } = useForm();
-  const [sendNewMessage] = useMutation(ADD_MESSAGE_TO_SUPPORT_TICKET);
+  const [sendNewMessage, { loading: loadingSaveNewMessage }] = useMutation(
+    ADD_MESSAGE_TO_SUPPORT_TICKET
+  );
   const [closeSupportTicket] = useMutation(CLOSE_SUPPORT_TICKET);
   const { data: userBD } = useQuery(GET_CURRENT_USER);
 
   const { isSuperAdmin } = useSuperAdmin();
- 
 
   const { data, loading, error, refetch } = useQuery(GET_SUPPORT_TICKET, {
     variables: {
@@ -76,9 +77,12 @@ const AdminSupportViewTicketPage = () => {
         type: "TEXT",
       },
     ];
-    
-    //Validate 
-     if (content && content[0]?.content === "" || content[0]?.content === '"<p><br></p>"') {
+
+    //Validate
+    if (
+      (content && content[0]?.content === "") ||
+      content[0]?.content === '"<p><br></p>"'
+    ) {
       toast.error("Message cannot be empty");
       return;
     }
@@ -107,18 +111,20 @@ const AdminSupportViewTicketPage = () => {
     return <span>Error {error.message}</span>;
   }
 
-  
-
   return (
     <div>
       <PageName
         name={`Ticket ${ticket?.id}`}
-        btn1={{
-          name: "Close ticket",
-          href: "#",
-          fn: handleCloseTicket,
-          icon: XMarkIcon,
-        }}
+        btn1={
+          ticket.status !== "CLOSED"
+            ? {
+                name: "Close ticket",
+                href: "#",
+                fn: handleCloseTicket,
+                icon: XMarkIcon,
+              }
+            : undefined
+        }
         breadcrumbs={[
           { name: "Dashboard", href: isSuperAdmin ? "/admin" : "/home" },
           {
@@ -142,7 +148,8 @@ const AdminSupportViewTicketPage = () => {
           <div className="mt-3">
             {ticket?.SupportTicketMessage.map((message: any) => {
               return message.SupportTicketMessageContent.filter(
-                (content: any) => content.type === "TEXT" && content.content !== ""
+                (content: any) =>
+                  content.type === "TEXT" && content.content !== ""
               ).map((text: any, index: number) => {
                 return (
                   <Card
@@ -156,14 +163,14 @@ const AdminSupportViewTicketPage = () => {
                     <Flex>
                       <UserCard user={message.user} />{" "}
                       <span>
-                        {formatTimestampToDateString(message.createdAt)}
+                        {formatTimestampToDateString(message.createdAt, true)}
                       </span>
                     </Flex>
                     <hr className="my-3" />
                     <Flex>
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: JSON.parse(text.content ?? ''),
+                          __html: JSON.parse(text.content ?? ""),
                         }}
                       ></div>
                     </Flex>
@@ -197,7 +204,15 @@ const AdminSupportViewTicketPage = () => {
                 </div>
               </div>
               <div className="flex">
-                <button className="btn-main   ml-auto">Send message</button>
+                <button className="btn-main   ml-auto flex">
+                  {loadingSaveNewMessage ? (
+                    <div className="mr-2">
+                      <PageLoader />
+                    </div>
+                  ) : (
+                    <span>Send message</span>
+                  )}
+                </button>
               </div>
             </form>
           </Card>
