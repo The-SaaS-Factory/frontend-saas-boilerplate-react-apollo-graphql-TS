@@ -25,6 +25,7 @@ if (!PUBLISHABLE_KEY) {
 const serverURL = import.meta.env.VITE_APOLLO_SERVER_URL;
 const serverWSURL = import.meta.env.VITE_APOLLO_SERVER_WS_URL;
 
+
 const httpLink = createHttpLink({
   uri: serverURL,
 });
