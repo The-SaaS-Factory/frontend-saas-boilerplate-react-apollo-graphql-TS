@@ -13,7 +13,6 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
- 
 import { toast } from "sonner";
 import {
   BUY_PLAN_FREE,
@@ -23,9 +22,9 @@ import {
 import { useOrganization, useUser } from "@clerk/clerk-react";
 import { getSettingValue } from "@/utils/facades/resorceFacade";
 import { classNames } from "@/utils/facades/strFacade";
-import PageLoader from "@/components/ui/loaders/PageLoader";
 import { Link } from "react-router-dom";
 import { systemScope } from "@/utils/constants/globalContants";
+import SkeletonTable from "@/components/ui/loaders/SkeltonTable";
 export type SettingType = {
   settingName: string;
   settingValue: string;
@@ -50,7 +49,7 @@ const PlansComponent = () => {
     fetchPolicy: "network-only",
   });
   const payments = getSettings?.getPaymentsSettings;
-  const { data: plans } = useQuery(GET_PLANS, {
+  const { data: plans, loading: loadingPlans } = useQuery(GET_PLANS, {
     onError(error) {
       console.log(error);
     },
@@ -182,7 +181,7 @@ const PlansComponent = () => {
     return name;
   };
 
-  if (loading) return <PageLoader />;
+  if (loading || loadingPlans) return <SkeletonTable count={10} />;
 
   return (
     <div>

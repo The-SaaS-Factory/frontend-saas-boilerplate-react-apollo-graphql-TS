@@ -11,6 +11,7 @@ import { useOrganization, useUser } from "@clerk/clerk-react";
 import { Card, Flex, ProgressBar, Text } from "@tremor/react";
 import CheckBadgeIcon from "@heroicons/react/24/outline/esm/CheckBadgeIcon";
 import XMarkIcon from "@heroicons/react/24/outline/esm/XMarkIcon";
+import SkeletonTable from "@/components/ui/loaders/SkeltonTable";
 
 const AdminPlanActive = () => {
   //Constant
@@ -20,8 +21,9 @@ const AdminPlanActive = () => {
   const { organization } = useOrganization();
   const { user } = useUser();
   //Queries
-  const [getPlan] = useLazyQuery(GET_PLAN_BY_NAME);
-  const [getUserCapabilities] = useLazyQuery(GET_USER_CAPABILITIES);
+  const [getPlan, { loading: loadingPlan }] = useLazyQuery(GET_PLAN_BY_NAME);
+  const [getUserCapabilities, { loading: loadingUserCapacities }] =
+    useLazyQuery(GET_USER_CAPABILITIES);
   const [getOrganizationCapabilities] = useLazyQuery(
     GET_ORGANIZATION_CAPABILITIES
   );
@@ -30,7 +32,7 @@ const AdminPlanActive = () => {
     if (organization) {
       getPlan({
         variables: {
-          name: organization.publicMetadata.membershipPlan ?? '',
+          name: organization.publicMetadata.membershipPlan ?? "",
         },
       }).then(({ data }) => {
         if (data && data.getPlanByName) {
@@ -63,6 +65,8 @@ const AdminPlanActive = () => {
       });
     }
   }, [organization, user]);
+
+  if (loadingPlan || loadingUserCapacities) return <SkeletonTable count={10} />;
 
   return (
     <div>
