@@ -142,7 +142,7 @@ const PlansComponent = () => {
         systemScope && systemScope === "organization"
           ? `O-${organization?.id}`
           : `U-${user?.id}`,
-      currency: "usd", //Fix: get from settings
+      currency: "brl", //Fix: get from settings
     };
 
     if (!payload.priceId) {

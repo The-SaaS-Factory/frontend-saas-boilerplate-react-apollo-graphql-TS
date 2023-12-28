@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { UserGroupIcon } from "@heroicons/react/16/solid";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@tremor/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   OrganizationList,
   OrganizationProfile,
@@ -10,10 +11,23 @@ import {
 import AdminBillingPage from "./billingModule/AdminBillingPage";
 import { systemScope } from "@/utils/constants/globalContants";
 import PageName from "@/components/ui/commons/PageName";
+import { toast } from "sonner";
 
 const AdminSettingPage = () => {
   const [tabSelected, setTabSelected] = useState(0);
   const { organization } = useOrganization();
+ 
+  //Get status payment
+  const urlParams = new URLSearchParams(window.location.search);
+
+  useEffect(() => {
+    if (urlParams.get("paymentStatus") === "success") {
+      toast.success("Payment Success");
+      setTabSelected(0);
+    } else {
+      toast.error("Payment Error");
+    }
+  }, [urlParams]);
 
   return (
     <div>

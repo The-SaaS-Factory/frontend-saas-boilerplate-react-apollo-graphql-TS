@@ -91,7 +91,7 @@ const AdminNotificationsPage = () => {
             )}
           </ul>
         ) : (
-          <p>You have no unread notifications</p>
+          <p className="text-primary">You have no unread notifications</p>
         )}
       </div>
     </div>

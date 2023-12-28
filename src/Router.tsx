@@ -20,6 +20,7 @@ import SuperAdminSubscriptionPage from "./pages/superAdminPages/plansModule/Supe
 import SuperAdminDashboard from "./pages/superAdminPages/dashboardModule/SuperAdminDashboard";
 import SuperAdminUsersModulePage from "./pages/superAdminPages/usersModule/SuperAdminUsersModulePage";
 import SuperAdminOrganizationModulePage from "./pages/superAdminPages/organizationModule/SuperAdminOrganizationModulePage";
+import SuperAdminInvoiceModulePage from "./pages/superAdminPages/invoiceModule/SuperAdminInvoiceModulePage";
 
 export const router = createBrowserRouter([
   {
@@ -119,6 +120,10 @@ export const router = createBrowserRouter([
       {
         path: "/admin/suscriptions",
         element: <SuperAdminSubscriptionPage />,
+      },
+      {
+        path: "/admin/invoices",
+        element: <SuperAdminInvoiceModulePage />,
       },
       {
         path: "/admin/organizations",
