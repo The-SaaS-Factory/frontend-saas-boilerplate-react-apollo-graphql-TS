@@ -25,6 +25,7 @@ import { classNames } from "@/utils/facades/strFacade";
 import { Link } from "react-router-dom";
 import { systemScope } from "@/utils/constants/globalContants";
 import SkeletonTable from "@/components/ui/loaders/SkeltonTable";
+import PageLoader from "@/components/ui/loaders/PageLoader";
 export type SettingType = {
   settingName: string;
   settingValue: string;
@@ -181,7 +182,8 @@ const PlansComponent = () => {
     return name;
   };
 
-  if (loading || loadingPlans) return <SkeletonTable count={10} />;
+  if (loadingPlans) return <SkeletonTable count={10} />;
+  if (loading) return <PageLoader />;
 
   return (
     <div>
