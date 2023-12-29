@@ -10,6 +10,7 @@ import {
 import { UserMembershipPlanType } from "../plansModule/plansTypes";
 import { parseSettingDataOnSubmit } from "@/utils/facades/formFacade";
 import NewForm from "@/components/core/NewForm";
+import { handleRequestError } from "@/utils/facades/handleRequestError";
 
 const SuperAdminMarketingSettingGeneral = () => {
   const [saveSettings] = useMutation(SAVE_SUPER_ADMIN_SETTINGS);
@@ -117,8 +118,7 @@ const SuperAdminMarketingSettingGeneral = () => {
         toast.success("Setting Updated");
       })
       .catch((e) => {
-        console.log(e);
-        toast.error("Error");
+        handleRequestError(e);
       });
   };
 
@@ -149,8 +149,7 @@ const SuperAdminMarketingSettingGeneral = () => {
         toast.success("Settings saved successfully");
       })
       .catch((e) => {
-        console.log(e);
-        toast.error("Error");
+        handleRequestError(e);
       });
   };
 

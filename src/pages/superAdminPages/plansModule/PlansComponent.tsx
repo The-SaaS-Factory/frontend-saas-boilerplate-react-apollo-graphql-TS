@@ -26,6 +26,7 @@ import { Link } from "react-router-dom";
 import { systemScope } from "@/utils/constants/globalContants";
 import SkeletonTable from "@/components/ui/loaders/SkeltonTable";
 import PageLoader from "@/components/ui/loaders/PageLoader";
+import { handleRequestError } from "@/utils/facades/handleRequestError";
 export type SettingType = {
   settingName: string;
   settingValue: string;
@@ -168,9 +169,8 @@ const PlansComponent = () => {
         });
       })
       .catch((e) => {
-        console.log(e);
         setLoading(false);
-        toast.error("Error");
+        handleRequestError(e);
       });
   };
 

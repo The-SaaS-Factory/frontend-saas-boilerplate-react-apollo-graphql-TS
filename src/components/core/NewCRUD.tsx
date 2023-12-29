@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import PageName from "../ui/commons/PageName";
 import { formatTimestampToDateString } from "@/utils/facades/strFacade";
 import SkeletonTable from "../ui/commons/SkeltonTable";
+import { handleRequestError } from "@/utils/facades/handleRequestError";
 
 export const getBadgeClass = (status: string) => {
   switch (status) {
@@ -178,7 +179,7 @@ const NewCRUD = ({ settings }: CRUDSettingInterface) => {
                 console.log(res);
               })
               .catch((err) => {
-                console.log(err);
+                handleRequestError(err);
               }),
             {
               loading: "Loading...",
@@ -216,7 +217,7 @@ const NewCRUD = ({ settings }: CRUDSettingInterface) => {
         setOpenCreate(false);
       })
       .catch((err: any) => {
-        console.log(err);
+        handleRequestError(err);
       });
   };
 

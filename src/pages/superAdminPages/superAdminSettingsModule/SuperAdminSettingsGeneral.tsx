@@ -8,10 +8,21 @@ import {
 } from "./superAdminSettingGraphql";
 import { parseSettingDataOnSubmit } from "@/utils/facades/formFacade";
 import NewForm from "@/components/core/NewForm";
+import { handleRequestError } from "@/utils/facades/handleRequestError";
 
 const SuperAdminSettingsGeneral = () => {
   const [saveSettings] = useMutation(SAVE_SUPER_ADMIN_SETTINGS);
-  const { data: getSettings, refetch } = useQuery(GET_SUPER_ADMIN_SETTINGS);
+  const {
+    data: getSettings,
+    refetch,
+    error,
+  } = useQuery(GET_SUPER_ADMIN_SETTINGS, {
+    onError(error) {
+      console.log(error);
+    },
+  });
+
+  console.log(error);
 
   const formInfo = {
     name: "General Settings",
@@ -83,13 +94,14 @@ const SuperAdminSettingsGeneral = () => {
         settings: payload,
       },
     })
-      .then(() => {
+      .then((data) => {
         refetch();
+        console.log(data);
+
         toast.success("Saved");
       })
       .catch((e) => {
-        console.log(e);
-        toast.error("Error");
+        handleRequestError(e);
       });
   };
 
@@ -144,8 +156,7 @@ const SuperAdminSettingsGeneral = () => {
         toast.success("Saved");
       })
       .catch((e) => {
-        console.log(e);
-        toast.error("Error");
+        handleRequestError(e);
       });
   };
 
@@ -157,7 +168,6 @@ const SuperAdminSettingsGeneral = () => {
         fields={fields}
         onSubmit={onSubmit}
       />{" "}
-     
       <NewForm
         values={getSettings?.getSuperAdminSettings}
         info={formInfoSocialMedia}

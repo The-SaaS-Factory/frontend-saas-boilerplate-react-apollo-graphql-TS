@@ -11,30 +11,28 @@ import SkeletonTable from "@/components/ui/loaders/SkeltonTable";
 import PageName from "@/components/ui/commons/PageName";
 import Search from "@/components/core/Search";
 import { formatTimestampToDateString } from "@/utils/facades/strFacade";
+import { handleRequestError } from "@/utils/facades/handleRequestError";
 
 const SuperAdminUsersModulePage = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const search = params.get("search");
     if (search) {
-      //Search client? by id
       refetch({
         search: search,
         offset: 0,
         limit: 10,
       })
         .then((res) => {
-          //Find client? by id
           const client = res.data.getClients.find(
             (client: UserType) => client.id === search
           );
 
-          //Open client? details modal
           setClientSelected(client);
           setOpenClient(true);
         })
         .catch((e) => {
-          console.log(e);
+          handleRequestError(e);
         });
     }
   }, []);
@@ -326,7 +324,7 @@ export function ViewClientDetails({
                                   <span className="badge-sky">
                                     {client.Membership[0]?.plan?.name}
                                   </span>
-                                  <span className="text-primary"> 
+                                  <span className="text-primary">
                                     Until:{" "}
                                     {formatTimestampToDateString(
                                       client.Membership[0]?.endDate

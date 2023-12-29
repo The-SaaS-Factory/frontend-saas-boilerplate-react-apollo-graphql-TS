@@ -9,6 +9,7 @@ import SkeletonTable from "@/components/ui/loaders/SkeltonTable";
 import Search from "@/components/core/Search";
 import { formatTimestampToDateString } from "@/utils/facades/strFacade";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { handleRequestError } from "@/utils/facades/handleRequestError";
 
 const SuperAdminOrganizationModulePage = () => {
   useEffect(() => {
@@ -22,17 +23,14 @@ const SuperAdminOrganizationModulePage = () => {
         limit: 10,
       })
         .then((res: any) => {
-          //Find client? by id
           const client = res.data.getClients.find(
             (client: OrganizationType) => client.id === search
           );
-
-          //Open client? details modal
           setClientSelected(client);
           setOpenClient(true);
         })
         .catch((e) => {
-          console.log(e);
+          handleRequestError(e);
         });
     }
   }, []);

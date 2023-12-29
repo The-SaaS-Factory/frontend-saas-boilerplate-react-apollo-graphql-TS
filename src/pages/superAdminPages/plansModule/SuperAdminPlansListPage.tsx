@@ -27,6 +27,7 @@ import {
 import PageLoader from "@/components/ui/loaders/PageLoader";
 import SkeltonTable from "@/components/ui/loaders/SkeltonTable";
 import { UserMembershipPlanType } from "./plansTypes";
+import { handleRequestError } from "@/utils/facades/handleRequestError";
 
 const SuperAdminPlansListPage = () => {
   //States
@@ -92,7 +93,7 @@ const SuperAdminPlansListPage = () => {
             resolve("Success");
           })
           .catch((e) => {
-            toast.error(e.message);
+            handleRequestError(e);
             reject(e.message);
           })
       );

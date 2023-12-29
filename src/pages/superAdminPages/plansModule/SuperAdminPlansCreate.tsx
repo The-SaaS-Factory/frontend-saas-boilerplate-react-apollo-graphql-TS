@@ -18,6 +18,7 @@ import NewForm, { parseDataOnSubmit } from "@/components/core/NewForm";
 import PageName from "@/components/ui/commons/PageName";
 import PageLoader from "@/components/ui/loaders/PageLoader";
 import { Select, SelectItem, TextInput } from "@tremor/react";
+import { handleRequestError } from "@/utils/facades/handleRequestError";
 
 const SuperAdminPlansCreate = () => {
   const { planId } = useParams();
@@ -129,8 +130,7 @@ const SuperAdminPlansCreate = () => {
         navigate("/admin/billing");
       })
       .catch((e) => {
-        console.log(e);
-        toast.error("Error");
+        handleRequestError(e);
       });
   };
 

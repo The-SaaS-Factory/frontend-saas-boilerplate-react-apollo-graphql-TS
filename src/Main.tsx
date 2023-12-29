@@ -66,6 +66,7 @@ export const ApolloProviderWrapper = ({ children }: PropsWithChildren) => {
     return new ApolloClient({
       link: from([authMiddleware, splitLink]),
       cache: new InMemoryCache(),
+      
     });
   }, [getToken]);
 

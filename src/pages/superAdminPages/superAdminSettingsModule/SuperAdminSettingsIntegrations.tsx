@@ -7,6 +7,7 @@ import {
 } from "./superAdminSettingGraphql";
 import NewForm from "@/components/core/NewForm";
 import { parseSettingDataOnSubmit } from "@/utils/facades/formFacade";
+import { handleRequestError } from "@/utils/facades/handleRequestError";
 
 const SuperAdminSettingsIntegrations = () => {
   const [saveSettings] = useMutation(SAVE_SUPER_ADMIN_SETTINGS);
@@ -51,8 +52,7 @@ const SuperAdminSettingsIntegrations = () => {
         toast.success("Setting Updated");
       })
       .catch((e) => {
-        console.log(e);
-        toast.error("Error");
+        handleRequestError(e); 
       });
   };
 

@@ -9,6 +9,7 @@ import {
 } from "./superAdminSettingGraphql";
 import { parseSettingDataOnSubmit } from "@/utils/facades/formFacade";
 import NewForm from "@/components/core/NewForm";
+import { handleRequestError } from "@/utils/facades/handleRequestError";
 
 const SuperAdminBillingSettingPage = () => {
   const [saveSettings] = useMutation(SAVE_SUPER_ADMIN_SETTINGS);
@@ -74,12 +75,6 @@ const SuperAdminBillingSettingPage = () => {
       required: false,
       type: "text",
     },
-    {
-      name: "STRIPE_PRODUCT_BY_DEFAULT",
-      label: "STRIPE_PRODUCT_BY_DEFAULT",
-      required: false,
-      type: "text",
-    },
   ];
 
   const onSubmitStripe = async (data: any) => {
@@ -95,8 +90,7 @@ const SuperAdminBillingSettingPage = () => {
         toast.success("Saved");
       })
       .catch((e) => {
-        console.log(e);
-        toast.error("Error");
+         handleRequestError(e);
       });
   };
 

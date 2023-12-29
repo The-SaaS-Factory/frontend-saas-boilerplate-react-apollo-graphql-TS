@@ -105,7 +105,7 @@ const NewForm = ({
 
   const handleAddNewField = () => {
     if (!newFieldData.name || !newFieldData.label) {
-      return toast.error("Error");
+      return toast.error("Name and Label are required");
     }
 
     if (newFieldData.type == "list") {
