@@ -18,8 +18,10 @@ import {
   CodeBracketIcon,
   CreditCardIcon,
   FaceSmileIcon,
+  LockClosedIcon,
 } from "@heroicons/react/24/outline";
 import PageName from "@/components/ui/commons/PageName";
+import SuperAdminACLSettingsPage from "./SuperAdminACLSettingsPage";
 
 const SuperAdminSettingPage = () => {
   const { isDarkTheme } = useDarkTheme();
@@ -63,7 +65,7 @@ const SuperAdminSettingPage = () => {
             icon={CodeBracketIcon}
             onClick={() => setTabSelected(1)}
           >
-             <span className="text-primary">Itengrations</span>
+            <span className="text-primary">Itengrations</span>
           </Tab>
           <Tab
             className={
@@ -87,18 +89,29 @@ const SuperAdminSettingPage = () => {
           >
             <span className="text-primary"> Billing</span>
           </Tab>
+          <Tab
+            className={
+              tabSelected === 4
+                ? "text-primary border-b-2 border-primary"
+                : "text-gray-500"
+            }
+            icon={LockClosedIcon}
+            onClick={() => setTabSelected(4)}
+          >
+            <span className="text-primary"> Security</span>
+          </Tab>
           <div>
             {systemScope === "organization" && (
               <Tab
                 className={
-                  tabSelected === 4
+                  tabSelected === 5
                     ? "text-primary border-b-2 border-primary"
                     : "text-gray-500"
                 }
                 icon={UserGroupIcon}
-                onClick={() => setTabSelected(4)}
+                onClick={() => setTabSelected(5)}
               >
-               <span className="text-primary"> Organization</span> 
+                <span className="text-primary"> Organization</span>
               </Tab>
             )}
           </div>
@@ -126,6 +139,11 @@ const SuperAdminSettingPage = () => {
           <TabPanel>
             <div className="mt-1">
               <SuperAdminBillingSettingPage />
+            </div>
+          </TabPanel>
+          <TabPanel>
+            <div className="mt-1">
+              <SuperAdminACLSettingsPage />
             </div>
           </TabPanel>
           {systemScope === "organization" && (
