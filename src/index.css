@@ -26,6 +26,9 @@
 .btn-main {
   @apply px-4 py-3 font-medium text-sm text-gray-800 rounded-md border shadow-sm shadow-gray-300 border-gray-50 bg-gradient-to-bl from-slate-50 via-gray-100 to-gray-100 hover:via-gray-100 active:from-gray-400   dark:bg-gradient-to-bl dark:from-gray-900 dark:via-gray-900 dark:to-black dark:text-gray-200 hover:dark:from-gray-700 hover:dark:via-gray-800 hover:dark:to-gray-700;
 }
+.btn-main-selected {
+  @apply px-4 py-3 font-medium text-sm text-gray-800 rounded-md border shadow-sm shadow-gray-600 border-gray-100 bg-gradient-to-bl from-slate-100 via-gray-200 to-gray-200 hover:via-gray-200 active:from-gray-800   dark:bg-gradient-to-bl dark:from-gray-600 dark:via-gray-600 dark:to-black dark:text-gray-200 hover:dark:from-gray-700 hover:dark:via-gray-600 hover:dark:to-gray-700;
+}
 
 .btn-icon {
   @apply flex  space-x-2 btn-main;

@@ -46,7 +46,6 @@ const SuperAdminPlansListPage = () => {
   const [connectPlan] = useMutation(CONNECT_STRIPE_WITH_PLAN);
   const [disconectPlan] = useMutation(DISCONECT_STRIPE_WITH_PLAN);
   const deletePlanFn = (planId: string) => {
-    console.log(planId);
     toast("Are you sure?", {
       action: {
         label: "Delete",

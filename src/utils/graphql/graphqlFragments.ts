@@ -68,11 +68,6 @@ export const fragments = {
          name 
          slug
         }
-        UserRole {
-          role {
-            name
-          }
-        }
         UserPermission {
           permission {
             name
