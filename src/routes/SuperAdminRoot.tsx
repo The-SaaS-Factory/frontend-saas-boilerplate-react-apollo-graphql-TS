@@ -1,6 +1,6 @@
 import SuperAdminLayout from "@/components/layouts/SuperAdminLayout";
 import LoginPage from "@/components/layouts/auth/LoginPage";
-import { checkSuperAdminPermission } from "@/utils/hooks/useSuperAdmin";
+import { hasSuperAdminPermission } from "@/utils/hooks/useSuperAdmin";
 import { SignedIn, SignedOut, useOrganization } from "@clerk/clerk-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,17 +10,13 @@ const SuperAdminRoot = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoaded && !organization) {
+    if (!isLoaded) return;
+
+    if (!organization) {
       navigate("/");
-    } else {
-      if (
-        organization &&
-        !checkSuperAdminPermission(
-          organization.publicMetadata?.permissions as string[]
-        )
-      ) {
-        navigate("/403");
-      }
+    } else if (
+      !hasSuperAdminPermission(organization.publicMetadata?.permissions as string[])) {
+      navigate("/403");
     }
   }, [isLoaded, organization]);
 

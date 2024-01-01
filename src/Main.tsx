@@ -31,7 +31,7 @@ const httpLink = createHttpLink({
 });
 
 export const ApolloProviderWrapper = ({ children }: PropsWithChildren) => {
-  const { getToken } = useAuth();
+  const { getToken } = useAuth(); //Clerk Hook
 
   const wsLink = new GraphQLWsLink(
     createClient({

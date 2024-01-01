@@ -23,8 +23,6 @@ const SuperAdminSubscriptionPage = () => {
 
   const { data: subscriptions, loading } = useQuery(GET_ALL_SUBSCRIPTIONS);
 
-  console.log(subscriptions);
-
   if (loading) {
     return <SkeltonTable count={10} />;
   }

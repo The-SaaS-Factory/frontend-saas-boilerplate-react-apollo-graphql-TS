@@ -19,7 +19,7 @@ export const checkModulePermission = (
 };
 
   
-export const checkSuperAdminPermission = (permissions: string[]) => {
+export const hasSuperAdminPermission = (permissions: string[]) => {
   if (permissions && permissions.length > 0) {
     const superAdminPermissions = permissions.filter((permission) =>
       permission.startsWith("superAdmin")
@@ -42,7 +42,7 @@ const useSuperAdmin = (moduleName?: string) => {
     try {
       if (systemScope === "organization" && organization) {
         if (
-          checkSuperAdminPermission(
+          hasSuperAdminPermission(
             organization.publicMetadata?.permissions as string[]
           )
         ) {
@@ -60,7 +60,7 @@ const useSuperAdmin = (moduleName?: string) => {
       } else {
         if (
           user &&
-          checkSuperAdminPermission(
+          hasSuperAdminPermission(
             user.publicMetadata?.permissions as string[]
           )
         ) {
