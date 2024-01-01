@@ -207,7 +207,7 @@ export default function SuperAdminLayout() {
           <SuperAdminHeader setSidebarOpen={setSidebarOpen} />
 
           <main className="py-3  ">
-            <div className="mx-auto   px-4  ">
+            <div className="mx-auto    px-4  ">
               <Outlet />
             </div>
           </main>

@@ -1,8 +1,12 @@
 import NewCRUD, { FieldTypeType } from "@/components/core/NewCRUD";
 import PageName from "@/components/ui/commons/PageName";
 import { GET_ALL_INVOICES } from "./invoiceGraphql";
+import useSuperAdmin from "@/utils/hooks/useSuperAdmin";
+import ForbiddenPage from "@/components/layouts/errors/ForbiddenPage";
 
 const SuperAdminInvoiceModulePage = () => {
+  const { hasModulePermission } = useSuperAdmin("superAdmin:billing:read");
+  
   const crudSettings = {
     model: "Invoices",
     fields: [
@@ -60,6 +64,15 @@ const SuperAdminInvoiceModulePage = () => {
       queryListName: "getAllInvoices",
     },
   };
+
+  if (!hasModulePermission) {
+    return (
+      <div className="">
+        <ForbiddenPage />
+      </div>
+    );
+  }
+  
   return (
     <div>
       <PageName

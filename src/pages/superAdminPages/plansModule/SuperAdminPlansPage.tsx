@@ -16,8 +16,11 @@ import {
 import SuperAdminPlansListPage from "./SuperAdminPlansListPage";
 import SuperAdminPlansCapabilities from "./SuperAdminPlansCapabilities";
 import PageName from "@/components/ui/commons/PageName";
+import useSuperAdmin from "@/utils/hooks/useSuperAdmin";
+import ForbiddenPage from "@/components/layouts/errors/ForbiddenPage";
 
 const SuperAdminPlansPage = () => {
+  const { hasModulePermission } = useSuperAdmin("superAdmin:billing:read");
   //States
   const [tabSelected, setTabSelected] = useState(0);
 
@@ -25,6 +28,14 @@ const SuperAdminPlansPage = () => {
   const handleClickTab = (index: number) => {
     setTabSelected(index);
   };
+
+  if (!hasModulePermission) {
+    return (
+      <div className="">
+        <ForbiddenPage />
+      </div>
+    );
+  }
 
   return (
     <div>

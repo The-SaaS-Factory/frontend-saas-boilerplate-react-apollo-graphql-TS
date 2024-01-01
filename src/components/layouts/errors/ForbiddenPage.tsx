@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function ForbiddenPage() {
   return (
     <>
-      <main className="relative isolate min-h-full">
+      <main className="relative isolate h-full">
         <img
           src="https://images.unsplash.com/photo-1545972154-9bb223aac798?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3050&q=80&exp=8&con=-15&sat=-75"
           alt=""
@@ -18,7 +18,10 @@ export default function ForbiddenPage() {
             Sorry, you don't have access to this page.
           </p>
           <div className="mt-10 flex justify-center">
-            <Link to="/home" className="text-sm font-semibold leading-7 text-white">
+            <Link
+              to="/home"
+              className="text-sm font-semibold leading-7 text-white"
+            >
               <span aria-hidden="true">&larr;</span> Back to home
             </Link>
           </div>

@@ -15,18 +15,26 @@ import PageName from "@/components/ui/commons/PageName";
 import { MembershipType } from "./plansTypes";
 import { formatTimestampToDateString } from "@/utils/facades/strFacade";
 import NotFound from "@/components/ui/commons/NotFound";
+import ForbiddenPage from "@/components/layouts/errors/ForbiddenPage";
+import useSuperAdmin from "@/utils/hooks/useSuperAdmin";
 
 const SuperAdminSubscriptionPage = () => {
-  const { data: subscriptions, loading } = useQuery(GET_ALL_SUBSCRIPTIONS, {
-    onError(error) {
-      console.log(error);
-    },
-  });
+  const { hasModulePermission } = useSuperAdmin("superAdmin:billing:read");
+
+  const { data: subscriptions, loading } = useQuery(GET_ALL_SUBSCRIPTIONS);
 
   console.log(subscriptions);
 
   if (loading) {
     return <SkeltonTable count={10} />;
+  }
+
+  if (!hasModulePermission) {
+    return (
+      <div className="">
+        <ForbiddenPage />
+      </div>
+    );
   }
 
   return (

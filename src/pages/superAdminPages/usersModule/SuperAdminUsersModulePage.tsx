@@ -12,8 +12,13 @@ import PageName from "@/components/ui/commons/PageName";
 import Search from "@/components/core/Search";
 import { formatTimestampToDateString } from "@/utils/facades/strFacade";
 import { handleRequestError } from "@/utils/facades/handleRequestError";
+import useSuperAdmin from "@/utils/hooks/useSuperAdmin";
+import ForbiddenPage from "@/components/layouts/errors/ForbiddenPage";
 
 const SuperAdminUsersModulePage = () => {
+  const { hasModulePermission } = useSuperAdmin(
+    "superAdmin:administration:read"
+  );
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const search = params.get("search");
@@ -61,6 +66,14 @@ const SuperAdminUsersModulePage = () => {
 
   if (loading) {
     return <SkeletonTable count={12} />;
+  }
+
+  if (!hasModulePermission) {
+    return (
+      <div className="">
+        <ForbiddenPage />
+      </div>
+    );
   }
 
   return (

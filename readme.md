@@ -24,6 +24,11 @@ Our vision is that a programmer with a regular job can, with this boilerplate, l
    - email: thesaasfactory@gmail.com
    - pass: Demo@2023
 
+  **Stripe test card number**
+   - 4242 4242 4242 4242
+   - 12/28
+   - 123 
+
 ## Documentation 
 [https://docs.thesaasfactory.dev/](https://docs.thesaasfactory.dev/)
 
