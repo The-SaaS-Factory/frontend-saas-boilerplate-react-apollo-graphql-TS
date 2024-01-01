@@ -120,6 +120,36 @@ const REMOVE_ORGANIZATION_FROM_MODULE = gql`
   }
 `;
 
+const ADD_PERMISSION_TO_ORGANIZATION = gql`
+  mutation AddPermissionToOrganization(
+    $organizationId: Int!
+    $permissionId: Int!
+  ) {
+    addPermissionToOrganization(
+      organizationId: $organizationId
+      permissionId: $permissionId
+    ) {
+      id
+      name
+    }
+  }
+`;
+
+const REMOVE_PERMISSION_FROM_ORGANIZATION = gql`
+  mutation RemovePermissionFromOrganization(
+    $organizationId: Int!
+    $permissionId: Int!
+  ) {
+    removePermissionFromOrganization(
+      organizationId: $organizationId
+      permissionId: $permissionId
+    ) {
+      id
+      name
+    }
+  }
+`;
+
 export {
   SAVE_SUPER_ADMIN_SETTINGS,
   GET_SUPER_ADMIN_SETTINGS,
@@ -129,4 +159,6 @@ export {
   REMOVE_PERMISSION_FROM_MODULE,
   REMOVE_ORGANIZATION_FROM_MODULE,
   ADD_ORGANIZATION_TO_MODULE,
+  ADD_PERMISSION_TO_ORGANIZATION,
+  REMOVE_PERMISSION_FROM_ORGANIZATION,
 };

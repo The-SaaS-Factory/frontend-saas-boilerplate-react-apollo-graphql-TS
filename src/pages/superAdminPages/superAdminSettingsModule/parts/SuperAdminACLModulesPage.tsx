@@ -218,7 +218,7 @@ const SuperAdminACLModulesPage = () => {
                     <p className="text-gray-500">
                       {module.Permission?.length} Permissions
                     </p>
-                    <div className="flex items-center space-x-3 flex-wrap my-7">
+                    <div className="flex items-center gap-2   flex-wrap   my-7">
                       {module.Permission?.map((permission: any) => (
                         <button
                           onClick={() =>

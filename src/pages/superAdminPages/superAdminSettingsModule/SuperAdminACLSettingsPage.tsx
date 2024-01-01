@@ -9,6 +9,19 @@ const SuperAdminACLSettingsPage = () => {
 
   return (
     <div>
+      <div className="flex flex-col space-y-3 lg:w-1/2 mb-7">
+        <h1 className="text-2xl font-semibold text-primary">
+          Security Settings
+        </h1>
+        
+        <p className="text-primary">
+          Configure permissions for organizations on the platform. You can add
+          permissions to these by adding them to the scope of each module or
+          directly adding permissions from different modules to create specific
+          roles. Then only the admin of each organization will have to add new
+          members and they will lose the permissions of their organizations.
+        </p>
+      </div>
       <TabGroup>
         <TabList className="mt-1 flex flex-wrap ">
           <Tab
