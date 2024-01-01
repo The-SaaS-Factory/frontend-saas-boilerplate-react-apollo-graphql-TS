@@ -31,7 +31,7 @@ export const checkSuperAdminPermission = (permissions: string[]) => {
   return false;
 };
 
-const useSuperAdmin = (moduleName: string) => {
+const useSuperAdmin = (moduleName?: string) => {
   const [isSuperAdmin, setIsSuperAdmin] = useState<boolean>(false);
   const [hasModulePermission, setHasModulePermission] =
     useState<boolean>(false);
