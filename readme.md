@@ -7,9 +7,7 @@ Our vision is that a programmer with a regular job can, with this boilerplate, l
 
 ### Boilerplate architecture
 ![enter image description here](https://ik.imagekit.io/cluzstudio/01-cluzstudio/boilerplate_zpfPgAExv.png?updatedAt=1703706286400)
-
   
-
 - Frontend App **(This repo)**:  Vite;  React; Tailwind CSS;  Apollo Client; Graphql; TypeScript 
 
 - [Backend App](https://github.com/The-SaaS-Factory/backend-saas-boilerplate-node-apollo-graphql-TS) : Node; Express; [Apollo Server](https://www.apollographql.com/docs/apollo-server/); [Graphql](https://graphql.org/); [Prisma ](https://www.prisma.io/); TypeScript
@@ -17,6 +15,17 @@ Our vision is that a programmer with a regular job can, with this boilerplate, l
 - Integrations: Stripe, [Imagekit](https://imagekit.io/), [Loops So](https://loops.so/)
 
   ![enter image description here](https://ik.imagekit.io/cluzstudio/01-cluzstudio/browser%20mockup_awCrgH-4x.png?updatedAt=1703714967935)
+
+  
+## Demo
+[https://demo.thesaasfactory.dev/](https://demo.thesaasfactory.dev/) 
+
+## Documentation 
+[https://docs.thesaasfactory.dev/](https://docs.thesaasfactory.dev/)
+
+**Super Admin Credentials**
+    - email: thesaasfactory@gmail.com
+    - pass: Demo@2023
 
 ## Top Features
 
