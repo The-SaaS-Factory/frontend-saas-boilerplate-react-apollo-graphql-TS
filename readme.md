@@ -18,14 +18,14 @@ Our vision is that a programmer with a regular job can, with this boilerplate, l
 
   
 ## Demo
-[https://demo.thesaasfactory.dev/](https://demo.thesaasfactory.dev/) 
+[https://demo.thesaasfactory.dev/](https://demo.thesaasfactory.dev/)
+
+ **Super Admin Credentials**
+   - email: thesaasfactory@gmail.com
+   - pass: Demo@2023
 
 ## Documentation 
 [https://docs.thesaasfactory.dev/](https://docs.thesaasfactory.dev/)
-
-**Super Admin Credentials**
-    - email: thesaasfactory@gmail.com
-    - pass: Demo@2023
 
 ## Top Features
 
